@@ -58,8 +58,6 @@ public class MenuActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 
@@ -79,7 +77,7 @@ public class MenuActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            //startActivity(new Intent(MenuActivity.this, DatiPersonaliActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -92,13 +90,14 @@ public class MenuActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_allenati) {
-            // Handle the camera action
+            //startActivity(new Intent(MenuActivity.this, AllenamentoActivity.class));
         } else if (id == R.id.nav_storicoAllenamenti) {
 
         } else if (id == R.id.nav_consigliAlimentari) {
-
+            //startActivity(new Intent(MenuActivity.this, ConsigliAlimentariActivity.class));
         } else if (id == R.id.nav_logout) {
             signOut();
+            startActivity(new Intent(MenuActivity.this, LoginActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -107,7 +106,6 @@ public class MenuActivity extends AppCompatActivity
     }
 
     public void signOut() {
-
         FirebaseAuth.getInstance().signOut();
     }
 }
