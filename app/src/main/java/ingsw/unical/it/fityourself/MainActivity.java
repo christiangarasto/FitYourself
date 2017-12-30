@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import ingsw.unical.it.fityourself.AccountActivity.LoginActivity;
 import ingsw.unical.it.fityourself.AccountActivity.SignupActivity;
-import ingsw.unical.it.fityourself.MenuActivities.MenuActivity;
+import ingsw.unical.it.fityourself.MenuActivities.Fragments.MenuActivity;
 
 public class MainActivity extends AppCompatActivity {
 

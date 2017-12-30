@@ -17,6 +17,10 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Consigli alimentari" />
         <item
+        android:id="@+id/nav_datipersonali"
+        android:icon="@drawable/ic_menu_slideshow"
+        android:title="Profilo personale" />
+        <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_manage"
             android:title="Esci" />
