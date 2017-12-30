@@ -11,16 +11,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="ingsw.unical.it.fityourself.AccountActivity.LoginActivity">
+        <activity android:name=".AccountActivity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ingsw.unical.it.fityourself.MainActivity" />
-        <activity android:name="ingsw.unical.it.fityourself.AccountActivity.SignupActivity" />
-        <activity android:name="ingsw.unical.it.fityourself.AccountActivity.ResetPasswordActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".AccountActivity.SignupActivity" />
+        <activity android:name=".AccountActivity.ResetPasswordActivity" />
+        <activity
+            android:name=".MenuActivities.MenuActivity"
+            android:label="@string/title_activity_menu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

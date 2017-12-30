@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import ingsw.unical.it.fityourself.AccountActivity.LoginActivity;
 import ingsw.unical.it.fityourself.AccountActivity.SignupActivity;
+import ingsw.unical.it.fityourself.MenuActivities.MenuActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     finish();
+                }else{
+                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
                 }
             }
         };
@@ -185,8 +188,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
             } else {
-                setDataToView(user);
-
+               // setDataToView(user);
+                startActivity(new Intent(MainActivity.this, MenuActivity.class));
             }
         }
 
