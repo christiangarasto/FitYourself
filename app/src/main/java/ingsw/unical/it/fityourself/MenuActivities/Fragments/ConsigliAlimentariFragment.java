@@ -22,7 +22,6 @@ public class ConsigliAlimentariFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Toast.makeText(getContext(), "Consigli alimentari bla bla", Toast.LENGTH_LONG).show();
 
 
         // Inflate the layout for this fragment
