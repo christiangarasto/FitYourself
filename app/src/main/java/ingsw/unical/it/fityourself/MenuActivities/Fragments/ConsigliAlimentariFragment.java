@@ -6,12 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import ingsw.unical.it.fityourself.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ConsigliAlimentariFragment extends Fragment {
 
 
@@ -23,8 +21,14 @@ public class ConsigliAlimentariFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Toast.makeText(getContext(), "Consigli alimentari bla bla", Toast.LENGTH_LONG).show();
+
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_consigli_alimentari, container, false);
     }
+
+
 
 }

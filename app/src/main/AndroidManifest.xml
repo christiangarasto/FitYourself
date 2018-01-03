@@ -22,7 +22,7 @@
         <activity android:name=".AccountActivity.SignupActivity" />
         <activity android:name=".AccountActivity.ResetPasswordActivity" />
         <activity
-            android:name=".MenuActivities.Fragments.MenuActivity"
+            android:name=".MenuActivity"
             android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

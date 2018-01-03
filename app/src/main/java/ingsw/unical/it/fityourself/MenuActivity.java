@@ -1,10 +1,7 @@
-package ingsw.unical.it.fityourself.MenuActivities.Fragments;
+package ingsw.unical.it.fityourself;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,7 +14,10 @@ import android.view.MenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 
 import ingsw.unical.it.fityourself.AccountActivity.LoginActivity;
-import ingsw.unical.it.fityourself.R;
+import ingsw.unical.it.fityourself.MenuActivities.Fragments.AllenamentoFragment;
+import ingsw.unical.it.fityourself.MenuActivities.Fragments.ConsigliAlimentariFragment;
+import ingsw.unical.it.fityourself.MenuActivities.Fragments.DatiPersonaliFragment;
+import ingsw.unical.it.fityourself.MenuActivities.Fragments.StoricoAllenamentiFragment;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -55,8 +55,6 @@ public class MenuActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 

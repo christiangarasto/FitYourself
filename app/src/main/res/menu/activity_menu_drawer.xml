@@ -6,23 +6,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_allenati"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_training"
             android:title="Allenati" />
         <item
             android:id="@+id/nav_storicoAllenamenti"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_menu_traininghistory"
             android:title="Storico allenamenti" />
         <item
             android:id="@+id/nav_consigliAlimentari"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_menu_foodtips"
             android:title="Consigli alimentari" />
         <item
         android:id="@+id/nav_datipersonali"
-        android:icon="@drawable/ic_menu_slideshow"
+        android:icon="@drawable/ic_menu_account"
         android:title="Profilo personale" />
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_menu_logout"
             android:title="Esci" />
     </group>
 </menu>
