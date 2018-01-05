@@ -23,6 +23,10 @@ public class DatiPersonaliFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
+         getActivity().setTitle("Dati personali");
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_dati_personali, container, false);
     }

@@ -172,8 +172,11 @@ public class ConsigliAlimentariFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        getActivity().setTitle("Consigli alimentari");
+
         rootView = inflater.inflate(R.layout.fragment_consigli_alimentari, container, false);
         tips_layout = (ListView) rootView.findViewById(R.id.tips);
+
         return rootView;
 
     }
@@ -183,6 +186,7 @@ public class ConsigliAlimentariFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
          initTips('g');
          initTips('s');
+
 
         boolean userDidTraining = false;
 
