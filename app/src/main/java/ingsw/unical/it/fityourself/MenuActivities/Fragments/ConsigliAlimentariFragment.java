@@ -22,7 +22,7 @@ import java.util.LinkedList;
 
 import ingsw.unical.it.fityourself.R;
 
-public class ConsigliAlimentariFragment extends Fragment {
+public class ConsigliAlimentariFragment extends Fragment implements GenericFragment{
 
     LinkedList<TextView> genericTips;
     LinkedList<TextView> specificTips;
@@ -195,40 +195,40 @@ public class ConsigliAlimentariFragment extends Fragment {
             Quindi userdidtraining è vero se almeno una volta ho fatto un allenamento
          */
 
-        addGenericTips();
-
-        if(userDidTraining){
-            addSpecificTips();
-        }
+        addTips(userDidTraining);
 
         tips_layout = (ListView) rootView.findViewById(R.id.tips);
     }
 
-    private void addSpecificTips(){
-
-    }
-
-    private void addGenericTips(){
-
+    private void addTips(boolean userDidTraining){
         final ArrayList<String> list = new ArrayList<String>();
+
+        if(userDidTraining){
+            for (int i = 0; i < specificTips.size(); ++i) {
+                list.add(specificTips.get(i).getText().toString());
+            }
+        }
+
         for (int i = 0; i < genericTips.size(); ++i) {
             list.add(genericTips.get(i).getText().toString());
         }
 
-        for (int i = 0; i < specificTips.size(); ++i) {
-            list.add(specificTips.get(i).getText().toString());
-        }
 
         final StableArrayAdapter adapter = new StableArrayAdapter(this.getContext(),android.R.layout.simple_list_item_1, list);
         tips_layout.setAdapter(adapter);
 
         tips_layout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-               @Override
-               public void onItemClick(AdapterView<?> parent, final View view,
-                                       int position, long id) {
-                   final String item = (String) parent.getItemAtPosition(position);
-               }
-           });
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                final String item = (String) parent.getItemAtPosition(position);
+            }
+        });
+    }
+
+    @Override
+    public Fragment getFragment() {
+        return this;
     }
 }

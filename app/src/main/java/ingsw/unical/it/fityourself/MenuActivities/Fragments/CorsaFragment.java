@@ -6,16 +6,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import ingsw.unical.it.fityourself.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StoricoAllenamentiFragment extends Fragment implements GenericFragment{
+public class CorsaFragment extends Fragment implements GenericFragment{
 
+    View rootView;
 
-    public StoricoAllenamentiFragment() {
+    public CorsaFragment() {
         // Required empty public constructor
     }
 
@@ -24,11 +26,13 @@ public class StoricoAllenamentiFragment extends Fragment implements GenericFragm
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        getActivity().setTitle("Effettua corsa");
 
-        getActivity().setTitle("Storico allenamenti");
+        rootView = inflater.inflate(R.layout.fragment_corsa, container, false);
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_storico_allenamenti, container, false);
+        Button b = (Button) rootView.findViewById(R.id.corsa);
+
+        return rootView;
     }
 
     @Override

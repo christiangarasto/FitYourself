@@ -12,7 +12,7 @@ import ingsw.unical.it.fityourself.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DatiPersonaliFragment extends Fragment {
+public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
 
     public DatiPersonaliFragment() {
@@ -31,4 +31,8 @@ public class DatiPersonaliFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_dati_personali, container, false);
     }
 
+    @Override
+    public Fragment getFragment() {
+        return this;
+    }
 }

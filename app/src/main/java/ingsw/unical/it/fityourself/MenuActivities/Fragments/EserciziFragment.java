@@ -12,10 +12,11 @@ import ingsw.unical.it.fityourself.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StoricoAllenamentiFragment extends Fragment implements GenericFragment{
+public class EserciziFragment extends Fragment implements GenericFragment{
 
+    private View rootView;
 
-    public StoricoAllenamentiFragment() {
+    public EserciziFragment() {
         // Required empty public constructor
     }
 
@@ -24,11 +25,11 @@ public class StoricoAllenamentiFragment extends Fragment implements GenericFragm
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        getActivity().setTitle("Effettua esercizi");
 
-        getActivity().setTitle("Storico allenamenti");
+        rootView = inflater.inflate(R.layout.fragment_esercizi, container, false);
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_storico_allenamenti, container, false);
+        return rootView;
     }
 
     @Override

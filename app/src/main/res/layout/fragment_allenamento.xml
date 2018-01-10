@@ -5,15 +5,42 @@
     tools:context=".MenuActivities.Fragments.AllenamentoFragment">
 
     <Button
+        android:id="@+id/corsa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Allenamento"
-        android:padding="8dp"
-        android:textColor="#fff"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="138dp"
         android:background="@color/colorPrimary"
-        android:textSize="28sp"
-        android:id="@+id/main_button"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:padding="8dp"
+        android:text="Effettua corsa"
+        android:textColor="#fff"
+        android:textSize="28sp" />
+
+    <Button
+        android:id="@+id/esercizi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/corsa"
+        android:layout_alignStart="@+id/corsa"
+        android:layout_marginBottom="21dp"
+        android:background="@color/colorPrimary"
+        android:padding="8dp"
+        android:text="Effettua esercizi"
+        android:textColor="#fff"
+        android:textSize="28sp" />
+
+    <Button
+        android:id="@+id/gestisciEsercizi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/esercizi"
+        android:layout_alignStart="@+id/corsa"
+        android:layout_marginBottom="28dp"
+        android:background="@color/colorPrimary"
+        android:padding="8dp"
+        android:text="Gestisci esercizi"
+        android:textColor="#fff"
+        android:textSize="28sp" />
 
 </RelativeLayout>
