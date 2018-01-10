@@ -1,38 +1,34 @@
-package ingsw.unical.it.fityourself.MenuActivities.Fragments;
-
+package ingsw.unical.it.fityourself.AccountActivity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
-
+//import com.firebaseloginapp.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import ingsw.unical.it.fityourself.AccountActivity.DatiPersonaliActivity;
 import ingsw.unical.it.fityourself.Model.User;
 import ingsw.unical.it.fityourself.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by valentina on 03/01/2018.
  */
-public class DatiPersonaliFragment extends Fragment {
+
+public class DatiPersonaliActivity extends AppCompatActivity {
 
     private static final String TAG = DatiPersonaliActivity.class.getSimpleName();
     private TextView txtDetails;
-    private EditText inputNome, inputCognome, inputPeso, inputAltezza, inputEta;
+    private EditText inputName, inputCognome, inputPeso, inputAltezza, inputEta;
     private RadioButton inputMaschio, inputFemmina;
     private Switch inputSport;
     private Button btnSave;
@@ -40,33 +36,29 @@ public class DatiPersonaliFragment extends Fragment {
     private FirebaseDatabase mFirebaseInstance;
     private String sesso;
     private boolean sport;
-    View rootView;
+
     private String userId;
 
-    public DatiPersonaliFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dati_personali);
+
+        // Displaying toolbar icon
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+        inputName = (EditText) findViewById(R.id.Nome);
+        inputCognome = (EditText) findViewById(R.id.Cognome);
+        inputPeso = (EditText) findViewById(R.id.Peso);
+        inputAltezza = (EditText) findViewById(R.id.Altezza);
+        inputEta = (EditText) findViewById(R.id.Eta);
+        inputMaschio = (RadioButton) findViewById(R.id.Maschio);
+        inputFemmina = (RadioButton) findViewById(R.id.Femmina);
+        inputSport = (Switch) findViewById(R.id.Sport);
 
 
-         getActivity().setTitle("Dati personali");
-        rootView = inflater.inflate(R.layout.fragment_dati_personali, container, false);
-
-        inputNome = (EditText) rootView.findViewById(R.id.Nome);
-        inputCognome = (EditText) rootView.findViewById(R.id.Cognome);
-        inputPeso = (EditText) rootView.findViewById(R.id.Peso);
-        inputAltezza = (EditText) rootView.findViewById(R.id.Altezza);
-        inputEta = (EditText) rootView.findViewById(R.id.Eta);
-        inputMaschio = (RadioButton) rootView.findViewById(R.id.Maschio);
-        inputFemmina = (RadioButton) rootView.findViewById(R.id.Femmina);
-        inputSport = (Switch) rootView.findViewById(R.id.Sport);
-
-
-        btnSave = (Button) rootView.findViewById(R.id.Salva);
+        btnSave = (Button) findViewById(R.id.Salva);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
@@ -85,8 +77,7 @@ public class DatiPersonaliFragment extends Fragment {
                 String appTitle = dataSnapshot.getValue(String.class);
 
                 // update toolbar title
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(appTitle);
-                //getSupportActionBar().setTitle(appTitle);
+                getSupportActionBar().setTitle(appTitle);
             }
 
             @Override
@@ -100,7 +91,7 @@ public class DatiPersonaliFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = inputNome.getText().toString();
+                String name = inputName.getText().toString();
                 String cognome = inputCognome.getText().toString();
                 double peso = Double.parseDouble(inputPeso.getText().toString());
                 double altezza = Double.parseDouble(inputAltezza.getText().toString());
@@ -118,16 +109,9 @@ public class DatiPersonaliFragment extends Fragment {
                     updateUser(name, cognome, peso, altezza, eta, sesso, sport);
                 }
             }
-
-
         });
 
-        inputMaschio.setOnClickListener((View.OnClickListener) this);
-
         toggleButton();
-
-        // Inflate the layout for this fragment
-        return rootView;
     }
 
     // Changing button text
@@ -173,18 +157,14 @@ public class DatiPersonaliFragment extends Fragment {
                     return;
                 }
 
-                Log.e(TAG, "User data is changed!" + user.getNome() + "\n" + user.getCognome() + user.getPeso() + "\n"+ user.getAltezza() + "\n"+ user.getEta() + "\n"+ user.getSesso() + "\n"+ user.isSport() + "\n");
+                Log.e(TAG, "User data is changed!" + user.getNome() + ", " + user.getCognome());
 
                 // Display newly updated name and email
-                txtDetails.setText(user.getNome() + "\n" + user.getCognome() + user.getPeso() + "\n"+ user.getAltezza() + "\n"+ user.getEta() + "\n"+ user.getSesso() + "\n"+ user.isSport() + "\n");
+                txtDetails.setText(user.getNome() + ", " + user.getCognome());
 
                 // clear edit text
                 inputCognome.setText("");
-                inputNome.setText("");
-                inputPeso.setText("");
-                inputAltezza.setText("");
-                inputEta.setText("");
-
+                inputName.setText("");
 
                 toggleButton();
             }
@@ -197,36 +177,16 @@ public class DatiPersonaliFragment extends Fragment {
         });
     }
 
-    private void updateUser(String nome, String cognome,double peso,double altezza,int eta, String sesso, boolean sport) {
+    private void updateUser(String name, String cognome,double peso,double altezza,int eta, String sesso, boolean sport) {
         // updating the user via child nodes
-        if (!TextUtils.isEmpty(nome))
-            mFirebaseDatabase.child(userId).child("nome").setValue(nome);
+        if (!TextUtils.isEmpty(name))
+            mFirebaseDatabase.child(userId).child("nome").setValue(name);
 
         if (!TextUtils.isEmpty(cognome))
             mFirebaseDatabase.child(userId).child("cognome").setValue(cognome);
-
-        String kg = Double.toString(peso);
-
-        if (!TextUtils.isEmpty(kg))
-            mFirebaseDatabase.child(userId).child("peso").setValue(peso);
-
-        String alt = Double.toString(altezza);
-        if (!TextUtils.isEmpty(alt))
-            mFirebaseDatabase.child(userId).child("altezza").setValue(altezza);
-
-        String age = Integer.toString(eta);
-        if (!TextUtils.isEmpty(age))
-            mFirebaseDatabase.child(userId).child("eta").setValue(eta);
-
-        if (!TextUtils.isEmpty(sesso))
-            mFirebaseDatabase.child(userId).child("sesso").setValue(sesso);
-
-        String attitudine = Boolean.toString(sport);
-        if (!TextUtils.isEmpty(attitudine))
-            mFirebaseDatabase.child(userId).child("sport").setValue(sport);
     }
 
-    public void onRadioButtonClicked(View view){
+    public void onRadioButtonClickeda(View view){
         boolean selezionato = ((RadioButton) view).isChecked();
 
         switch(view.getId()){
