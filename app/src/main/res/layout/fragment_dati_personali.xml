@@ -1,20 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="ingsw.unical.it.fityourself.MenuActivities.Fragments.DatiPersonaliFragment">
+    android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/Nome"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Cognome"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="Nome"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="56p" />
 
-    <Button
+    <EditText
+        android:id="@+id/Cognome"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Peso"
+        android:layout_alignStart="@+id/Nome"
+        android:layout_marginBottom="25dp"
+        android:ems="10"
+        android:hint="Cognome"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="105dp" />
+
+    <EditText
+        android:id="@+id/Peso"
+        android:layout_width="167dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Eta"
+        android:layout_alignStart="@+id/Cognome"
+        android:layout_marginBottom="25dp"
+        android:layout_marginStart="17dp"
+        android:ems="10"
+        android:hint="Peso"
+        android:inputType="numberDecimal"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="178dp" />
+
+    <EditText
+        android:id="@+id/Altezza"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/Peso"
+        android:layout_alignBottom="@+id/Peso"
+        android:layout_alignEnd="@+id/Cognome"
+        android:ems="10"
+        android:hint="Altezza"
+        android:inputType="numberDecimal"
+        tools:layout_editor_absoluteX="219dp"
+        tools:layout_editor_absoluteY="178dp" />
+
+    <EditText
+        android:id="@+id/Eta"
+        android:layout_width="167dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/radioGroup2"
+        android:layout_alignStart="@+id/Peso"
+        android:layout_marginBottom="36dp"
+        android:ems="10"
+        android:hint="Età"
+        android:inputType="number"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="268dp" />
+
+    <Switch
+        android:id="@+id/Sport"
+        android:layout_width="173dp"
+        android:layout_height="43dp"
+        android:layout_alignStart="@+id/Altezza"
+        android:layout_alignTop="@+id/Eta"
+        android:text="Sport"
+        tools:layout_editor_absoluteX="219dp"
+        tools:layout_editor_absoluteY="268dp" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dati personali"
-        android:padding="8dp"
-        android:textColor="#fff"
-        android:background="@color/colorPrimary"
-        android:textSize="28sp"
-        android:id="@+id/main_button"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/Salva"
+        android:layout_alignStart="@+id/Eta"
+        android:layout_marginBottom="40dp">
+
+        <RadioButton
+            android:id="@+id/Maschio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/Femmina"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:onClick="onRadioButtonClicked"
+            android:text="Maschio" />
+
+        <RadioButton
+            android:id="@+id/Femmina"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Eta"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@+id/radioGroup2"
+            android:layout_weight="1"
+            android:onClick="onRadioButtonClicked"
+            android:text="Femmina" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/Notifiche"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/Sport"
+        android:layout_alignTop="@+id/radioGroup2"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="10dp"
+        android:text="notifiche" />
+
+    <Button
+        android:id="@+id/Salva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/radioGroup2"
+        android:layout_marginBottom="27dp"
+        android:layout_marginStart="35dp"
+        android:text="save" />
+
+    <Button
+        android:id="@+id/Esci"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/Notifiche"
+        android:layout_alignTop="@+id/Salva"
+        android:text="esci" />
 
 </RelativeLayout>
