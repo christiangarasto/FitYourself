@@ -28,7 +28,7 @@ import ingsw.unical.it.fityourself.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DatiPersonaliFragment extends Fragment {
+public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
     private static final String TAG = DatiPersonaliActivity.class.getSimpleName();
     private TextView txtDetails;
@@ -122,7 +122,6 @@ public class DatiPersonaliFragment extends Fragment {
 
         });
 
-        inputMaschio.setOnClickListener((View.OnClickListener) this);
 
         toggleButton();
 
@@ -240,5 +239,10 @@ public class DatiPersonaliFragment extends Fragment {
                     sesso = "Femmina";
                 break;
         }
+    }
+
+    @Override
+    public Fragment getFragment() {
+        return this;
     }
 }
