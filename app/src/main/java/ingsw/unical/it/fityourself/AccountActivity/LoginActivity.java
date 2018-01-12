@@ -21,11 +21,16 @@ import ingsw.unical.it.fityourself.R;
 
 public class LoginActivity extends AppCompatActivity {
 
+
+
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
 
+    public EditText getInputEmail() {
+        return inputEmail;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

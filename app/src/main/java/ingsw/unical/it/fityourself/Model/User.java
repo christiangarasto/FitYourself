@@ -16,10 +16,6 @@ public class User {
 
     public User(){}
 
-    public User(String n, String c){
-        this.nome = n;
-        this.cognome = c;
-    }
 
     public User(String nome, String cognome, double peso, double altezza, int eta, String sesso, boolean sport){
         this.nome = nome;
@@ -87,4 +83,5 @@ public class User {
     public void setSport(boolean sport) {
         this.sport = sport;
     }
+
 }

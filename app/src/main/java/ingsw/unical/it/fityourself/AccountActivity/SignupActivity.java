@@ -26,6 +26,15 @@ public class SignupActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth auth;
 
+    public String getMyEmail() {
+        return myEmail;
+    }
+
+    private String myEmail;
+
+    public EditText getInputEmail() {
+        return inputEmail;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +49,8 @@ public class SignupActivity extends AppCompatActivity {
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
+
+        myEmail = inputEmail.getText().toString();
 
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override

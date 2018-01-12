@@ -1,0 +1,100 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ingsw.unical.it.fityourself.MenuActivities.Fragments.NotificheFragment">
+
+    <Switch
+        android:id="@+id/AbilitaNotifiche"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="80dp"
+        android:text="Abilita" />
+
+    <Switch
+        android:id="@+id/Intermedio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/SalvaNotifiche"
+        android:layout_below="@+id/AbilitaNotifiche"
+        android:layout_marginTop="28dp"
+        android:text="Notifiche Obiettivo Intermedio" />
+
+    <EditText
+        android:id="@+id/ObIntermedio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/Intermedio"
+        android:layout_below="@+id/Intermedio"
+        android:layout_marginTop="14dp"
+        android:layout_toStartOf="@+id/UnitaDiMisura"
+        android:ems="10"
+        android:hint="Intermedio"
+        android:inputType="number"
+        android:enabled="false"/>
+
+    <Spinner
+        android:id="@+id/UnitaDiMisura"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Finale"
+        android:layout_alignStart="@+id/EsciNotifiche"
+        android:layout_alignTop="@+id/ObIntermedio"
+        android:layout_marginEnd="75dp"
+        android:layout_marginStart="10dp"
+        android:entries="@array/unitaDiMisura"
+        android:enabled="false"
+        android:clickable="false"/>
+
+    <Switch
+        android:id="@+id/Finale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/Intermedio"
+        android:layout_alignStart="@+id/Intermedio"
+        android:layout_below="@+id/ObIntermedio"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="25dp"
+        android:text="Notifiche Obiettivo Finale" />
+
+    <Switch
+        android:id="@+id/Anomalie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/Finale"
+        android:layout_below="@+id/Finale"
+        android:layout_toEndOf="@+id/AbilitaNotifiche"
+        android:text="Anomalie" />
+
+    <Button
+        android:id="@+id/SalvaNotifiche"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/EsciNotifiche"
+        android:layout_alignStart="@+id/AbilitaNotifiche"
+        android:layout_marginBottom="47dp"
+        android:layout_marginStart="12dp"
+        android:text="salva" />
+
+    <Button
+        android:id="@+id/EsciNotifiche"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="34dp"
+        android:layout_marginStart="27dp"
+        android:layout_toEndOf="@+id/SalvaNotifiche"
+        android:text="esci" />
+
+    <Button
+        android:id="@+id/Torna"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/SalvaNotifiche"
+        android:layout_marginEnd="15dp"
+        android:layout_toEndOf="@+id/EsciNotifiche"
+        android:text="dati personali" />
+</RelativeLayout>

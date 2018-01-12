@@ -3,7 +3,7 @@ package ingsw.unical.it.fityourself.MenuActivities.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,13 +36,14 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
     private EditText inputNome, inputCognome, inputPeso, inputAltezza, inputEta;
     private RadioButton inputMaschio, inputFemmina;
     private Switch inputSport;
-    private Button btnSave;
+    private Button btnSave, btnExit, btnNotify;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private String sesso;
     private boolean sport;
     View rootView;
     private String userId;
+
 
     public DatiPersonaliFragment() {
         // Required empty public constructor
@@ -67,11 +69,13 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
 
         btnSave = (Button) rootView.findViewById(R.id.Salva);
+        btnExit = (Button) rootView.findViewById(R.id.Esci);
+        btnNotify = (Button) rootView.findViewById(R.id.Notifiche);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
         // get reference to 'users' node
-        mFirebaseDatabase = mFirebaseInstance.getReference("Utente");
+        mFirebaseDatabase = mFirebaseInstance.getReference("Dati Personali");
 
         // store app title to 'app_title' node
         mFirebaseInstance.getReference("FitYourSelf").setValue("DatiUtente");
@@ -83,10 +87,6 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
                 Log.e(TAG, "App title updated");
 
                 String appTitle = dataSnapshot.getValue(String.class);
-
-                // update toolbar title
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(appTitle);
-                //getSupportActionBar().setTitle(appTitle);
             }
 
             @Override
@@ -122,6 +122,40 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
         });
 
+        inputMaschio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRadioButtonClicked(view);
+            }
+        });
+
+        inputFemmina.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRadioButtonClicked(view);
+            }
+        });
+
+        btnExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GenericFragment gf = new ConsigliAlimentariFragment();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, gf.getFragment());
+                ft.commit();
+
+            }
+        });
+
+        btnNotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GenericFragment gf = new NotificheFragment();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, gf.getFragment());
+                ft.commit();
+            }
+        });
 
         toggleButton();
 
@@ -146,7 +180,8 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         // In real apps this userId should be fetched
         // by implementing firebase auth
         if (TextUtils.isEmpty(userId)) {
-            userId = mFirebaseDatabase.push().getKey();
+            //userId = mFirebaseDatabase.push().getKey();
+            userId = FirebaseAuth.getInstance().getUid();
         }
 
         User user = new User(name, cognome, peso, altezza, eta, sesso, sport);
@@ -198,31 +233,33 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
     private void updateUser(String nome, String cognome,double peso,double altezza,int eta, String sesso, boolean sport) {
         // updating the user via child nodes
-        if (!TextUtils.isEmpty(nome))
-            mFirebaseDatabase.child(userId).child("nome").setValue(nome);
 
-        if (!TextUtils.isEmpty(cognome))
-            mFirebaseDatabase.child(userId).child("cognome").setValue(cognome);
+           if (!TextUtils.isEmpty(nome))
+               mFirebaseDatabase.child(userId).child("nome").setValue(nome);
 
-        String kg = Double.toString(peso);
+           if (!TextUtils.isEmpty(cognome))
+               mFirebaseDatabase.child(userId).child("cognome").setValue(cognome);
 
-        if (!TextUtils.isEmpty(kg))
-            mFirebaseDatabase.child(userId).child("peso").setValue(peso);
+           String kg = Double.toString(peso);
 
-        String alt = Double.toString(altezza);
-        if (!TextUtils.isEmpty(alt))
-            mFirebaseDatabase.child(userId).child("altezza").setValue(altezza);
+           if (!TextUtils.isEmpty(kg))
+               mFirebaseDatabase.child(userId).child("peso").setValue(peso);
 
-        String age = Integer.toString(eta);
-        if (!TextUtils.isEmpty(age))
-            mFirebaseDatabase.child(userId).child("eta").setValue(eta);
+           String alt = Double.toString(altezza);
+           if (!TextUtils.isEmpty(alt))
+               mFirebaseDatabase.child(userId).child("altezza").setValue(altezza);
 
-        if (!TextUtils.isEmpty(sesso))
-            mFirebaseDatabase.child(userId).child("sesso").setValue(sesso);
+           String age = Integer.toString(eta);
+           if (!TextUtils.isEmpty(age))
+               mFirebaseDatabase.child(userId).child("eta").setValue(eta);
 
-        String attitudine = Boolean.toString(sport);
-        if (!TextUtils.isEmpty(attitudine))
-            mFirebaseDatabase.child(userId).child("sport").setValue(sport);
+           if (!TextUtils.isEmpty(sesso))
+               mFirebaseDatabase.child(userId).child("sesso").setValue(sesso);
+
+           String attitudine = Boolean.toString(sport);
+           if (!TextUtils.isEmpty(attitudine))
+               mFirebaseDatabase.child(userId).child("sport").setValue(sport);
+
     }
 
     public void onRadioButtonClicked(View view){

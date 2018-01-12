@@ -39,6 +39,8 @@ public class DatiPersonaliActivity extends AppCompatActivity {
 
     private String userId;
 
+    private SignupActivity puntatore = new SignupActivity();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +136,7 @@ public class DatiPersonaliActivity extends AppCompatActivity {
             userId = mFirebaseDatabase.push().getKey();
         }
 
-        User user = new User(name, cognome, peso, altezza, eta, sesso, sport);
+        User user = new User(name, cognome, peso, altezza, eta, sesso, sport, puntatore.getMyEmail());
 
         mFirebaseDatabase.child(userId).setValue(user);
 
