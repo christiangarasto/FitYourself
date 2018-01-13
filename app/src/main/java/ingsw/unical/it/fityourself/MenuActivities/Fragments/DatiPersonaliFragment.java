@@ -60,7 +60,6 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
          getActivity().setTitle("Dati personali");
         rootView = inflater.inflate(R.layout.fragment_dati_personali, container, false);
 

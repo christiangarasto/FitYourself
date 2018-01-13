@@ -1,0 +1,89 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ingsw.unical.it.fityourself.MenuActivities.Fragments.AggiuntaAllenamentoFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="211dp"
+            android:layout_weight="1"
+            android:visibility="visible">
+
+            <EditText
+                android:id="@+id/input_nome_allenamento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="Nome allenamento..." />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSalva"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/input_nome_allenamento"
+                android:layout_below="@+id/linearLayout2"
+                android:layout_weight="1"
+                android:text="Salva"
+                tools:layout_editor_absoluteX="617dp"
+                tools:layout_editor_absoluteY="24dp" />
+
+            <Button
+                android:id="@+id/btnAnnulla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/btnSalva"
+                android:layout_alignEnd="@+id/input_nome_allenamento"
+                android:layout_weight="1"
+                android:text="Annulla"
+                tools:layout_editor_absoluteX="705dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/input_nome_allenamento"
+            android:layout_marginTop="34dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/lw_eserciziAggiunti"
+                android:layout_width="617dp"
+                android:layout_height="202dp">
+
+            </ListView>
+
+            <ListView
+                android:id="@+id/lw_eserciziDisponibili"
+                android:layout_width="match_parent"
+                android:layout_height="436dp"
+                android:layout_marginBottom="5dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
