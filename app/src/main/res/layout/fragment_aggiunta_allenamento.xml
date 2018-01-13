@@ -14,7 +14,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="211dp"
+            android:layout_height="132dp"
             android:layout_weight="1"
             android:visibility="visible">
 
@@ -22,25 +22,25 @@
                 android:id="@+id/input_nome_allenamento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="54dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="Nome allenamento..." />
+                android:hint="Nome allenamento..."
+                android:inputType="textPersonName" />
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnSalva"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/input_nome_allenamento"
-                android:layout_below="@+id/linearLayout2"
+                android:layout_alignParentLeft="true"
                 android:layout_weight="1"
                 android:text="Salva"
                 tools:layout_editor_absoluteX="617dp"
@@ -50,13 +50,27 @@
                 android:id="@+id/btnAnnulla"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/btnSalva"
-                android:layout_alignEnd="@+id/input_nome_allenamento"
+                android:layout_alignParentLeft="true"
                 android:layout_weight="1"
                 android:text="Annulla"
                 tools:layout_editor_absoluteX="705dp" />
 
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/text_eserciziaggiunti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:text="Esercizi aggiunti:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -70,17 +84,41 @@
 
             <ListView
                 android:id="@+id/lw_eserciziAggiunti"
-                android:layout_width="617dp"
-                android:layout_height="202dp">
+                android:layout_width="wrap_content"
+                android:layout_height="149dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true">
 
             </ListView>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/text_esercizidisponibili"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="Esercizi disponibili:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <ListView
                 android:id="@+id/lw_eserciziDisponibili"
                 android:layout_width="match_parent"
-                android:layout_height="436dp"
-                android:layout_marginBottom="5dp"/>
-
+                android:layout_height="250dp"
+                android:layout_marginBottom="5dp" />
         </LinearLayout>
 
     </LinearLayout>
