@@ -22,7 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import ingsw.unical.it.fityourself.AccountActivity.DatiPersonaliActivity;
 import ingsw.unical.it.fityourself.Model.User;
 import ingsw.unical.it.fityourself.R;
 
@@ -31,7 +30,7 @@ import ingsw.unical.it.fityourself.R;
  */
 public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
-    private static final String TAG = DatiPersonaliActivity.class.getSimpleName();
+    private static final String TAG = DatiPersonaliFragment.class.getSimpleName();
     private TextView txtDetails;
     private EditText inputNome, inputCognome, inputPeso, inputAltezza, inputEta;
     private RadioButton inputMaschio, inputFemmina;
@@ -43,12 +42,19 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
     private boolean sport;
     View rootView;
     private String userId;
+    private static DatiPersonaliFragment datiPersonali = null;
 
-
-    public DatiPersonaliFragment() {
+    private DatiPersonaliFragment() {
         // Required empty public constructor
     }
 
+    public static DatiPersonaliFragment getInstance(){
+        if(datiPersonali == null){
+            return new DatiPersonaliFragment();
+        }
+
+        return datiPersonali;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -150,12 +156,14 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         btnNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GenericFragment gf = new NotificheFragment();
+                GenericFragment gf = NotificheFragment.getInstance();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, gf.getFragment());
                 ft.commit();
             }
         });
+
+
 
         toggleButton();
 

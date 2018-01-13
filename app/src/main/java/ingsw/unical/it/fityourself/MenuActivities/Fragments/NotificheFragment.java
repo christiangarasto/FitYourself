@@ -42,11 +42,19 @@ public class NotificheFragment extends Fragment implements GenericFragment{
     private FirebaseDatabase mFirebaseInstance;
     private String unita;
     private String notifyUser, txtDetails;
+    private static NotificheFragment notificheFragment;
 
-    public NotificheFragment() {
+    private NotificheFragment() {
         // Required empty public constructor
     }
 
+    public static NotificheFragment getInstance(){
+        if(notificheFragment == null){
+            return new NotificheFragment();
+        }
+
+        return notificheFragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -171,7 +179,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
         btnTorna.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                GenericFragment gf = new DatiPersonaliFragment();
+                GenericFragment gf = DatiPersonaliFragment.getInstance();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, gf.getFragment());
                 ft.commit();
@@ -226,6 +234,16 @@ public class NotificheFragment extends Fragment implements GenericFragment{
                 }
             }
         });
+
+       /* if(notificheFragment != null){
+            inputAbilita = ;
+            inputIntermedio = ;
+            inputFinale = ;
+            inputAnomalie = ;
+            inputMisura = ;
+            checkIntermedio = ;
+        }*/
+
         return rootView;
     }
 
@@ -233,7 +251,6 @@ public class NotificheFragment extends Fragment implements GenericFragment{
     private void createNotify(boolean abilita, boolean intermedio, boolean finale, boolean anomalie, int valoreIntermedio, String unitaDiMisura) {
 
         if (TextUtils.isEmpty(notifyUser)) {
-            //notifyUser = mFirebaseDatabase.push().getKey();
             notifyUser = FirebaseAuth.getInstance().getUid();
         }
 

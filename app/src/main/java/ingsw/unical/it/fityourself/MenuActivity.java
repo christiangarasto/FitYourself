@@ -97,7 +97,7 @@ public class MenuActivity extends AppCompatActivity
         } else if (id == R.id.nav_consigliAlimentari) {
             fragment = new ConsigliAlimentariFragment();
         } else if (id == R.id.nav_datipersonali) {
-            fragment = new DatiPersonaliFragment();
+            fragment = DatiPersonaliFragment.getInstance();
         } else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(MenuActivity.this, LoginActivity.class));
