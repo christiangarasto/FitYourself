@@ -4,17 +4,65 @@
     android:layout_height="match_parent"
     tools:context=".MenuActivities.Fragments.EserciziFragment">
 
-    <Button
-        android:id="@+id/esercizi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="173dp"
-        android:background="@color/colorPrimary"
-        android:padding="8dp"
-        android:text="Scelgo"
-        android:textColor="#fff"
-        android:textSize="28sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="750dp"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/lw_eserciziSalvatiDaScegliere"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+
+                <RelativeLayout
+                    android:id="@+id/footerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/btnEffettuaAllenamento"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="155dp"
+                        android:layout_weight="1"
+                        android:text="Scegli" />
+
+                    <Button
+                        android:id="@+id/btnAnnullaScelta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/btnEffettuaAllenamento"
+                        android:layout_alignBottom="@+id/btnEffettuaAllenamento"
+                        android:layout_marginEnd="117dp"
+                        android:layout_toStartOf="@+id/btnEffettuaAllenamento"
+                        android:layout_weight="1"
+                        android:text="Annulla" />
+                </RelativeLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

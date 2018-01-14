@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -199,19 +203,28 @@ public class ConsigliAlimentariFragment extends Fragment implements GenericFragm
          initTips('g');
          initTips('s');
 
-
-        boolean userDidTraining = false;
-
         /*
             Ricerca nel database di almeno un allenamento da parte dell'utente.
             Quindi userdidtraining è vero se almeno una volta ho fatto un allenamento
+        */
+        mFirebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild("name")) {
+                    addTips(false);
+                    Toast.makeText(getContext(), "ConsigliAlimentari::UserDidTraining", Toast.LENGTH_SHORT).show();
+                }else{
+                    addTips(true);
+                    Toast.makeText(getContext(), "ConsigliAlimentari::UserDidn'tTraining", Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
 
-
-         */
-
-        addTips(userDidTraining);
 
         tips_layout = (ListView) rootView.findViewById(R.id.tips);
     }

@@ -25,16 +25,6 @@ public class Notify {
         this.valoreIntermedio = valoreIntermedio;
     }
 
-    public Notify(String abilita, String intermedio, String finale, String anomalie, String unitaDiMisura, String valoreIntermedio){
-
-        this.abilita = Boolean.parseBoolean(abilita);
-        this.intermedio = Boolean.parseBoolean(intermedio);
-        this.finale = Boolean.parseBoolean(finale);
-        this.anomalie = Boolean.parseBoolean(anomalie);
-        this.unitaDiMisura = unitaDiMisura;
-        this.valoreIntermedio =Integer.parseInt(valoreIntermedio);
-    }
-
     public boolean isAbilita() {
         return abilita;
     }

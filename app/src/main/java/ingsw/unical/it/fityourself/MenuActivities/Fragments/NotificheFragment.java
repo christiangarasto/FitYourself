@@ -229,11 +229,13 @@ public class NotificheFragment extends Fragment implements GenericFragment{
           @Override
           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
+              Log.e("DEBUG:::: ", dataSnapshot.toString());
+              Log.e("DEBUG:::: ", dataSnapshot.getValue(Notify.class).toString());
 
                   Notify not = dataSnapshot.getValue(Notify.class);
 
-                  Log.e(TAG, "datasnapshot : " + dataSnapshot.getKey());
-                  Log.e(TAG, "notify : " + FirebaseAuth.getInstance().getUid());
+                  //Log.e(TAG, "datasnapshot : " + dataSnapshot.getKey());
+                  //Log.e(TAG, "notify : " + FirebaseAuth.getInstance().getUid());
 
                   if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())) {
 

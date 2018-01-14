@@ -97,7 +97,7 @@ public class GestisciEserciziFragment extends Fragment implements GenericFragmen
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                allenamentiSalvati.clear(); //Forse non serve
+                allenamentiSalvati.clear();
 
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
 
