@@ -169,6 +169,8 @@ public class NotificheFragment extends Fragment implements GenericFragment{
             }
         });
 
+
+        //GESTIRE IL CASO IN CUI ABILITA E' GIA TRUE////////////////////////////////////////////////////
         inputIntermedio.setClickable(false);
         inputFinale.setClickable(false);
         inputAnomalie.setClickable(false);
@@ -217,33 +219,41 @@ public class NotificheFragment extends Fragment implements GenericFragment{
           @Override
           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
+
                   Notify not = dataSnapshot.getValue(Notify.class);
-             // Notify not = new Notify();
 
-                  inputAbilita.setChecked(not.isAbilita());
-                  inputIntermedio.setChecked(not.isIntermedio());
-                  inputFinale.setChecked(not.isFinale());
-                  inputAnomalie.setChecked(not.isAnomalie());
+                  Log.e(TAG, "datasnapshot : " + dataSnapshot.getKey());
+                  Log.e(TAG, "notify : " + FirebaseAuth.getInstance().getUid());
 
-                  if (not.isIntermedio()) {
-                      checkIntermedio.setEnabled(true);
-                      inputMisura.setEnabled(true);
-                      inputMisura.setClickable(true);
+                  if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())) {
 
-                      String check = Integer.toString(not.getValoreIntermedio());
-                      checkIntermedio.setText(check);
 
-                      int position = 0;
+                      Log.e(TAG, "DOPO del datasnapshot" + dataSnapshot.toString());
+                      inputAbilita.setChecked(not.isAbilita());
+                      inputIntermedio.setChecked(not.isIntermedio());
+                      inputFinale.setChecked(not.isFinale());
+                      inputAnomalie.setChecked(not.isAnomalie());
 
-                      if (not.getUnitaDiMisura().equals("Distanza"))
-                          position = 1;
-                      else if (not.getUnitaDiMisura().equals("Passi"))
-                          position = 2;
+                      if (not.isIntermedio()) {
+                          checkIntermedio.setEnabled(true);
+                          inputMisura.setEnabled(true);
+                          inputMisura.setClickable(true);
 
-                      else if (not.getUnitaDiMisura().equals("Calorie"))
-                          position = 3;
+                          String check = Integer.toString(not.getValoreIntermedio());
+                          checkIntermedio.setText(check);
 
-                      inputMisura.setSelection(position);
+                          int position = 0;
+
+                          if (not.getUnitaDiMisura().equals("Distanza"))
+                              position = 1;
+                          else if (not.getUnitaDiMisura().equals("Passi"))
+                              position = 2;
+
+                          else if (not.getUnitaDiMisura().equals("Calorie"))
+                              position = 3;
+
+                          inputMisura.setSelection(position);
+                      }
                   }
           }
 
@@ -282,7 +292,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
 
         mFirebaseDatabase.child(notifyUser).setValue(notify);
 
-        addUserChangeListener();
+        //addUserChangeListener();
     }
 
     private void updateNotify(boolean abilita, boolean intermedio, boolean finale, boolean anomalie, int valoreIntermedio, String unitaDiMisura) {
@@ -292,7 +302,6 @@ public class NotificheFragment extends Fragment implements GenericFragment{
         String obiettivo = Boolean.toString(finale);
         String warning = Boolean.toString(anomalie);
         String checkValue = Integer.toString(valoreIntermedio);
-
 
         if (!TextUtils.isEmpty(enable))
             mFirebaseDatabase.child(notifyUser).child("abilita").setValue(enable);
@@ -313,8 +322,9 @@ public class NotificheFragment extends Fragment implements GenericFragment{
         mFirebaseDatabase.child(notifyUser).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e(TAG,"onDataChange prima");
                 Notify notify = dataSnapshot.getValue(Notify.class);
-
+                Log.e(TAG,"onDataChange dopo");
                 // Check for null
                 if (notify == null) {
                     Log.e(TAG, "User data is null!");

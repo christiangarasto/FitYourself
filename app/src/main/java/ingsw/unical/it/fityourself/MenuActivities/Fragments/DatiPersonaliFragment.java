@@ -26,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import ingsw.unical.it.fityourself.Model.User;
 import ingsw.unical.it.fityourself.R;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -156,6 +158,12 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
                     User userTmp = dataSnapshot.getValue(User.class);
 
+                    Log.e(TAG,dataSnapshot.getKey() + "datasnapshot\n");
+                    Log.e(TAG,FirebaseAuth.getInstance().getUid() + "userId\n");
+if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
+
+
+                Log.e(TAG, "datiPersonali: dopo del datasnapshot");
                     inputNome.setText(userTmp.getNome());
                     //inputNome.setText(FirebaseAuth.getInstance().getUid());
 
@@ -175,7 +183,7 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
                         inputFemmina.setChecked(true);
 
                     inputSport.setChecked(userTmp.isSport());
-
+}
             }
 
             @Override
@@ -231,25 +239,15 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         mFirebaseDatabase.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
+                User userTmp = dataSnapshot.getValue(User.class);
 
                 // Check for null
-                if (user == null) {
+                if (userTmp == null) {
                     Log.e(TAG, "User data is null!");
                     return;
                 }
 
-                Log.e(TAG, "User data is changed!" + user.getNome() + "\n" + user.getCognome() + user.getPeso() + "\n"+ user.getAltezza() + "\n"+ user.getEta() + "\n"+ user.getSesso() + "\n"+ user.isSport() + "\n");
-
-                // Display newly updated name and email
-                txtDetails.setText(user.getNome() + "\n" + user.getCognome() + user.getPeso() + "\n"+ user.getAltezza() + "\n"+ user.getEta() + "\n"+ user.getSesso() + "\n"+ user.isSport() + "\n");
-
-                // clear edit text
-                inputCognome.setText("");
-                inputNome.setText("");
-                inputPeso.setText("");
-                inputAltezza.setText("");
-                inputEta.setText("");
+                Log.e(TAG, "User data is changed!" + userTmp.getNome() + "\n" + userTmp.getCognome() + userTmp.getPeso() + "\n"+ userTmp.getAltezza() + "\n"+ userTmp.getEta() + "\n"+ userTmp.getSesso() + "\n"+ userTmp.isSport() + "\n");
 
             }
 
@@ -264,6 +262,7 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
     private void updateUser(String nome, String cognome,double peso,double altezza,int eta, String sesso, boolean sport) {
         // updating the user via child nodes
 
+        Log.e(TAG,"update datiPersonali");
            if (!TextUtils.isEmpty(nome))
                mFirebaseDatabase.child(userId).child("nome").setValue(nome);
 

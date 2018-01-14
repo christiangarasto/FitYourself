@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FitYourself.iml" filepath="$PROJECT_DIR$/FitYourself.iml" />
-      <module fileurl="file://C:\Users\valentina\Desktop\FitYourself\FitYourself.iml" filepath="C:\Users\valentina\Desktop\FitYourself\FitYourself.iml" />
       <module fileurl="file://D:\Programmi\AndroidStudio_workspace\FitYourself\.idea\FitYourself.iml" filepath="D:\Programmi\AndroidStudio_workspace\FitYourself\.idea\FitYourself.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
