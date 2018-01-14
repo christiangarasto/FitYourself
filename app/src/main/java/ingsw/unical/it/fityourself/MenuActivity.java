@@ -37,13 +37,13 @@ public class MenuActivity extends AppCompatActivity
 
         datiPersonaliFragment = DatiPersonaliFragment.getInstance();
         //Set the fragment initially
-        if(primaVolta){
+      /*  if(primaVolta){
             fragment = datiPersonaliFragment;
             primaVolta = false;
         }
-        else {
+        else {*/
             fragment = new ConsigliAlimentariFragment();//fragmentFactory.makeConsigliAlimentari();
-        }
+        //}
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         fragmentTransaction.replace(R.id.fragment_container, fragment.getFragment());

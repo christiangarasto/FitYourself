@@ -41,7 +41,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
     private Spinner inputMisura;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
-    private String unita;
+    private String unita, txtDetails;
     private String notifyUser;
     private static NotificheFragment notificheFragment = null;
 
@@ -218,6 +218,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                   Notify not = dataSnapshot.getValue(Notify.class);
+             // Notify not = new Notify();
 
                   inputAbilita.setChecked(not.isAbilita());
                   inputIntermedio.setChecked(not.isIntermedio());
@@ -319,6 +320,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
                     Log.e(TAG, "User data is null!");
                     return;
                 }
+
 
                 Log.e(TAG, "User data is changed!");
             }
