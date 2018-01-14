@@ -1,6 +1,8 @@
 package ingsw.unical.it.fityourself.MenuActivities.Fragments;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -9,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +37,7 @@ public class GestisciEserciziFragment extends Fragment implements GenericFragmen
 
     View rootView;
 
-    LinkedList<String> allenamentiSalvati;
+    LinkedList<Allenamento> allenamentiSalvati;
     ListView lw_allenamentiSalvati;
     String userId;
 
@@ -42,7 +46,7 @@ public class GestisciEserciziFragment extends Fragment implements GenericFragmen
     private FirebaseDatabase mFirebaseInstance;
 
     public GestisciEserciziFragment() {
-        allenamentiSalvati = new LinkedList<String>();
+        allenamentiSalvati = new LinkedList<Allenamento>();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference("Allenamenti");
         userId = FirebaseAuth.getInstance().getUid();
@@ -68,7 +72,31 @@ public class GestisciEserciziFragment extends Fragment implements GenericFragmen
             });
 
         lw_allenamentiSalvati = (ListView) rootView.findViewById(R.id.lw_allenamentiSalvati);
+        lw_allenamentiSalvati.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                Toast.makeText(getContext(), "Allenamento: " + allenamentiSalvati.get(position).getNomeAllenamento(), Toast.LENGTH_SHORT).show();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Allegria")
+                        .setPositiveButton("Busta 1, 2 o 3", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(getContext(), "Ok", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("Cadi sull'uccello", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(getContext(), "No", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                // Create the AlertDialog object and return it
+
+                builder.create();
+
+            }
+        });
         aggiungiAllenamentiSalvati();
 
         return rootView;
@@ -76,33 +104,39 @@ public class GestisciEserciziFragment extends Fragment implements GenericFragmen
 
     private void aggiungiAllenamentiSalvati() {
 
-        DatabaseReference ref = mFirebaseDatabase.getRef();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Allenamenti").child(userId);
+        Log.e("DEBUG::::::::", ref.getKey());
+
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Iterable<DataSnapshot> allenamenti = dataSnapshot.getChildren();
+                allenamentiSalvati.clear(); //Forse non serve
 
-                for(DataSnapshot d : allenamenti){
-                    String nomeAllenamento = (String) d.child(userId).child("nomeAllenamento").getValue();
-                    //LinkedList<Esercizio> esercizi = (LinkedList<Esercizio>) d.child(userId).child("esercizi").getValue();
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
 
-                    Log.e("DEBUG:::::::", "Nome allenamento: " + nomeAllenamento);
-                   // Log.e("DEBUG:::::::", "Esercizi: " + esercizi.toString());
+                    Allenamento allenamento = d.getValue(Allenamento.class);
+                    allenamentiSalvati.add(allenamento);
 
-                   // Log.e("DEBUG:::::::", "Nome allenamento: " + nomeAllenamento + " ------ Esercizi: " + esercizi.toString());
                 }
 
+                LinkedList<String> allenamentiString = new LinkedList<String>();
 
-                //System.out.println("DEBUG:::: " + allenamento.toString());
+                for (Allenamento a : allenamentiSalvati) {
+                    allenamentiString.add(a.toString());
+                }
+
+                if (getContext() != null) {
+                    StableArrayAdapter ad = new StableArrayAdapter(getContext(), android.R.layout.simple_list_item_1, allenamentiString);
+                    lw_allenamentiSalvati.setAdapter(ad);
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
+
             }
         });
-
     }
 
     @Override
