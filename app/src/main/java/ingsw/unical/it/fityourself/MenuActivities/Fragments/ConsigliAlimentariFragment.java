@@ -17,6 +17,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -30,9 +34,17 @@ public class ConsigliAlimentariFragment extends Fragment implements GenericFragm
     ListView tips_layout;
     View rootView;
 
+    String userId;
+    private DatabaseReference mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
+
     public ConsigliAlimentariFragment() {
         genericTips = new LinkedList<TextView>();
         specificTips = new LinkedList<TextView>();
+
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference("Allenamenti");
+        userId = FirebaseAuth.getInstance().getUid();
     }
 
         private void initTips(char type){
@@ -193,6 +205,10 @@ public class ConsigliAlimentariFragment extends Fragment implements GenericFragm
         /*
             Ricerca nel database di almeno un allenamento da parte dell'utente.
             Quindi userdidtraining è vero se almeno una volta ho fatto un allenamento
+
+
+
+
          */
 
         addTips(userDidTraining);

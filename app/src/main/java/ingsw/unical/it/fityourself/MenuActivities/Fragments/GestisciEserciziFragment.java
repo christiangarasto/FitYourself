@@ -77,24 +77,11 @@ public class GestisciEserciziFragment extends Fragment implements GenericFragmen
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
-                Toast.makeText(getContext(), "Allenamento: " + allenamentiSalvati.get(position).getNomeAllenamento(), Toast.LENGTH_SHORT).show();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Allegria")
-                        .setPositiveButton("Busta 1, 2 o 3", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(getContext(), "Ok", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .setNegativeButton("Cadi sull'uccello", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(getContext(), "No", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                // Create the AlertDialog object and return it
-
-                builder.create();
-
+                Allenamento a = allenamentiSalvati.get(position);
+                mFirebaseDatabase.child(userId).child(a.getNomeAllenamento()).removeValue();
+                mFirebaseDatabase.child(userId).child("esercizi").removeValue();
+                Toast.makeText(getContext(), "Allenamento eliminato.", Toast.LENGTH_SHORT).show();
             }
         });
         aggiungiAllenamentiSalvati();
@@ -105,7 +92,6 @@ public class GestisciEserciziFragment extends Fragment implements GenericFragmen
     private void aggiungiAllenamentiSalvati() {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Allenamenti").child(userId);
-        Log.e("DEBUG::::::::", ref.getKey());
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
