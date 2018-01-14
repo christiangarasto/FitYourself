@@ -9,19 +9,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import ingsw.unical.it.fityourself.R;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
-import static android.content.ContentValues.TAG;
+import ingsw.unical.it.fityourself.Model.Allenamento;
+import ingsw.unical.it.fityourself.Model.Esercizio;
+import ingsw.unical.it.fityourself.R;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,11 +33,19 @@ public class GestisciEserciziFragment extends Fragment implements GenericFragmen
 
     View rootView;
 
+    LinkedList<String> allenamentiSalvati;
+    ListView lw_allenamentiSalvati;
+    String userId;
+
+
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
 
     public GestisciEserciziFragment() {
-
+        allenamentiSalvati = new LinkedList<String>();
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference("Allenamenti");
+        userId = FirebaseAuth.getInstance().getUid();
     }
 
     @Override
@@ -56,17 +67,42 @@ public class GestisciEserciziFragment extends Fragment implements GenericFragmen
                 }
             });
 
+        lw_allenamentiSalvati = (ListView) rootView.findViewById(R.id.lw_allenamentiSalvati);
 
-        ScrollView contenitoreEserciziSalvati = rootView.findViewById(R.id.contenitoreEserciziSalvati);
+        aggiungiAllenamentiSalvati();
 
-
-    /*    TextView t1 = new TextView(getContext());
-            t1.setText("Prova 123");
-
-
-            contenitoreEserciziSalvati.addView(t1);
-*/
         return rootView;
+    }
+
+    private void aggiungiAllenamentiSalvati() {
+
+        DatabaseReference ref = mFirebaseDatabase.getRef();
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> allenamenti = dataSnapshot.getChildren();
+
+                for(DataSnapshot d : allenamenti){
+                    String nomeAllenamento = (String) d.child(userId).child("nomeAllenamento").getValue();
+                    //LinkedList<Esercizio> esercizi = (LinkedList<Esercizio>) d.child(userId).child("esercizi").getValue();
+
+                    Log.e("DEBUG:::::::", "Nome allenamento: " + nomeAllenamento);
+                   // Log.e("DEBUG:::::::", "Esercizi: " + esercizi.toString());
+
+                   // Log.e("DEBUG:::::::", "Nome allenamento: " + nomeAllenamento + " ------ Esercizi: " + esercizi.toString());
+                }
+
+
+                //System.out.println("DEBUG:::: " + allenamento.toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
     }
 
     @Override

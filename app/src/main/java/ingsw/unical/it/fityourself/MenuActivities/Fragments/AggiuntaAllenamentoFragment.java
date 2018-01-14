@@ -26,7 +26,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
 import ingsw.unical.it.fityourself.Model.Allenamento;
 import ingsw.unical.it.fityourself.Model.Esercizio;
@@ -40,8 +42,6 @@ import static android.content.ContentValues.TAG;
 public class AggiuntaAllenamentoFragment extends Fragment implements GenericFragment{
 
     View rootView;
-    private TextView txtDetails;
-
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
 
@@ -50,11 +50,13 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
 
     private LinkedList<String> eserciziDisponibili;
     private LinkedList<String> eserciziAggiunti;
+    LinkedList<String> esercizi;
 
 
     public AggiuntaAllenamentoFragment() {
         eserciziDisponibili = new LinkedList<String>();
         eserciziAggiunti = new LinkedList<String>();
+        esercizi = new LinkedList<String>();
     }
 
     private void initEserciziDisponibili(){
@@ -89,32 +91,28 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
         // get reference to 'users' node
-        mFirebaseDatabase = mFirebaseInstance.getReference("Utente");
-
-        // store app title to 'app_title' node
-        mFirebaseInstance.getReference("FitYourSelf").setValue("Allenamenti");
-
-        // app_title change listener
-        mFirebaseInstance.getReference("FitYourSelf").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e(TAG, "App title updated");
-
-                String appTitle = dataSnapshot.getValue(String.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.e(TAG, "Failed to read app title value.", error.toException());
-            }
-        });
+        mFirebaseDatabase = mFirebaseInstance.getReference("Allenamenti");
 
 
         userId = FirebaseAuth.getInstance().getUid();
         input_nome_allenamento = (EditText) rootView.findViewById(R.id.input_nome_allenamento);
         final ListView lw_eserciziAggiunti = (ListView) rootView.findViewById(R.id.lw_eserciziAggiunti);
+            lw_eserciziAggiunti.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+                @Override
+                public void onItemClick(AdapterView<?> parent, final View view,
+                                        int position, long id) {
+                    final String item = (String) parent.getItemAtPosition(position);
+                    Toast.makeText(getContext(), "Esercizio rimosso.", Toast.LENGTH_SHORT).show();
+
+                    eserciziAggiunti.remove(item);
+
+                    StableArrayAdapter ad = new StableArrayAdapter(getContext(), android.R.layout.simple_list_item_1, eserciziAggiunti);
+                    lw_eserciziAggiunti.setAdapter(ad);
+                    ad.notifyDataSetChanged();
+
+                }
+            });
 
 
         StableArrayAdapter arrayAdapter = new StableArrayAdapter(getContext(), android.R.layout.simple_list_item_1, eserciziDisponibili);
@@ -128,7 +126,7 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
                 final String item = (String) parent.getItemAtPosition(position);
-                Toast.makeText(getContext(), "Esercizio aggiunto.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Esercizio aggiunto.", Toast.LENGTH_SHORT).show();
 
                 eserciziAggiunti.add(item);
 
@@ -139,24 +137,43 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
             }
         });
 
+        Button btnCasuale = (Button) rootView.findViewById(R.id.btnCasuale);
+            btnCasuale.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    int eserciziDaAggiungere = new Random().nextInt(10)+5;
+
+                    for(int i = 0; i < eserciziDaAggiungere; i++){
+                        int esercizioDaPrendere = new Random().nextInt(eserciziDisponibili.size());
+                        esercizi.add(eserciziDisponibili.get(esercizioDaPrendere));
+                        eserciziAggiunti.add(eserciziDisponibili.get(esercizioDaPrendere));
+                    }
+
+                    StableArrayAdapter ad = new StableArrayAdapter(getContext(), android.R.layout.simple_list_item_1, esercizi);
+                    lw_eserciziAggiunti.setAdapter(ad);
+                    ad.notifyDataSetChanged();
+
+
+                }
+            });
+
         Button btnSalva = (Button) rootView.findViewById(R.id.btnSalva);
             btnSalva.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ListView eserciziAggiunti = (ListView) rootView.findViewById(R.id.lw_eserciziAggiunti);
                     final String nomeAllenamento = input_nome_allenamento.getText().toString();
-
                     LinkedList<Esercizio> esercizi = new LinkedList<Esercizio>();
 
-                    for(int i = 0; i < eserciziAggiunti.getCount(); i++) {
-                        //esercizi.add(eserciziAggiunti.getChildAt(i));
+
+                    if(eserciziAggiunti.size() > 0){
+                        for(String s : eserciziAggiunti){
+                            Esercizio e = creaEsercizio(s);
+                            esercizi.add(e);
+                        }
                     }
 
-                    if (TextUtils.isEmpty(userId)) {
-                        createAllenamento(nomeAllenamento, esercizi);
-                    } else {
-                        updateAllenamento(nomeAllenamento, esercizi);
-                    }
+                   createAllenamento(nomeAllenamento, esercizi);
 
                     GenericFragment gestisci = new GestisciEserciziFragment();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -166,16 +183,57 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
             });
 
         Button btnAnnulla = (Button) rootView.findViewById(R.id.btnAnnulla);
-
+            btnAnnulla.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    GenericFragment gestisci = new GestisciEserciziFragment();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, gestisci.getFragment());
+                    transaction.commit();
+                }
+            });
 
 
         return rootView;
     }
 
+    private Esercizio creaEsercizio(String s) {
+
+        Log.e("DEBUG: ", s);
+
+        String nomeEsercizio = "";
+        String durata = "";
+
+        int nSpazi = 0;
+        int nDueP = 0;
+
+        for(int i = 0; i < s.length(); i++){
+            if(nDueP == 0){
+                if(s.charAt(i) == ':'){
+                    nDueP++;
+                }else{
+                    nomeEsercizio += s.charAt(i);
+                }
+            }else{
+
+                if(nSpazi == 0){
+                    if(s.charAt(i) == ' '){
+                        nSpazi++;
+                    }
+                }else{
+                    durata += s.charAt(i);
+                }
+            }
+        }
+
+        Esercizio esercizio = new Esercizio(nomeEsercizio, durata);
+        return esercizio;
+    }
+
     private void createAllenamento(String name, LinkedList<Esercizio> esercizi) {
-        // TODO
-        // In real apps this userId should be fetched
-        // by implementing firebase auth
+
+        Toast.makeText(getContext(), "Crea allenamento", Toast.LENGTH_LONG).show();
+
         if (TextUtils.isEmpty(userId)) {
             //userId = mFirebaseDatabase.push().getKey();
             userId = FirebaseAuth.getInstance().getUid();
@@ -183,66 +241,20 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
 
         Allenamento allenamento = new Allenamento(name, esercizi);
 
-        mFirebaseDatabase.child(userId).setValue(allenamento);
-            for(Esercizio e : allenamento.getEsercizi()){
-                mFirebaseDatabase.child(userId).child(allenamento.getNomeAllenamento()).setValue(allenamento);
-            }
-
-
+        mFirebaseDatabase.child(userId).child(allenamento.getNomeAllenamento()).setValue(allenamento);
         addAllenamentoChangeListener();
     }
 
     private void updateAllenamento(String nome, LinkedList<Esercizio> esercizi) {
-        // updating the user via child nodes
-/*
-        if (!TextUtils.isEmpty(nome))
-            mFirebaseDatabase.child(userId).child("nome").setValue(nome);
+        Toast.makeText(getContext(), "Update allenamento", Toast.LENGTH_LONG).show();
 
-        if (!TextUtils.isEmpty(cognome))
-            mFirebaseDatabase.child(userId).child("cognome").setValue(cognome);
-
-        String kg = Double.toString(peso);
-
-        if (!TextUtils.isEmpty(kg))
-            mFirebaseDatabase.child(userId).child("peso").setValue(peso);
-
-        String alt = Double.toString(altezza);
-        if (!TextUtils.isEmpty(alt))
-            mFirebaseDatabase.child(userId).child("altezza").setValue(altezza);
-
-        String age = Integer.toString(eta);
-        if (!TextUtils.isEmpty(age))
-            mFirebaseDatabase.child(userId).child("eta").setValue(eta);
-
-        if (!TextUtils.isEmpty(sesso))
-            mFirebaseDatabase.child(userId).child("sesso").setValue(sesso);
-
-        String attitudine = Boolean.toString(sport);
-        if (!TextUtils.isEmpty(attitudine))
-            mFirebaseDatabase.child(userId).child("sport").setValue(sport);
-*/
     }
 
     private void addAllenamentoChangeListener() {
         // User data change listener
         mFirebaseDatabase.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Allenamento allenamento = dataSnapshot.getValue(Allenamento.class);
-
-                // Check for null
-                if (allenamento == null) {
-                    Log.e(TAG, "allenamento data is null!");
-                    return;
-                }
-
-                Log.e(TAG, "allenamento data is changed!" + allenamento.getNomeAllenamento() + "\n" + allenamento.getEsercizi() + "\n");
-
-                // Display newly updated name and email
-                txtDetails.setText(allenamento.getNomeAllenamento() + "\n" + allenamento.getEsercizi() + "\n");
-
-               // toggleButton();
-            }
+            public void onDataChange(DataSnapshot dataSnapshot) {}
 
             @Override
             public void onCancelled(DatabaseError error) {
@@ -251,10 +263,6 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
             }
         });
     }
-
-
-
-
     @Override
     public Fragment getFragment() {
         return this;

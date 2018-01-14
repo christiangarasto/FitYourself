@@ -4,6 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ListView
+        android:id="@+id/lw_allenamentiSalvati"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="58dp" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/nuovoEsercizio"
         android:layout_width="wrap_content"
@@ -16,18 +24,4 @@
         android:src="@android:drawable/ic_input_add"
         app:backgroundTint="@color/btn_login_bg" />
 
-    <ScrollView
-        android:id="@+id/contenitoreEserciziSalvati"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignEnd="@+id/nuovoEsercizio"
-        android:layout_centerVertical="true">
-
-        <LinearLayout
-            android:id="@+id/eserciziSalvati"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
-    </ScrollView>
 </RelativeLayout>

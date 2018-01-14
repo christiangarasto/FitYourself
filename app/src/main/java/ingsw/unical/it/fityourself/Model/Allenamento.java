@@ -1,5 +1,6 @@
 package ingsw.unical.it.fityourself.Model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -31,7 +32,18 @@ public class Allenamento {
         return esercizi;
     }
 
-    public void setEsercizi(LinkedList<Esercizio> esercizi) {
-        this.esercizi = esercizi;
+    public void setEsercizi(ArrayList<Esercizio> esercizi) {
+        LinkedList<Esercizio> eserciziLL = new LinkedList<Esercizio>();
+
+        for(Esercizio e : esercizi){
+            eserciziLL.add(e);
+        }
+
+        this.esercizi = eserciziLL;
+    }
+
+    @Override
+    public String toString() {
+        return "Allenamento " + nomeAllenamento + "\nEsercizi:\n" + esercizi;
     }
 }

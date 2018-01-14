@@ -77,29 +77,12 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         btnExit = (Button) rootView.findViewById(R.id.Esci);
         btnNotify = (Button) rootView.findViewById(R.id.Notifiche);
 
+        txtDetails = new TextView(getContext());
+
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
         // get reference to 'users' node
         mFirebaseDatabase = mFirebaseInstance.getReference("Dati Personali");
-
-        // store app title to 'app_title' node
-        mFirebaseInstance.getReference("FitYourSelf").setValue("DatiUtente");
-
-        // app_title change listener
-        mFirebaseInstance.getReference("FitYourSelf").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e(TAG, "App title updated");
-
-                String appTitle = dataSnapshot.getValue(String.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.e(TAG, "Failed to read app title value.", error.toException());
-            }
-        });
 
         // Save / update the user
         btnSave.setOnClickListener(new View.OnClickListener() {
