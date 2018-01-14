@@ -106,6 +106,9 @@ public class NotificheFragment extends Fragment implements GenericFragment{
 
                 if(inputAbilita.isChecked()){
                     abilita = true;
+                    inputIntermedio.setClickable(true);
+                    inputFinale.setClickable(true);
+                    inputAnomalie.setClickable(true);
                 }
                 else{
                     abilita = false;
@@ -237,6 +240,18 @@ public class NotificheFragment extends Fragment implements GenericFragment{
 
                       Log.e(TAG, "DOPO del datasnapshot" + dataSnapshot.toString());
                       inputAbilita.setChecked(not.isAbilita());
+
+                      if(not.isAbilita()){
+                          inputIntermedio.setClickable(true);
+                          inputFinale.setClickable(true);
+                          inputAnomalie.setClickable(true);
+                      }
+                      else{
+                          inputIntermedio.setClickable(false);
+                          inputFinale.setClickable(false);
+                          inputAnomalie.setClickable(false);
+                      }
+
                       inputIntermedio.setChecked(not.isIntermedio());
                       inputFinale.setChecked(not.isFinale());
                       inputAnomalie.setChecked(not.isAnomalie());
