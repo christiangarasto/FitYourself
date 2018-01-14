@@ -26,16 +26,24 @@ public class MenuActivity extends AppCompatActivity
 
     NavigationView navigationView = null;
     Toolbar toolbar = null;
-
+    DatiPersonaliFragment datiPersonaliFragment;
     GenericFragment fragment;
+    boolean primaVolta = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        datiPersonaliFragment = DatiPersonaliFragment.getInstance();
         //Set the fragment initially
-        fragment = new ConsigliAlimentariFragment();//fragmentFactory.makeConsigliAlimentari();
+        if(primaVolta){
+            fragment = datiPersonaliFragment;
+            primaVolta = false;
+        }
+        else {
+            fragment = new ConsigliAlimentariFragment();//fragmentFactory.makeConsigliAlimentari();
+        }
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         fragmentTransaction.replace(R.id.fragment_container, fragment.getFragment());
