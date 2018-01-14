@@ -16,6 +16,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,8 +41,9 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
     private FirebaseDatabase mFirebaseInstance;
     private String sesso;
     private boolean sport;
+
     View rootView;
-    private String userId;
+    private String userId;// = FirebaseAuth.getInstance().getUid();
     private static DatiPersonaliFragment datiPersonali = null;
 
     private DatiPersonaliFragment() {
@@ -55,6 +57,8 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
         return datiPersonali;
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +80,7 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         btnSave = (Button) rootView.findViewById(R.id.Salva);
         btnExit = (Button) rootView.findViewById(R.id.Esci);
         btnNotify = (Button) rootView.findViewById(R.id.Notifiche);
+        txtDetails = new TextView(getContext());
 
         txtDetails = new TextView(getContext());
 
@@ -145,21 +150,57 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
             }
         });
 
+        mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
+                    User userTmp = dataSnapshot.getValue(User.class);
 
-        toggleButton();
+                    inputNome.setText(userTmp.getNome());
+                    //inputNome.setText(FirebaseAuth.getInstance().getUid());
+
+                    inputCognome.setText(userTmp.getCognome());
+
+                    String peso = Double.toString(userTmp.getPeso());
+                    String altezza = Double.toString(userTmp.getAltezza());
+                    String eta = Integer.toString(userTmp.getEta());
+
+                    inputPeso.setText(peso);
+                    inputAltezza.setText(altezza);
+                    inputEta.setText(eta);
+
+                    if (userTmp.getSesso().equals("Maschio"))
+                        inputMaschio.setChecked(true);
+                    else
+                        inputFemmina.setChecked(true);
+
+                    inputSport.setChecked(userTmp.isSport());
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         // Inflate the layout for this fragment
         return rootView;
-    }
-
-    // Changing button text
-    private void toggleButton() {
-        if (TextUtils.isEmpty(userId)) {
-            btnSave.setText("Save");
-        } else {
-            btnSave.setText("Update");
-        }
     }
 
     /**
@@ -169,6 +210,7 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         // TODO
         // In real apps this userId should be fetched
         // by implementing firebase auth
+
         if (TextUtils.isEmpty(userId)) {
             //userId = mFirebaseDatabase.push().getKey();
             userId = FirebaseAuth.getInstance().getUid();
@@ -209,8 +251,6 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
                 inputAltezza.setText("");
                 inputEta.setText("");
 
-
-                toggleButton();
             }
 
             @Override

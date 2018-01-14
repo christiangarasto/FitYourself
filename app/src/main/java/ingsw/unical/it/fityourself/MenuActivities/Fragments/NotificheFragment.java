@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,8 +42,9 @@ public class NotificheFragment extends Fragment implements GenericFragment{
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private String unita;
-    private String notifyUser, txtDetails;
-    private static NotificheFragment notificheFragment;
+    private String notifyUser;
+    private static NotificheFragment notificheFragment = null;
+
 
     private NotificheFragment() {
         // Required empty public constructor
@@ -60,6 +62,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        getActivity().setTitle("Notifiche");
         rootView = inflater.inflate(R.layout.fragment_notifiche, container, false);
 
         inputAbilita = (Switch) rootView.findViewById(R.id.AbilitaNotifiche);
@@ -92,25 +95,6 @@ public class NotificheFragment extends Fragment implements GenericFragment{
         // get reference to 'users' node
         mFirebaseDatabase = mFirebaseInstance.getReference("Notifiche");
 
-        // store app title to 'app_title' node
-        mFirebaseInstance.getReference("FitYourSelf").setValue("DatiUtente");
-
-        // app_title change listener
-        mFirebaseInstance.getReference("FitYourSelf").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e(TAG, "App title updated");
-
-                String appTitle = dataSnapshot.getValue(String.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.e(TAG, "Failed to read app title value.", error.toException());
-            }
-        });
-
         btnSalva.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,7 +103,6 @@ public class NotificheFragment extends Fragment implements GenericFragment{
                 boolean finale;
                 boolean anomalie;
                 int valoreIntermedio;
-
 
                 if(inputAbilita.isChecked()){
                     abilita = true;
@@ -155,7 +138,6 @@ public class NotificheFragment extends Fragment implements GenericFragment{
 
                 String unitaDiMisura = unita;
 
-
                 if (TextUtils.isEmpty(notifyUser)) {
                     createNotify(abilita, intermedio, finale, anomalie, valoreIntermedio, unitaDiMisura);
                 } else {
@@ -187,7 +169,6 @@ public class NotificheFragment extends Fragment implements GenericFragment{
             }
         });
 
-
         inputIntermedio.setClickable(false);
         inputFinale.setClickable(false);
         inputAnomalie.setClickable(false);
@@ -210,10 +191,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
                     inputIntermedio.setChecked(false);
                     inputFinale.setChecked(false);
                     inputAnomalie.setChecked(false);
-
                 }
-
-
             }
         });
 
@@ -235,14 +213,59 @@ public class NotificheFragment extends Fragment implements GenericFragment{
             }
         });
 
-       /* if(notificheFragment != null){
-            inputAbilita = ;
-            inputIntermedio = ;
-            inputFinale = ;
-            inputAnomalie = ;
-            inputMisura = ;
-            checkIntermedio = ;
-        }*/
+      mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
+          @Override
+          public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                  Notify not = dataSnapshot.getValue(Notify.class);
+
+                  inputAbilita.setChecked(not.isAbilita());
+                  inputIntermedio.setChecked(not.isIntermedio());
+                  inputFinale.setChecked(not.isFinale());
+                  inputAnomalie.setChecked(not.isAnomalie());
+
+                  if (not.isIntermedio()) {
+                      checkIntermedio.setEnabled(true);
+                      inputMisura.setEnabled(true);
+                      inputMisura.setClickable(true);
+
+                      String check = Integer.toString(not.getValoreIntermedio());
+                      checkIntermedio.setText(check);
+
+                      int position = 0;
+
+                      if (not.getUnitaDiMisura().equals("Distanza"))
+                          position = 1;
+                      else if (not.getUnitaDiMisura().equals("Passi"))
+                          position = 2;
+
+                      else if (not.getUnitaDiMisura().equals("Calorie"))
+                          position = 3;
+
+                      inputMisura.setSelection(position);
+                  }
+          }
+
+          @Override
+          public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+          }
+
+          @Override
+          public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+          }
+
+          @Override
+          public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+          }
+
+          @Override
+          public void onCancelled(DatabaseError databaseError) {
+
+          }
+      });
 
         return rootView;
     }
@@ -298,17 +321,6 @@ public class NotificheFragment extends Fragment implements GenericFragment{
                 }
 
                 Log.e(TAG, "User data is changed!");
-
-                // Display newly updated name and email
-                //txtDetails.setText(notify.isAbilita() + "\n" + notify.isIntermedio() + "\n" + notify.isFinale() + "\n" + notify.isAnomalie() + "\n" + notify.getValoreIntermedio() + " : " + notify.getUnitaDiMisura());
-
-                // clear edit text
-              /*  inputCognome.setText("");
-                inputNome.setText("");
-                inputPeso.setText("");
-                inputAltezza.setText("");
-                inputEta.setText("");
-              */
             }
 
             @Override

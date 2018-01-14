@@ -128,7 +128,7 @@
         android:layout_alignStart="@+id/radioGroup2"
         android:layout_marginBottom="27dp"
         android:layout_marginStart="35dp"
-        android:text="save" />
+        android:text="salva" />
 
     <Button
         android:id="@+id/Esci"

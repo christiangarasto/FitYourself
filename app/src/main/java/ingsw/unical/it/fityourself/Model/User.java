@@ -14,17 +14,29 @@ public class User {
     private String sesso;
     private boolean sport;
 
-    public User(){}
+    public User(){
+
+        this.nome = "";
+        this.cognome = "";
+        this.peso = 0;
+        this.altezza = 0;
+        this.eta = 0;
+        this.sesso = "";
+        this.sport = false;
+
+    }
 
 
     public User(String nome, String cognome, double peso, double altezza, int eta, String sesso, boolean sport){
-        this.nome = nome;
-        this.cognome = cognome;
-        this.peso = peso;
-        this.altezza = altezza;
-        this.eta = eta;
-        this.sesso = sesso;
-        this.sport = sport;
+
+            this.nome = nome;
+            this.cognome = cognome;
+            this.peso = peso;
+            this.altezza = altezza;
+            this.eta = eta;
+            this.sesso = sesso;
+            this.sport = sport;
+
     }
 
     public String getNome() {

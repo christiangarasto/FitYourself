@@ -13,7 +13,15 @@ public class Notify {
     private String unitaDiMisura;
     private int valoreIntermedio;
 
-    public Notify (){}
+    public Notify (){
+
+        this.abilita = false;
+        this.intermedio = false;
+        this.finale = false;
+        this.anomalie = false;
+        this.unitaDiMisura = "0";
+        this.valoreIntermedio = 0;
+    }
 
     public Notify(boolean abilita, boolean intermedio, boolean finale, boolean anomalie, String unitaDiMisura, int valoreIntermedio){
 
