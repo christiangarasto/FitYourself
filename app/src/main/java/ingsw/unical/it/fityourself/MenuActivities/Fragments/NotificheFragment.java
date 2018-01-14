@@ -170,10 +170,17 @@ public class NotificheFragment extends Fragment implements GenericFragment{
         });
 
 
-        //GESTIRE IL CASO IN CUI ABILITA E' GIA TRUE////////////////////////////////////////////////////
-        inputIntermedio.setClickable(false);
-        inputFinale.setClickable(false);
-        inputAnomalie.setClickable(false);
+        if(inputAbilita.isChecked()){
+            inputIntermedio.setClickable(true);
+            inputFinale.setClickable(true);
+            inputAnomalie.setClickable(true);
+        }
+        else{
+            inputIntermedio.setClickable(false);
+            inputFinale.setClickable(false);
+            inputAnomalie.setClickable(false);
+        }
+
 
         inputAbilita.setOnClickListener(new OnClickListener() {
             @Override
