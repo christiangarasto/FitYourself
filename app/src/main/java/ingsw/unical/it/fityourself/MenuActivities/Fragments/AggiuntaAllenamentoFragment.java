@@ -244,7 +244,6 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
     private void createAllenamento(String name, LinkedList<Esercizio> esercizi) {
 
         if (TextUtils.isEmpty(userId)) {
-            //userId = mFirebaseDatabase.push().getKey();
             userId = FirebaseAuth.getInstance().getUid();
         }
 

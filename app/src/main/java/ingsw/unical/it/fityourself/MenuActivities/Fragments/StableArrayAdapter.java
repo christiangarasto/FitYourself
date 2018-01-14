@@ -6,10 +6,6 @@ import android.widget.ArrayAdapter;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by chris on 05/01/2018.
- */
-
 class StableArrayAdapter extends ArrayAdapter<String> {
 
     HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();

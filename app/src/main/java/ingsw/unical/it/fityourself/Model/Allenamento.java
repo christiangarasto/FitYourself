@@ -44,6 +44,16 @@ public class Allenamento {
 
     @Override
     public String toString() {
-        return "Allenamento " + nomeAllenamento + "\nEsercizi:\n" + esercizi;
+        String allenamento;
+
+                allenamento = "Nome allenamento: " + nomeAllenamento + ".\nEsercizi:";
+
+                for(Esercizio e : esercizi){
+                    allenamento += "\n- ";
+                    allenamento += (e.toString() + ".");
+                }
+
+
+        return allenamento;
     }
 }

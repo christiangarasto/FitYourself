@@ -162,7 +162,6 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
                     Log.e(TAG,FirebaseAuth.getInstance().getUid() + "userId\n");
 if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
 
-
                 Log.e(TAG, "datiPersonali: dopo del datasnapshot");
                     inputNome.setText(userTmp.getNome());
                     //inputNome.setText(FirebaseAuth.getInstance().getUid());
