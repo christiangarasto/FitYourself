@@ -144,7 +144,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
                 if (TextUtils.isEmpty(notifyUser)) {
                     createNotify(abilita, intermedio, finale, anomalie, valoreIntermedio, unitaDiMisura);
                 } else {
-                    updateNotify(abilita, intermedio, finale, anomalie, valoreIntermedio, unitaDiMisura);
+                   //updateNotify(abilita, intermedio, finale, anomalie, valoreIntermedio, unitaDiMisura);
                 }
 
             }
@@ -314,12 +314,12 @@ public class NotificheFragment extends Fragment implements GenericFragment{
 
         mFirebaseDatabase.child(notifyUser).setValue(notify);
 
-        //addUserChangeListener();
+        addUserChangeListener();
     }
 
     private void updateNotify(boolean abilita, boolean intermedio, boolean finale, boolean anomalie, int valoreIntermedio, String unitaDiMisura) {
 
-        String enable = Boolean.toString(abilita);
+     /*   String enable = Boolean.toString(abilita);
         String checkpoint = Boolean.toString(intermedio);
         String obiettivo = Boolean.toString(finale);
         String warning = Boolean.toString(anomalie);
@@ -336,7 +336,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
         if (!TextUtils.isEmpty(checkValue))
             mFirebaseDatabase.child(notifyUser).child("valoreIntermedio").setValue(checkValue);
         if (!TextUtils.isEmpty(unitaDiMisura))
-            mFirebaseDatabase.child(notifyUser).child("unitaDiMisura").setValue(unitaDiMisura);
+            mFirebaseDatabase.child(notifyUser).child("unitaDiMisura").setValue(unitaDiMisura);*/
     }
 
     private void addUserChangeListener() {
