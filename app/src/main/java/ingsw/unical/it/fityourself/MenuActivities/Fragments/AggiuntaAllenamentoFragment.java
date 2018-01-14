@@ -163,22 +163,33 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
                 @Override
                 public void onClick(View view) {
                     final String nomeAllenamento = input_nome_allenamento.getText().toString();
-                    LinkedList<Esercizio> esercizi = new LinkedList<Esercizio>();
+
+                    if(nomeAllenamento.length() != 0) {
+
+                        LinkedList<Esercizio> esercizi = new LinkedList<Esercizio>();
 
 
-                    if(eserciziAggiunti.size() > 0){
-                        for(String s : eserciziAggiunti){
-                            Esercizio e = creaEsercizio(s);
-                            esercizi.add(e);
+                        if (eserciziAggiunti.size() > 0) {
+                            for (String s : eserciziAggiunti) {
+                                Esercizio e = creaEsercizio(s);
+                                esercizi.add(e);
+                            }
                         }
+
+                        if(esercizi.size() > 0) {
+
+                            createAllenamento(nomeAllenamento, esercizi);
+
+                            GenericFragment gestisci = new GestisciEserciziFragment();
+                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                            transaction.replace(R.id.fragment_container, gestisci.getFragment());
+                            transaction.commit();
+                        }else{
+                            Toast.makeText(getContext(), "Aggiungere almeno un esercizio all'allenamento!", Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        Toast.makeText(getContext(), "Inserire il nome dell'allenamento!", Toast.LENGTH_LONG).show();
                     }
-
-                   createAllenamento(nomeAllenamento, esercizi);
-
-                    GenericFragment gestisci = new GestisciEserciziFragment();
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragment_container, gestisci.getFragment());
-                    transaction.commit();
                 }
             });
 
@@ -232,8 +243,6 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
 
     private void createAllenamento(String name, LinkedList<Esercizio> esercizi) {
 
-        Toast.makeText(getContext(), "Crea allenamento", Toast.LENGTH_LONG).show();
-
         if (TextUtils.isEmpty(userId)) {
             //userId = mFirebaseDatabase.push().getKey();
             userId = FirebaseAuth.getInstance().getUid();
@@ -243,11 +252,6 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
 
         mFirebaseDatabase.child(userId).child(allenamento.getNomeAllenamento()).setValue(allenamento);
         addAllenamentoChangeListener();
-    }
-
-    private void updateAllenamento(String nome, LinkedList<Esercizio> esercizi) {
-        Toast.makeText(getContext(), "Update allenamento", Toast.LENGTH_LONG).show();
-
     }
 
     private void addAllenamentoChangeListener() {
