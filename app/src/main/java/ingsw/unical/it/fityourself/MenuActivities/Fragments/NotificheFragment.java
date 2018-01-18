@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import ingsw.unical.it.fityourself.Model.Notifiche;
 import ingsw.unical.it.fityourself.Model.Notify;
 import ingsw.unical.it.fityourself.R;
 
@@ -144,7 +145,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
                 if (TextUtils.isEmpty(notifyUser)) {
                     createNotify(abilita, intermedio, finale, anomalie, valoreIntermedio, unitaDiMisura);
                 } else {
-                   //updateNotify(abilita, intermedio, finale, anomalie, valoreIntermedio, unitaDiMisura);
+                   updateNotify(abilita, intermedio, finale, anomalie, valoreIntermedio, unitaDiMisura);
                 }
 
             }
@@ -228,58 +229,54 @@ public class NotificheFragment extends Fragment implements GenericFragment{
       mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
           @Override
           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-              Log.e("DEBUG:::: ", dataSnapshot.toString());
-              Log.e("DEBUG:::: ", dataSnapshot.getValue(Notify.class).toString());
-
+              if (dataSnapshot.getValue() != null){
                   Notify not = dataSnapshot.getValue(Notify.class);
 
-                  //Log.e(TAG, "datasnapshot : " + dataSnapshot.getKey());
-                  //Log.e(TAG, "notify : " + FirebaseAuth.getInstance().getUid());
+              Log.e("DATASNAPSHOT::", dataSnapshot.getKey().toString());
+              Log.e("USER:::", FirebaseAuth.getInstance().getUid());
 
-                  if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())) {
+              if (not != null && dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())) {
+                  Log.e(TAG, "DOPO DEL DATASNAPSHOT" + dataSnapshot.toString());
 
+                  inputAbilita.setChecked(not.isAbilita());
 
-                      Log.e(TAG, "DOPO del datasnapshot" + dataSnapshot.toString());
-                      inputAbilita.setChecked(not.isAbilita());
-
-                      if(not.isAbilita()){
-                          inputIntermedio.setClickable(true);
-                          inputFinale.setClickable(true);
-                          inputAnomalie.setClickable(true);
-                      }
-                      else{
-                          inputIntermedio.setClickable(false);
-                          inputFinale.setClickable(false);
-                          inputAnomalie.setClickable(false);
-                      }
-
-                      inputIntermedio.setChecked(not.isIntermedio());
-                      inputFinale.setChecked(not.isFinale());
-                      inputAnomalie.setChecked(not.isAnomalie());
-
-                      if (not.isIntermedio()) {
-                          checkIntermedio.setEnabled(true);
-                          inputMisura.setEnabled(true);
-                          inputMisura.setClickable(true);
-
-                          String check = Integer.toString(not.getValoreIntermedio());
-                          checkIntermedio.setText(check);
-
-                          int position = 0;
-
-                          if (not.getUnitaDiMisura().equals("Distanza"))
-                              position = 1;
-                          else if (not.getUnitaDiMisura().equals("Passi"))
-                              position = 2;
-
-                          else if (not.getUnitaDiMisura().equals("Calorie"))
-                              position = 3;
-
-                          inputMisura.setSelection(position);
-                      }
+                  if (not.isAbilita()) {
+                      inputIntermedio.setClickable(true);
+                      inputFinale.setClickable(true);
+                      inputAnomalie.setClickable(true);
+                  } else {
+                      inputIntermedio.setClickable(false);
+                      inputFinale.setClickable(false);
+                      inputAnomalie.setClickable(false);
                   }
-          }
+
+                  inputIntermedio.setChecked(not.isIntermedio());
+                  inputFinale.setChecked(not.isFinale());
+                  inputAnomalie.setChecked(not.isAnomalie());
+
+                  if (not.isIntermedio()) {
+                      checkIntermedio.setEnabled(true);
+                      inputMisura.setEnabled(true);
+                      inputMisura.setClickable(true);
+
+                      String check = Integer.toString(not.getValoreIntermedio());
+                      checkIntermedio.setText(check);
+
+                      int position = 0;
+
+                      if (not.getUnitaDiMisura().equals("Distanza"))
+                          position = 1;
+                      else if (not.getUnitaDiMisura().equals("Passi"))
+                          position = 2;
+
+                      else if (not.getUnitaDiMisura().equals("Calorie"))
+                          position = 3;
+
+                      inputMisura.setSelection(position);
+                  }
+
+              }
+          } }
 
           @Override
           public void onChildChanged(DataSnapshot dataSnapshot, String s) {
@@ -310,6 +307,8 @@ public class NotificheFragment extends Fragment implements GenericFragment{
 
         if (TextUtils.isEmpty(notifyUser)) {
             notifyUser = FirebaseAuth.getInstance().getUid();
+
+            Log.e("user:::", notifyUser);
         }
 
         Notify notify = new Notify(abilita, intermedio, finale, anomalie, unitaDiMisura, valoreIntermedio);
@@ -321,7 +320,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
 
     private void updateNotify(boolean abilita, boolean intermedio, boolean finale, boolean anomalie, int valoreIntermedio, String unitaDiMisura) {
 
-     /*   String enable = Boolean.toString(abilita);
+        String enable = Boolean.toString(abilita);
         String checkpoint = Boolean.toString(intermedio);
         String obiettivo = Boolean.toString(finale);
         String warning = Boolean.toString(anomalie);
@@ -338,7 +337,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
         if (!TextUtils.isEmpty(checkValue))
             mFirebaseDatabase.child(notifyUser).child("valoreIntermedio").setValue(checkValue);
         if (!TextUtils.isEmpty(unitaDiMisura))
-            mFirebaseDatabase.child(notifyUser).child("unitaDiMisura").setValue(unitaDiMisura);*/
+            mFirebaseDatabase.child(notifyUser).child("unitaDiMisura").setValue(unitaDiMisura);
     }
 
     private void addUserChangeListener() {
@@ -346,9 +345,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
         mFirebaseDatabase.child(notifyUser).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e(TAG,"onDataChange prima");
                 Notify notify = dataSnapshot.getValue(Notify.class);
-                Log.e(TAG,"onDataChange dopo");
                 // Check for null
                 if (notify == null) {
                     Log.e(TAG, "User data is null!");

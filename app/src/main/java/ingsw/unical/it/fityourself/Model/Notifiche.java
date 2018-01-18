@@ -6,7 +6,7 @@ import android.util.Log;
  * Created by andry on 18/01/18.
  */
 
-public class Notify {
+public class Notifiche {
 
     private boolean abilita;
     private boolean intermedio;
@@ -15,7 +15,7 @@ public class Notify {
     private String unitaDiMisura;
     private int valoreIntermedio;
 
-    public Notify(){
+    public Notifiche(){
 
         Log.e("costruttoreSP::","COSTRUTTORE SENZA PARAMETRI CHIAMATO_____________");
         this.abilita = false;
@@ -32,11 +32,11 @@ public class Notify {
         Log.e("ANOMALIE::",Boolean.toString(anomalie));
         Log.e("UNITADIMISURA::",unitaDiMisura);
         Log.e("VALOREINTERMEDIO::",Integer.toString(valoreIntermedio));
-        Log.e("costruttoreSP:::","CREATO CORRETTAMENTE________________________________");
+        Log.e("costruttoreSP:::","creato correttamente________________________________");
     }
 
 
-    public Notify(boolean abilita, boolean intermedio, boolean finale, boolean anomalie, String unitaDiMisura, int valoreIntermedio){
+    public Notifiche(boolean abilita, boolean intermedio, boolean finale, boolean anomalie, String unitaDiMisura, int valoreIntermedio){
 
         this.abilita = abilita;
         this.intermedio = intermedio;
@@ -49,6 +49,7 @@ public class Notify {
     }
 
     public boolean isAbilita() {
+        Log.e("abilita","restituito correttamente");
         return abilita;
     }
 
@@ -60,6 +61,7 @@ public class Notify {
     }
 
     public boolean isIntermedio() {
+        Log.e("intermedio","restituito correttamente");
         return intermedio;
     }
 
@@ -70,6 +72,7 @@ public class Notify {
     }
 
     public boolean isFinale() {
+        Log.e("finale","restituito correttamente");
         return finale;
     }
 
@@ -80,6 +83,7 @@ public class Notify {
     }
 
     public boolean isAnomalie() {
+        Log.e("anomalie","restituito correttamente");
         return anomalie;
     }
 
@@ -90,6 +94,7 @@ public class Notify {
     }
 
     public String getUnitaDiMisura() {
+        Log.e("unita di misura","restituito correttamente");
         return unitaDiMisura;
     }
 
@@ -99,6 +104,7 @@ public class Notify {
     }
 
     public int getValoreIntermedio() {
+        Log.e("valore intermedio","restituito correttamente");
         return valoreIntermedio;
     }
 

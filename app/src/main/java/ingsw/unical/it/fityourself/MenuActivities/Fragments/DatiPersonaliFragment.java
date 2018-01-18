@@ -164,7 +164,6 @@ if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
 
                 Log.e(TAG, "datiPersonali: dopo del datasnapshot");
                     inputNome.setText(userTmp.getNome());
-                    //inputNome.setText(FirebaseAuth.getInstance().getUid());
 
                     inputCognome.setText(userTmp.getCognome());
 
