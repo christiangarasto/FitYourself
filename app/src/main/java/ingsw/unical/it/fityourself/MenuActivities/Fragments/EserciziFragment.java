@@ -33,15 +33,22 @@ public class EserciziFragment extends Fragment implements GenericFragment{
 
     private Button btnEffettuaAllenamento;
     private Button btnAnnullaScelta;
-
-
+    private static EserciziFragment eserciziFragment = null;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
-    public EserciziFragment() {
+
+    private EserciziFragment() {
         allenamentiSalvati = new LinkedList<Allenamento>();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference("Allenamenti");
         userId = FirebaseAuth.getInstance().getUid();
+    }
+
+    public static EserciziFragment getInstance(){
+        if(eserciziFragment == null)
+            eserciziFragment = new EserciziFragment();
+
+        return eserciziFragment;
     }
 
 

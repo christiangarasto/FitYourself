@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import ingsw.unical.it.fityourself.MainActivity;
 import ingsw.unical.it.fityourself.MenuActivities.Fragments.DatiPersonaliFragment;
 import ingsw.unical.it.fityourself.MenuActivities.Fragments.GenericFragment;
+import ingsw.unical.it.fityourself.MenuActivity;
 import ingsw.unical.it.fityourself.Model.Notify;
 import ingsw.unical.it.fityourself.Model.User;
 import ingsw.unical.it.fityourself.R;
@@ -33,17 +34,6 @@ public class SignupActivity extends AppCompatActivity {
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
-    private FirebaseDatabase mFirebaseDatabase;
-
-    public String getMyEmail() {
-        return myEmail;
-    }
-
-    private String myEmail;
-
-    public EditText getInputEmail() {
-        return inputEmail;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +48,6 @@ public class SignupActivity extends AppCompatActivity {
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
-
-        myEmail = inputEmail.getText().toString();
 
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,18 +100,11 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-                                    startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                                    startActivity(new Intent(SignupActivity.this, MenuActivity.class));
                                     finish();
                                 }
                             }
                         });
-
-          /*      User user = new User();
-                Notify notify = new Notify();
-
-                mFirebaseDatabase.getReference().child(FirebaseAuth.getInstance().getUid()).setValue(user);
-                mFirebaseDatabase.getReference().child(FirebaseAuth.getInstance().getUid()).setValue(notify);
-*/
             }
         });
     }

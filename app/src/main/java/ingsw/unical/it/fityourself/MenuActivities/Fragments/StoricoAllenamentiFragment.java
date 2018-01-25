@@ -14,9 +14,17 @@ import ingsw.unical.it.fityourself.R;
  */
 public class StoricoAllenamentiFragment extends Fragment implements GenericFragment{
 
+    private static StoricoAllenamentiFragment storicoAllenamentiFragment = null;
 
-    public StoricoAllenamentiFragment() {
+    private StoricoAllenamentiFragment() {
         // Required empty public constructor
+    }
+
+    public static StoricoAllenamentiFragment getInstance(){
+        if(storicoAllenamentiFragment == null)
+            storicoAllenamentiFragment = new StoricoAllenamentiFragment();
+
+        return storicoAllenamentiFragment;
     }
 
 

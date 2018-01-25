@@ -78,11 +78,21 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
     int secondiSenzaPassi = 0;
     boolean hocamminato = false;
 
-    public CorsaFragment() {
+    private static CorsaFragment corsaFragment = null;
+
+    private CorsaFragment() {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabaseDati = mFirebaseInstance.getReference("Dati Personali");
         mFirebaseDatabaseNotifiche = mFirebaseInstance.getReference("Notifiche");
         userId = FirebaseAuth.getInstance().getUid();
+    }
+
+    public static CorsaFragment getInstance(){
+        if(corsaFragment == null)
+            corsaFragment = new CorsaFragment();
+
+        return corsaFragment;
+
     }
 
 

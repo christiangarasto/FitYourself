@@ -44,6 +44,7 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
     private String sesso;
     private boolean sport;
 
+
     View rootView;
     private String userId;// = FirebaseAuth.getInstance().getUid();
     private static DatiPersonaliFragment datiPersonali = null;
@@ -54,7 +55,7 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
     public static DatiPersonaliFragment getInstance(){
         if(datiPersonali == null){
-            return new DatiPersonaliFragment();
+            datiPersonali = new DatiPersonaliFragment();
         }
 
         return datiPersonali;
@@ -112,6 +113,7 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
                 } else {
                     updateUser(name, cognome, peso, altezza, eta, sesso, sport);
                 }
+
             }
 
 
@@ -134,7 +136,7 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GenericFragment gf = new ConsigliAlimentariFragment();
+                GenericFragment gf = AllenamentoFragment.getInstance();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, gf.getFragment());
                 ft.commit();
@@ -308,4 +310,5 @@ if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
     public Fragment getFragment() {
         return this;
     }
+
 }

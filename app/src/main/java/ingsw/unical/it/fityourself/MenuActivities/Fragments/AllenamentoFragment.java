@@ -22,10 +22,20 @@ public class AllenamentoFragment extends Fragment implements GenericFragment{
     Button corsa;
     Button esercizi;
     Button gestioneEsercizi;
+    private static AllenamentoFragment allenamentoFragment = null;
 
-    public AllenamentoFragment() {
+    private AllenamentoFragment() {
 
     }
+
+    public static AllenamentoFragment getInstance(){
+        if(allenamentoFragment == null)
+            allenamentoFragment = new AllenamentoFragment();
+
+        return allenamentoFragment;
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +56,7 @@ public class AllenamentoFragment extends Fragment implements GenericFragment{
         corsa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GenericFragment corsa = new CorsaFragment();
+                GenericFragment corsa = CorsaFragment.getInstance();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
                 fragmentTransaction.replace(R.id.fragment_container, corsa.getFragment());
@@ -57,7 +67,7 @@ public class AllenamentoFragment extends Fragment implements GenericFragment{
         esercizi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GenericFragment esercizi = new EserciziFragment();
+                GenericFragment esercizi = EserciziFragment.getInstance();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
                 fragmentTransaction.replace(R.id.fragment_container, esercizi.getFragment());
@@ -68,7 +78,7 @@ public class AllenamentoFragment extends Fragment implements GenericFragment{
         gestioneEsercizi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GenericFragment gestioneEsercizi = new GestisciEserciziFragment();
+                GenericFragment gestioneEsercizi = GestisciEserciziFragment.getInstance();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
                 fragmentTransaction.replace(R.id.fragment_container, gestioneEsercizi.getFragment());

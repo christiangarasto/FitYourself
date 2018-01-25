@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import ingsw.unical.it.fityourself.AccountActivity.LoginActivity;
 import ingsw.unical.it.fityourself.MenuActivities.Fragments.AllenamentoFragment;
@@ -28,7 +29,7 @@ public class MenuActivity extends AppCompatActivity
     Toolbar toolbar = null;
     DatiPersonaliFragment datiPersonaliFragment;
     GenericFragment fragment;
-    boolean primaVolta = true;
+    static boolean primaVolta = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +38,13 @@ public class MenuActivity extends AppCompatActivity
 
         datiPersonaliFragment = DatiPersonaliFragment.getInstance();
         //Set the fragment initially
-      /*  if(primaVolta){
+        if(primaVolta){
             fragment = datiPersonaliFragment;
             primaVolta = false;
         }
-        else {*/
-            fragment = new ConsigliAlimentariFragment();//fragmentFactory.makeConsigliAlimentari();
-        //}
+        else {
+            fragment = AllenamentoFragment.getInstance();//fragmentFactory.makeConsigliAlimentari();
+        }
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         fragmentTransaction.replace(R.id.fragment_container, fragment.getFragment());
@@ -99,9 +100,9 @@ public class MenuActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_allenati) {
-            fragment = new AllenamentoFragment();
+            fragment = AllenamentoFragment.getInstance();
         } else if (id == R.id.nav_storicoAllenamenti) {
-            fragment = new StoricoAllenamentiFragment();
+            fragment = StoricoAllenamentiFragment.getInstance();
         } else if (id == R.id.nav_consigliAlimentari) {
             fragment = new ConsigliAlimentariFragment();
         } else if (id == R.id.nav_datipersonali) {
@@ -118,5 +119,13 @@ public class MenuActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public boolean isPrimaVolta() {
+        return primaVolta;
+    }
+
+    public void setPrimaVolta(boolean primaVolta) {
+        this.primaVolta = primaVolta;
     }
 }
