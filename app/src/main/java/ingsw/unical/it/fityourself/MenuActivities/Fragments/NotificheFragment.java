@@ -239,11 +239,9 @@ public class NotificheFragment extends Fragment implements GenericFragment{
               if (dataSnapshot.getValue() != null){
                   Notify not = dataSnapshot.getValue(Notify.class);
 
-              Log.e("DATASNAPSHOT::", dataSnapshot.getKey().toString());
-              Log.e("USER:::", FirebaseAuth.getInstance().getUid());
+
 
               if (not != null && dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())) {
-                  Log.e(TAG, "DOPO DEL DATASNAPSHOT" + dataSnapshot.toString());
 
                   inputAbilita.setChecked(not.isAbilita());
 

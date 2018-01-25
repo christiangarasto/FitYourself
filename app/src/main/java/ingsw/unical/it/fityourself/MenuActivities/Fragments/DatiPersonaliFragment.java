@@ -218,7 +218,6 @@ if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
         // by implementing firebase auth
 
         if (TextUtils.isEmpty(userId)) {
-            //userId = mFirebaseDatabase.push().getKey();
             userId = FirebaseAuth.getInstance().getUid();
         }
 

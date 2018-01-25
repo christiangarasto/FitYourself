@@ -31,7 +31,9 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
     int nPassi = 0;
     int distanza = 0;
     int calorie = 0;
+    float passiSistema;
     boolean pausa = true;
+    boolean miserve = true;
         long _tempo = 0;
 
     Chronometer tempo;
@@ -157,7 +159,13 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
     public void onSensorChanged(SensorEvent sensorEvent) {
 
         if(running){
-            passiTW.setText(String.valueOf("Passi effettuati: " + (int) sensorEvent.values[0]));
+            if(miserve){
+                passiSistema = sensorEvent.values[0];
+                miserve = false;
+            }
+
+            passiTW.setText(String.valueOf("Passi effettuati: " + (int) (sensorEvent.values[0] - passiSistema)));
+
         }
 
     }
