@@ -113,6 +113,13 @@ public class NotificheFragment extends Fragment implements GenericFragment{
                 }
                 else{
                     abilita = false;
+                    inputIntermedio.setClickable(false);
+                    inputFinale.setClickable(false);
+                    inputAnomalie.setClickable(false);
+
+                    checkIntermedio.setClickable(false);
+                    inputMisura.setClickable(false);
+
                     unita = "NON SELEZIONATO";
                     valoreIntermedio = 0;
                 }
