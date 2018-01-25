@@ -5,16 +5,131 @@
     tools:context=".MenuActivities.Fragments.CorsaFragment">
 
 
+    <TextView
+        android:id="@+id/passitw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="112dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:visibility="visible"
+        tools:text="Numero Passi" />
+
+    <TextView
+        android:id="@+id/distanzatw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/passitw"
+        android:layout_below="@+id/passitw"
+        android:layout_marginTop="6dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:visibility="visible"
+        tools:text="Distanza persorsa" />
+
+    <TextView
+        android:id="@+id/calorietw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/distanzatw"
+        android:layout_below="@+id/distanzatw"
+        android:layout_marginTop="7dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:visibility="visible"
+        tools:text="Calorie bruciate" />
+
     <Button
-        android:id="@+id/corsa"
+        android:id="@+id/pausariprendibtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="63dp"
+        android:text="Avvia"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/terminacorsabtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/pausariprendibtn"
+        android:layout_alignBottom="@+id/pausariprendibtn"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="40dp"
+        android:text="Termina corsa"
+        android:visibility="visible" />
+
+    <Chronometer
+        android:id="@+id/tempo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/terminacorsabtn"
         android:layout_centerHorizontal="true"
-        android:background="@color/colorPrimary"
-        android:padding="8dp"
-        android:text="Corro!"
-        android:textColor="#fff"
-        android:textSize="28sp" />
+        android:layout_marginBottom="58dp"
+        android:visibility="visible"
+        tools:text="Tempo trascorso: 00" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/obiettivopassi"
+        android:layout_alignBottom="@+id/obiettivopassi"
+        android:layout_alignStart="@+id/pausariprendibtn"
+        android:text="Obiettivo passi"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Obiettivo passi" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView4"
+        android:layout_centerVertical="true"
+        android:text="Obiettivo calorie"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Obiettivo calorie" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/obiettivodistanza"
+        android:layout_alignBottom="@+id/obiettivodistanza"
+        android:layout_alignStart="@+id/textView5"
+        android:text="Obiettivo distanza"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Obiettivo distanza" />
+
+    <EditText
+        android:id="@+id/obiettivopassi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/obiettivocalorie"
+        android:layout_alignStart="@+id/calorietw"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/obiettivocalorie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/obiettivopassi"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/obiettivodistanza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/obiettivocalorie"
+        android:layout_below="@+id/obiettivocalorie"
+        android:layout_marginTop="25dp"
+        android:ems="10"
+        android:inputType="number" />
 
 </RelativeLayout>
