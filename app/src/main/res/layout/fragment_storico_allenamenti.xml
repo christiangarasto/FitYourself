@@ -5,16 +5,27 @@
     tools:context="ingsw.unical.it.fityourself.MenuActivities.Fragments.StoricoAllenamentiFragment">
 
 
-    <Button
+    <CalendarView
+        android:id="@+id/calendarioAllenamenti"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Storico allenamenti"
-        android:padding="8dp"
-        android:textColor="#fff"
-        android:background="@color/colorPrimary"
-        android:textSize="28sp"
-        android:id="@+id/main_button"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/allenamentipergiorno"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22dp" />
 
+    <ScrollView
+        android:id="@+id/allenamentipergiorno"
+        style="@android:style/Widget.DeviceDefault.Light.ScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp">
+
+        <LinearLayout
+            android:id="@+id/allenamentioggi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 </RelativeLayout>
