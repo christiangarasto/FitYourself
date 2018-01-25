@@ -41,7 +41,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="unitaDiMisura">
-        <item>________</item>
+        <item> </item>
         <item>Distanza</item>
         <item>Passi</item>
         <item>Calorie</item>

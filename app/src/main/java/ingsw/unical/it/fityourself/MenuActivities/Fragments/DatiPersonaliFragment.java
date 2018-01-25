@@ -88,7 +88,7 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
-        // get reference to 'users' node
+        // get reference to 'Dati Personali' node
         mFirebaseDatabase = mFirebaseInstance.getReference("Dati Personali");
 
         // Save / update the user
