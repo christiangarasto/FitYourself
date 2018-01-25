@@ -4,7 +4,7 @@ DA FARE:
   
   trasformare i fragment in singleton A------------------------------------------------------->FATTO
   
-  dalla pagina di registrazione deve accedere direttamente ai dati personali A---------------->FATTO
+  dalla pagina di registrazione deve accedere direttamente ai dati personali A
   
   se i dati personali non sono salvati non si può usare l'app A?
   
