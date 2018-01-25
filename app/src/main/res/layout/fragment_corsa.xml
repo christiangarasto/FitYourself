@@ -9,35 +9,38 @@
         android:id="@+id/passitw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="112dp"
+        android:layout_above="@+id/distanzatw"
+        android:layout_alignStart="@+id/terminacorsabtn"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="48dp"
+        android:text="Numero Passi: "
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="visible"
-        tools:text="Numero Passi" />
+        tools:text="Numero Passi: " />
 
     <TextView
         android:id="@+id/distanzatw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/passitw"
-        android:layout_below="@+id/passitw"
-        android:layout_marginTop="6dp"
+        android:layout_above="@+id/calorietw"
+        android:layout_alignEnd="@+id/passitw"
+        android:layout_marginBottom="7dp"
+        android:text="Metri persorsi: "
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="visible"
-        tools:text="Distanza persorsa" />
+        tools:text="Metri persorsi: " />
 
     <TextView
         android:id="@+id/calorietw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/distanzatw"
-        android:layout_below="@+id/distanzatw"
-        android:layout_marginTop="7dp"
+        android:layout_above="@+id/obiettivopassi"
+        android:layout_alignStart="@+id/passitw"
+        android:layout_marginBottom="28dp"
+        android:text="Calorie bruciate: "
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="visible"
-        tools:text="Calorie bruciate" />
+        tools:text="Calorie bruciate: " />
 
     <Button
         android:id="@+id/pausariprendibtn"
@@ -68,6 +71,8 @@
         android:layout_above="@+id/terminacorsabtn"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="58dp"
+        android:format="Tempo trascorso: 00:00"
+        android:text="Tempo trascorso: 00:00"
         android:visibility="visible"
         tools:text="Tempo trascorso: 00" />
 
@@ -87,7 +92,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/textView4"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/obiettivopassi"
+        android:layout_marginTop="8dp"
         android:text="Obiettivo calorie"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         tools:text="Obiettivo calorie" />
@@ -108,8 +114,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/obiettivocalorie"
-        android:layout_alignStart="@+id/calorietw"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="13dp"
+        android:layout_toStartOf="@+id/textView4"
         android:ems="10"
         android:inputType="number" />
 
@@ -128,8 +135,35 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/obiettivocalorie"
         android:layout_below="@+id/obiettivocalorie"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="17dp"
         android:ems="10"
         android:inputType="number" />
+
+    <TextView
+        android:id="@+id/numeropassi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/passitw"
+        android:layout_alignBottom="@+id/passitw"
+        android:layout_toEndOf="@+id/obiettivopassi"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/distanzapercorsa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/distanzatw"
+        android:layout_alignBottom="@+id/distanzatw"
+        android:layout_alignStart="@+id/numeropassi"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/caloriebruciate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/calorietw"
+        android:layout_alignBottom="@+id/calorietw"
+        android:layout_alignStart="@+id/distanzapercorsa"
+        android:text="TextView" />
 
 </RelativeLayout>

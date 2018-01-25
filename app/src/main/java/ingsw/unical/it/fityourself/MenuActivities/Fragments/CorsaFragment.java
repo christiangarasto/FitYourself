@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,17 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.w3c.dom.Text;
+
+import ingsw.unical.it.fityourself.Model.Notify;
+import ingsw.unical.it.fityourself.Model.User;
 import ingsw.unical.it.fityourself.R;
 
 /**
@@ -30,22 +42,39 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
 
     int nPassi = 0;
     int distanza = 0;
-    int calorie = 0;
+    double calorie = 0;
     float passiSistema;
     boolean pausa = true;
-    boolean miserve = true;
+    boolean primavolta = true;
         long _tempo = 0;
 
     Chronometer tempo;
     TextView passiTW;
     TextView calorieTW;
     TextView distanzaTW;
+    TextView valorePassi;
+    TextView valoreCalorie;
+    TextView valoreDistanza;
 
     SensorManager sensorManager;
     boolean running = false;
 
+    String userId;
+    private DatabaseReference mFirebaseDatabaseDati;
+    private DatabaseReference mFirebaseDatabaseNotifiche;
+    private FirebaseDatabase mFirebaseInstance;
+    double altezza = 0;
+    double peso = 0;
+
+    boolean abilita, intermedie, finale, anomalie;
+    String tipoNotificaIntermedia;
+    int valoreNotificaIntermedia;
+
     public CorsaFragment() {
-        // Required empty public constructor
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabaseDati = mFirebaseInstance.getReference("Dati Personali");
+        mFirebaseDatabaseNotifiche = mFirebaseInstance.getReference("Notifiche");
+        userId = FirebaseAuth.getInstance().getUid();
     }
 
 
@@ -60,7 +89,7 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
        tempo = (Chronometer) rootView.findViewById(R.id.tempo);
             tempo.setFormat("Tempo trascorso: %s");
 
-            _tempo = (int) tempo.getBase() - (int) SystemClock.elapsedRealtime();
+            _tempo = 0;
 
         EditText obiettivoPassi = (EditText) rootView.findViewById(R.id.obiettivopassi);
             obiettivoPassi.setHint("                      -");
@@ -75,7 +104,9 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
             termina.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(), "Termina", Toast.LENGTH_SHORT).show();
+
+                    //PASSAGGIO AL FRAGMENT PER VISUALIZZARE I PROGRESSI RAGGIUNTI
+
                 }
             });
 
@@ -97,7 +128,6 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
                             }else{
                                 intervallo =  _tempo - SystemClock.elapsedRealtime();
                             }
-                                Toast.makeText(getContext(), "Minore di 0: " + Long.toString(intervallo), Toast.LENGTH_SHORT).show();
                             tempo.setBase(tempo.getBase() + intervallo);
                         }
                         tempo.start();
@@ -115,18 +145,99 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
             });
 
         passiTW = (TextView) rootView.findViewById(R.id.passitw);
-            passiTW.setText("Passi effettuati: " + Integer.toString(nPassi));
+        valorePassi = (TextView) rootView.findViewById(R.id.numeropassi);
+            valorePassi.setText(Integer.toString(nPassi));
 
         distanzaTW = (TextView) rootView.findViewById(R.id.distanzatw);
-            distanzaTW.setText("Distanza percorsa: " + Integer.toString(distanza) + " metri");
+        valoreDistanza = (TextView) rootView.findViewById(R.id.distanzapercorsa);
+        valoreDistanza.setText(Integer.toString(distanza));
 
         calorieTW = (TextView) rootView.findViewById(R.id.calorietw);
-            calorieTW.setText("Calorie bruciate: " + Integer.toString(calorie) + " cal");
+        valoreCalorie = (TextView) rootView.findViewById(R.id.caloriebruciate);
+        valoreCalorie.setText(Double.toString(calorie));
 
 
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
 
+        mFirebaseDatabaseDati.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
+                if (dataSnapshot.getValue() != null) {
+
+                    User user = dataSnapshot.getValue(User.class);
+                    if(dataSnapshot.getKey().equals(userId)){
+                        altezza = user.getAltezza();
+                        peso = user.getPeso();
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mFirebaseDatabaseNotifiche.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                if(dataSnapshot.getValue() != null){
+                    Notify notifiche = dataSnapshot.getValue(Notify.class);
+                    if(dataSnapshot.getKey().equals(userId)){
+                        abilita = notifiche.isAbilita();
+                        intermedie = notifiche.isIntermedio();
+                            if(intermedie){
+                                if(!notifiche.getUnitaDiMisura().equals("_____") && notifiche.getValoreIntermedio() > 0){
+                                    tipoNotificaIntermedia = notifiche.getUnitaDiMisura();
+                                    valoreNotificaIntermedia = notifiche.getValoreIntermedio();
+                                }else{
+                                    intermedie = false;
+                                }
+                            }
+                        finale = notifiche.isFinale();
+                        anomalie = notifiche.isAnomalie();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        })
 
         return rootView;
     }
@@ -158,13 +269,33 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
 
-        if(running){
-            if(miserve){
+        if(running && !pausa){
+            if(primavolta){
                 passiSistema = sensorEvent.values[0];
-                miserve = false;
+                primavolta = false;
             }
 
-            passiTW.setText(String.valueOf("Passi effettuati: " + (int) (sensorEvent.values[0] - passiSistema)));
+            valorePassi.setText(String.valueOf((int) (sensorEvent.values[0] - passiSistema)));
+
+            int passi = Integer.parseInt(valorePassi.getText().toString());
+            Log.e("DEBUG::: PASSI ", Integer.toString(passi));
+
+            Double quartoAltezza = altezza/4;
+            Log.e("DEBUG::: ALTEZZA ", Double.toString(quartoAltezza));
+
+            Double distanza = passi * quartoAltezza;
+
+            int d = distanza.intValue();
+            Log.e("DEBUG::: DISTANZA ", Double.toString(distanza));
+
+            valoreDistanza.setText(Integer.toString(d));
+
+
+            double calorieBruciate = ((7000/3600) * tempo.getBase()) * peso;
+
+            valoreCalorie.setText(Double.toString(calorieBruciate));
+
+
 
         }
 
