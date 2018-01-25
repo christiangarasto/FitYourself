@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,7 +43,7 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
 
     int nPassi = 0;
     int distanza = 0;
-    double calorie = 0;
+    int calorie = 0;
     float passiSistema;
     boolean pausa = true;
     boolean primavolta = true;
@@ -55,6 +56,10 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
     TextView valorePassi;
     TextView valoreCalorie;
     TextView valoreDistanza;
+
+    EditText obiettivoPassi;
+    EditText obiettivoDistanza;
+    EditText obiettivoCalorie;
 
     SensorManager sensorManager;
     boolean running = false;
@@ -69,6 +74,9 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
     boolean abilita, intermedie, finale, anomalie;
     String tipoNotificaIntermedia;
     int valoreNotificaIntermedia;
+
+    int secondiSenzaPassi = 0;
+    boolean hocamminato = false;
 
     public CorsaFragment() {
         mFirebaseInstance = FirebaseDatabase.getInstance();
@@ -88,16 +96,15 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
 
        tempo = (Chronometer) rootView.findViewById(R.id.tempo);
             tempo.setFormat("Tempo trascorso: %s");
-
             _tempo = 0;
 
-        EditText obiettivoPassi = (EditText) rootView.findViewById(R.id.obiettivopassi);
+        obiettivoPassi = (EditText) rootView.findViewById(R.id.obiettivopassi);
             obiettivoPassi.setHint("                      -");
 
-        EditText obiettivoDistanza = (EditText) rootView.findViewById(R.id.obiettivodistanza);
+        obiettivoDistanza = (EditText) rootView.findViewById(R.id.obiettivodistanza);
             obiettivoDistanza.setHint("                      -");
 
-        EditText obiettivoCalorie = (EditText) rootView.findViewById(R.id.obiettivocalorie);
+        obiettivoCalorie = (EditText) rootView.findViewById(R.id.obiettivocalorie);
             obiettivoCalorie.setHint("                      -");
 
         Button termina = (Button) rootView.findViewById(R.id.terminacorsabtn);
@@ -134,7 +141,7 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
                         pausa = false;
                     }else{
                         pausariprendi.setText("Riprendi");
-                        Toast.makeText(getContext(), "Pausa", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Pausa", Toast.LENGTH_SHORT).show();
                         tempo.stop();
 
                         _tempo = SystemClock.elapsedRealtime();
@@ -144,9 +151,40 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
                 }
             });
 
+        tempo.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+
+
+
+                if(secondiSenzaPassi == 11){
+                    Toast.makeText(getContext(), "Attenzione! Il tuo allenamento è stato messo in pausa a causa di inattività.", Toast.LENGTH_LONG).show();
+                    Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                    v.vibrate(3000);
+
+                    pausariprendi.setText("Riprendi");
+                    tempo.stop();
+
+                    _tempo = SystemClock.elapsedRealtime();
+                    pausa = true;
+
+                    secondiSenzaPassi = 0;
+                }else{
+
+                    if(hocamminato) {
+                       hocamminato = false;
+                       secondiSenzaPassi = 0;
+                    }else{
+                        secondiSenzaPassi++;
+                    }
+                }
+            }
+        });
+
+
         passiTW = (TextView) rootView.findViewById(R.id.passitw);
         valorePassi = (TextView) rootView.findViewById(R.id.numeropassi);
-            valorePassi.setText(Integer.toString(nPassi));
+        valorePassi.setText(Integer.toString(nPassi));
 
         distanzaTW = (TextView) rootView.findViewById(R.id.distanzatw);
         valoreDistanza = (TextView) rootView.findViewById(R.id.distanzapercorsa);
@@ -154,7 +192,7 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
 
         calorieTW = (TextView) rootView.findViewById(R.id.calorietw);
         valoreCalorie = (TextView) rootView.findViewById(R.id.caloriebruciate);
-        valoreCalorie.setText(Double.toString(calorie));
+        valoreCalorie.setText(Integer.toString(calorie));
 
 
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -204,7 +242,7 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
                         abilita = notifiche.isAbilita();
                         intermedie = notifiche.isIntermedio();
                             if(intermedie){
-                                if(!notifiche.getUnitaDiMisura().equals("_____") && notifiche.getValoreIntermedio() > 0){
+                                if(!notifiche.getUnitaDiMisura().equals(" ") && notifiche.getValoreIntermedio() > 0){
                                     tipoNotificaIntermedia = notifiche.getUnitaDiMisura();
                                     valoreNotificaIntermedia = notifiche.getValoreIntermedio();
                                 }else{
@@ -237,7 +275,7 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        })
+        });
 
         return rootView;
     }
@@ -276,6 +314,7 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
             }
 
             valorePassi.setText(String.valueOf((int) (sensorEvent.values[0] - passiSistema)));
+            hocamminato = true;
 
             int passi = Integer.parseInt(valorePassi.getText().toString());
             Log.e("DEBUG::: PASSI ", Integer.toString(passi));
@@ -291,10 +330,79 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
             valoreDistanza.setText(Integer.toString(d));
 
 
-            double calorieBruciate = ((7000/3600) * tempo.getBase()) * peso;
+            double calorieBruciate = (7/3600) * (tempo.getBase() * peso);
+//            int calorieb = Integer.parseInt(Double.toString(calorieBruciate));
 
             valoreCalorie.setText(Double.toString(calorieBruciate));
 
+
+            if(abilita){
+
+                if(intermedie){
+
+                    switch (tipoNotificaIntermedia){
+                        case "Distanza":
+                            if(valoreNotificaIntermedia == d){
+                                Toast.makeText(getContext(), "Bravo! Hai raggiunto il tuo obiettivo intermedio!", Toast.LENGTH_LONG).show();
+                                Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                                    v.vibrate(500);
+                            }
+                            break;
+                        case "Passi":
+                            if(valoreNotificaIntermedia == passi){
+                                Toast.makeText(getContext(), "Bravo! Hai raggiunto il tuo obiettivo intermedio!", Toast.LENGTH_LONG).show();
+                                Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                                v.vibrate(500);
+                            }
+                            break;
+                        case "Calorie":
+                            if(valoreNotificaIntermedia == calorieBruciate){
+                                Toast.makeText(getContext(), "Bravo! Hai raggiunto il tuo obiettivo intermedio!", Toast.LENGTH_LONG).show();
+                                Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                                v.vibrate(500);
+                            }
+                            break;
+                    }
+
+                }
+
+                if(finale){
+
+                    if(obiettivoPassi.getText().length() > 0){
+                        int valoreP = Integer.parseInt(valorePassi.getText().toString());
+                        int obiettivoP = Integer.parseInt(obiettivoPassi.getText().toString());
+
+                        if(valoreP == obiettivoP){
+                            Toast.makeText(getContext(), "Complimenti! Hai raggiunto il numero di passi impostato come tuo obiettivo finale!", Toast.LENGTH_LONG).show();
+                            Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                            v.vibrate(3000);
+                        }
+                    }
+
+                    if(obiettivoDistanza.getText().length() > 0){
+                        int valoreD = Integer.parseInt(valoreDistanza.getText().toString());
+                        int obiettivoD = Integer.parseInt(obiettivoDistanza.getText().toString());
+
+                        if(valoreD == obiettivoD){
+                            Toast.makeText(getContext(), "Complimenti! Hai raggiunto la distanza impostata come tuo obiettivo finale!", Toast.LENGTH_LONG).show();
+                            Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                            v.vibrate(3000);
+                        }
+                    }
+
+                    if(obiettivoCalorie.getText().length() > 0) {
+                        int valoreC = Integer.parseInt(valoreCalorie.getText().toString());
+                        int obiettivoC = Integer.parseInt(obiettivoCalorie.getText().toString());
+
+                        if (valoreC == obiettivoC) {
+                            Toast.makeText(getContext(), "Complimenti! Hai raggiunto il numero di calorie bruciate impostato come tuo obiettivo finale!", Toast.LENGTH_LONG).show();
+                            Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                            v.vibrate(3000);
+                        }
+                    }
+                }
+
+            }
 
 
         }

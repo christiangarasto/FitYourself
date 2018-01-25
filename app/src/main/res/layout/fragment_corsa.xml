@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/obiettivopassi"
         android:layout_alignStart="@+id/passitw"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="26dp"
         android:text="Calorie bruciate: "
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="visible"
