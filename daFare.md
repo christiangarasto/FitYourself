@@ -2,11 +2,11 @@
 
 DA FARE:
   
-  trasformare i fragment in singleton A
+  trasformare i fragment in singleton A------------------------------------------------------->FATTO
   
   dalla pagina di registrazione deve accedere direttamente ai dati personali A
   
-  se i dati personali non sono salvati non si può usare l'app A?
+  se i dati personali non sono salvati non si può usare l'app A------------------------------->FATTO
   
   se si accede dalla pagina login deve accedere direttamente alla sezione "allenati" A
   
@@ -20,4 +20,4 @@ DA FARE:
   
   salvataggio allenamento INSIEME
   
-  gestire input inattesi in notifiche A
+  gestire input inattesi in notifiche A------------------------------------------------------->FATTO
