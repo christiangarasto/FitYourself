@@ -6,7 +6,7 @@ DA FARE:
   
   dalla pagina di registrazione deve accedere direttamente ai dati personali A
   
-  se i dati personali non sono salvati non si può usare l'app A?
+  se i dati personali non sono salvati non si può usare l'app A------------------------------->FATTO
   
   se si accede dalla pagina login deve accedere direttamente alla sezione "allenati" A
   
