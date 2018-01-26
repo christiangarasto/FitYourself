@@ -4,6 +4,7 @@ package ingsw.unical.it.fityourself.MenuActivities.Fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import ingsw.unical.it.fityourself.MenuActivity;
 import ingsw.unical.it.fityourself.Model.User;
 import ingsw.unical.it.fityourself.R;
 
@@ -38,7 +40,18 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
     private EditText inputNome, inputCognome, inputPeso, inputAltezza, inputEta;
     private RadioButton inputMaschio, inputFemmina;
     private Switch inputSport;
-    private Button btnSave, btnExit, btnNotify;
+    private Button btnSave;
+
+    public Button getBtnExit() {
+        return btnExit;
+    }
+
+    public void setBtnExit(Button btnExit) {
+        this.btnExit = btnExit;
+    }
+
+    private Button btnExit;
+    private Button btnNotify;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private String sesso;
@@ -67,7 +80,7 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-         getActivity().setTitle("Dati personali");
+        getActivity().setTitle("Dati personali");
         rootView = inflater.inflate(R.layout.fragment_dati_personali, container, false);
 
         inputNome = (EditText) rootView.findViewById(R.id.Nome);
@@ -92,6 +105,16 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         // get reference to 'Dati Personali' node
         mFirebaseDatabase = mFirebaseInstance.getReference("Dati Personali");
 
+        btnExit.setEnabled(false);
+
+        if(!inputNome.getText().toString().equals("") && !inputCognome.getText().toString().equals("") &&
+           !inputPeso.getText().toString().equals("") && !inputAltezza.getText().toString().equals("") &&
+           !inputEta.getText().toString().equals("") && (inputMaschio.isChecked() || inputFemmina.isChecked())
+          ){
+            btnExit.setEnabled(true);
+        }
+
+
         // Save / update the user
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +136,8 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
                 } else {
                     updateUser(name, cognome, peso, altezza, eta, sesso, sport);
                 }
+
+                btnExit.setEnabled(true);
 
             }
 
@@ -183,6 +208,9 @@ if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
                         inputFemmina.setChecked(true);
 
                     inputSport.setChecked(userTmp.isSport());
+
+                    btnExit.setEnabled(true);
+
 }
             }
 
