@@ -70,7 +70,6 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         if(datiPersonali == null){
             datiPersonali = new DatiPersonaliFragment();
         }
-
         return datiPersonali;
     }
 
@@ -79,6 +78,7 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
 
         getActivity().setTitle("Dati personali");
         rootView = inflater.inflate(R.layout.fragment_dati_personali, container, false);
@@ -138,7 +138,6 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
                 }
 
                 btnExit.setEnabled(true);
-
             }
 
 
@@ -185,11 +184,8 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
                     User userTmp = dataSnapshot.getValue(User.class);
 
-                    Log.e(TAG,dataSnapshot.getKey() + "datasnapshot\n");
-                    Log.e(TAG,FirebaseAuth.getInstance().getUid() + "userId\n");
-if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
+            if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
 
-                Log.e(TAG, "datiPersonali: dopo del datasnapshot");
                     inputNome.setText(userTmp.getNome());
 
                     inputCognome.setText(userTmp.getCognome());

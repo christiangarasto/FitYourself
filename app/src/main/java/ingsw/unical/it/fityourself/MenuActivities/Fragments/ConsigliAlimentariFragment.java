@@ -39,6 +39,9 @@ public class ConsigliAlimentariFragment extends Fragment implements GenericFragm
     View rootView;
 
     String userId;
+
+    GenericFragment fragment;
+
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
 
