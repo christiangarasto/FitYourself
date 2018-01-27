@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckedTextView;
+import android.widget.Chronometer;
 import android.widget.Toast;
 
 import ingsw.unical.it.fityourself.R;
@@ -25,6 +26,7 @@ public class RisultatiCorsaFragment extends Fragment implements GenericFragment{
     private CheckedTextView distanza;
     private CheckedTextView nCalorieBruciate;
     private Button escibtn, salvabtn;
+    private Chronometer time;
 
     private static RisultatiCorsaFragment risultatiCorsaFragment = null;
 
@@ -45,7 +47,12 @@ public class RisultatiCorsaFragment extends Fragment implements GenericFragment{
 
         rootView = inflater.inflate(R.layout.fragment_risultati_corsa, container, false);
 
+        time = (Chronometer) rootView.findViewById(R.id.tempo);
+        time.setFormat("%s");
+        time.setBase(CorsaFragment.getTempo().getBase());
+
         escibtn = (Button) rootView.findViewById(R.id.esci);
+        salvabtn = (Button) rootView.findViewById(R.id.salva);
 
         nPassi = (CheckedTextView) rootView.findViewById(R.id.passiEffettuati);
         distanza = (CheckedTextView) rootView.findViewById(R.id.distanzaPercorsa);
