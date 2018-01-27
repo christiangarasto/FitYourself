@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MenuActivities.Fragments.RisultatiCorsaFragment">
+
+    <Button
+        android:id="@+id/salva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginStart="66dp"
+        android:text="salva" />
+
+    <Button
+        android:id="@+id/scarta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/salva"
+        android:layout_alignBottom="@+id/salva"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="58dp"
+        android:text="scarta" />
+
+    <TextView
+        android:id="@+id/passi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/salva"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="111dp"
+        android:text="Passi:" />
+
+    <TextView
+        android:id="@+id/distanza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/passi"
+        android:layout_below="@+id/passi"
+        android:layout_marginTop="48dp"
+        android:text="Distanza:" />
+
+    <TextView
+        android:id="@+id/calorie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/distanza"
+        android:layout_below="@+id/distanza"
+        android:layout_marginTop="55dp"
+        android:text="Calorie:" />
+
+    <CheckedTextView
+        android:id="@+id/passiEffettuati"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/passi"
+        android:layout_marginStart="42dp"
+        android:layout_toEndOf="@+id/salva"
+        android:checkMark="@color/cardview_light_background"
+        android:checkMarkTint="@color/colorPrimary"
+        android:hint="passi raggiunti" />
+
+    <CheckedTextView
+        android:id="@+id/distanzaPercorsa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/calorie"
+        android:layout_alignEnd="@+id/passiEffettuati"
+        android:hint="distanza percorsa" />
+
+    <CheckedTextView
+        android:id="@+id/calorieBruciate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/calorie"
+        android:layout_alignBottom="@+id/calorie"
+        android:layout_alignEnd="@+id/distanzaPercorsa"
+        android:hint="calorie bruciate" />
+
+    <TextView
+        android:id="@+id/terminato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/scarta"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="88dp"
+        android:text="CONGRATULAZIONI!! ALLENAMENTO TERMINATO!!" />
+
+</RelativeLayout>
