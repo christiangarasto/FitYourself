@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,8 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
     boolean primavolta = true;
         long _tempo = 0;
 
+    private static Chronometer tempoTotale;
+
     Chronometer tempo;
     TextView passiTW;
     TextView calorieTW;
@@ -78,11 +81,23 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
     int secondiSenzaPassi = 0;
     boolean hocamminato = false;
 
-    public CorsaFragment() {
+    private static CorsaFragment corsaFragment = null;
+
+    private static TextView passiEffettuati, obiettivoP, distanzaPercorsa, obiettivoD, calorieBruciate, obiettivoC;
+
+    private CorsaFragment() {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabaseDati = mFirebaseInstance.getReference("Dati Personali");
         mFirebaseDatabaseNotifiche = mFirebaseInstance.getReference("Notifiche");
         userId = FirebaseAuth.getInstance().getUid();
+    }
+
+    public static CorsaFragment getInstance(){
+        if(corsaFragment == null)
+            corsaFragment = new CorsaFragment();
+
+        return corsaFragment;
+
     }
 
 
@@ -112,7 +127,21 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
                 @Override
                 public void onClick(View view) {
 
-                    //PASSAGGIO AL FRAGMENT PER VISUALIZZARE I PROGRESSI RAGGIUNTI
+                    passiEffettuati = valorePassi;
+                    distanzaPercorsa = valoreDistanza;
+                    calorieBruciate = valoreCalorie;
+
+                    obiettivoP = obiettivoPassi;
+                    obiettivoD = obiettivoDistanza;
+                    obiettivoC = obiettivoCalorie;
+
+                    tempoTotale = tempo;
+
+                    Toast.makeText(getContext(), "Allenamento completato con successo!", Toast.LENGTH_SHORT).show();
+                    GenericFragment dati = RisultatiCorsaFragment.getInstance();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, dati.getFragment());
+                    fragmentTransaction.commit();
 
                 }
             });
@@ -412,5 +441,33 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    public static Chronometer getTempo() {
+        return tempoTotale;
+    }
+
+    public static TextView getPassiEffettuati() {
+        return passiEffettuati;
+    }
+
+    public static TextView getObiettivoP() {
+        return obiettivoP;
+    }
+
+    public static TextView getDistanzaPercorsa() {
+        return distanzaPercorsa;
+    }
+
+    public static TextView getObiettivoD() {
+        return obiettivoD;
+    }
+
+    public static TextView getCalorieBruciate() {
+        return calorieBruciate;
+    }
+
+    public static TextView getObiettivoC() {
+        return obiettivoC;
     }
 }

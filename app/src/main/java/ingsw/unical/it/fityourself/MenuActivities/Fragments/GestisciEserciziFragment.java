@@ -44,12 +44,20 @@ public class GestisciEserciziFragment extends Fragment implements GenericFragmen
 
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
+    private static GestisciEserciziFragment gestisciEserciziFragment = null;
 
-    public GestisciEserciziFragment() {
+    private GestisciEserciziFragment() {
         allenamentiSalvati = new LinkedList<Allenamento>();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference("Allenamenti");
         userId = FirebaseAuth.getInstance().getUid();
+    }
+
+    public static GestisciEserciziFragment getInstance(){
+        if(gestisciEserciziFragment == null)
+            gestisciEserciziFragment = new GestisciEserciziFragment();
+
+        return gestisciEserciziFragment;
     }
 
     @Override
@@ -63,7 +71,7 @@ public class GestisciEserciziFragment extends Fragment implements GenericFragmen
             aggiungiAllenamento.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    GenericFragment aggiuntaAllenamento = new AggiuntaAllenamentoFragment();
+                    GenericFragment aggiuntaAllenamento = AggiuntaAllenamentoFragment.getInstance();
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
                     fragmentTransaction.replace(R.id.fragment_container, aggiuntaAllenamento.getFragment());

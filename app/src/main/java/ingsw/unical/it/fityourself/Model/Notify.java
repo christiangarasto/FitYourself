@@ -17,22 +17,12 @@ public class Notify {
 
     public Notify(){
 
-        Log.e("costruttoreSP::","COSTRUTTORE SENZA PARAMETRI CHIAMATO_____________");
         this.abilita = false;
         this.intermedio = false;
         this.finale = false;
         this.anomalie = false;
         this.unitaDiMisura = "niente";
         this.valoreIntermedio = 0;
-
-
-        Log.e("ABILITA::",Boolean.toString(abilita));
-        Log.e("INTERMEDIO::",Boolean.toString(intermedio));
-        Log.e("FINALE::",Boolean.toString(finale));
-        Log.e("ANOMALIE::",Boolean.toString(anomalie));
-        Log.e("UNITADIMISURA::",unitaDiMisura);
-        Log.e("VALOREINTERMEDIO::",Integer.toString(valoreIntermedio));
-        Log.e("costruttoreSP:::","CREATO CORRETTAMENTE________________________________");
     }
 
 
@@ -45,7 +35,6 @@ public class Notify {
         this.unitaDiMisura = unitaDiMisura;
         this.valoreIntermedio = valoreIntermedio;
 
-        Log.e("costruttoreConParametri","usato correttamente____________________________");
     }
 
     public boolean isAbilita() {
@@ -54,8 +43,6 @@ public class Notify {
 
     public void setAbilita(boolean abilita) {
         this.abilita = abilita;
-        String f = Boolean.toString(abilita);
-        Log.e("ABILITA:::",f);
 
     }
 
@@ -65,8 +52,6 @@ public class Notify {
 
     public void setIntermedio(boolean intermedio) {
         this.intermedio = intermedio;
-        String f = Boolean.toString(intermedio);
-        Log.e("INTERMEDIO:::",f);
     }
 
     public boolean isFinale() {
@@ -75,8 +60,6 @@ public class Notify {
 
     public void setFinale(boolean finale) {
         this.finale = finale;
-        String f = Boolean.toString(finale);
-        Log.e("FINALE:::",f);
     }
 
     public boolean isAnomalie() {
@@ -85,8 +68,6 @@ public class Notify {
 
     public void setAnomalie(boolean anomalie) {
         this.anomalie = anomalie;
-        String f = Boolean.toString(anomalie);
-        Log.e("ANOMALIE:::",f);
     }
 
     public String getUnitaDiMisura() {
@@ -95,7 +76,6 @@ public class Notify {
 
     public void setUnitaDiMisura(String unitaDiMisura) {
         this.unitaDiMisura = unitaDiMisura;
-        Log.e("UNITADIMISURA::",unitaDiMisura);
     }
 
     public int getValoreIntermedio() {
@@ -104,6 +84,5 @@ public class Notify {
 
     public void setValoreIntermedio(int valoreIntermedio) {
         this.valoreIntermedio = valoreIntermedio;
-        Log.e("VALOREINTERMEDIO::",Integer.toString(valoreIntermedio));
     }
 }

@@ -52,11 +52,19 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
     private LinkedList<String> eserciziAggiunti;
     LinkedList<String> esercizi;
 
+    private static AggiuntaAllenamentoFragment aggiuntaAllenamento = null;
 
-    public AggiuntaAllenamentoFragment() {
+    private AggiuntaAllenamentoFragment() {
         eserciziDisponibili = new LinkedList<String>();
         eserciziAggiunti = new LinkedList<String>();
         esercizi = new LinkedList<String>();
+    }
+
+    public static AggiuntaAllenamentoFragment getInstance(){
+        if(aggiuntaAllenamento == null)
+            aggiuntaAllenamento = new AggiuntaAllenamentoFragment();
+
+        return aggiuntaAllenamento;
     }
 
     private void initEserciziDisponibili(){
@@ -180,7 +188,7 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
 
                             createAllenamento(nomeAllenamento, esercizi);
 
-                            GenericFragment gestisci = new GestisciEserciziFragment();
+                            GenericFragment gestisci = GestisciEserciziFragment.getInstance();
                             FragmentTransaction transaction = getFragmentManager().beginTransaction();
                             transaction.replace(R.id.fragment_container, gestisci.getFragment());
                             transaction.commit();
@@ -197,7 +205,7 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
             btnAnnulla.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    GenericFragment gestisci = new GestisciEserciziFragment();
+                    GenericFragment gestisci = GestisciEserciziFragment.getInstance();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_container, gestisci.getFragment());
                     transaction.commit();

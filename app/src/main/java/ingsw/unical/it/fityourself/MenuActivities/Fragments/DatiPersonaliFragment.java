@@ -4,6 +4,7 @@ package ingsw.unical.it.fityourself.MenuActivities.Fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import ingsw.unical.it.fityourself.MenuActivity;
 import ingsw.unical.it.fityourself.Model.User;
 import ingsw.unical.it.fityourself.R;
 
@@ -38,11 +40,23 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
     private EditText inputNome, inputCognome, inputPeso, inputAltezza, inputEta;
     private RadioButton inputMaschio, inputFemmina;
     private Switch inputSport;
-    private Button btnSave, btnExit, btnNotify;
+    private Button btnSave;
+
+    public Button getBtnExit() {
+        return btnExit;
+    }
+
+    public void setBtnExit(Button btnExit) {
+        this.btnExit = btnExit;
+    }
+
+    private Button btnExit;
+    private Button btnNotify;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private String sesso;
     private boolean sport;
+
 
     View rootView;
     private String userId;// = FirebaseAuth.getInstance().getUid();
@@ -54,9 +68,8 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
     public static DatiPersonaliFragment getInstance(){
         if(datiPersonali == null){
-            return new DatiPersonaliFragment();
+            datiPersonali = new DatiPersonaliFragment();
         }
-
         return datiPersonali;
     }
 
@@ -66,7 +79,8 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-         getActivity().setTitle("Dati personali");
+
+        getActivity().setTitle("Dati personali");
         rootView = inflater.inflate(R.layout.fragment_dati_personali, container, false);
 
         inputNome = (EditText) rootView.findViewById(R.id.Nome);
@@ -91,6 +105,16 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         // get reference to 'Dati Personali' node
         mFirebaseDatabase = mFirebaseInstance.getReference("Dati Personali");
 
+        btnExit.setEnabled(false);
+
+        if(!inputNome.getText().toString().equals("") && !inputCognome.getText().toString().equals("") &&
+           !inputPeso.getText().toString().equals("") && !inputAltezza.getText().toString().equals("") &&
+           !inputEta.getText().toString().equals("") && (inputMaschio.isChecked() || inputFemmina.isChecked())
+          ){
+            btnExit.setEnabled(true);
+        }
+
+
         // Save / update the user
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +136,8 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
                 } else {
                     updateUser(name, cognome, peso, altezza, eta, sesso, sport);
                 }
+
+                btnExit.setEnabled(true);
             }
 
 
@@ -134,7 +160,7 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GenericFragment gf = new ConsigliAlimentariFragment();
+                GenericFragment gf = AllenamentoFragment.getInstance();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, gf.getFragment());
                 ft.commit();
@@ -158,11 +184,8 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
                     User userTmp = dataSnapshot.getValue(User.class);
 
-                    Log.e(TAG,dataSnapshot.getKey() + "datasnapshot\n");
-                    Log.e(TAG,FirebaseAuth.getInstance().getUid() + "userId\n");
-if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
+            if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
 
-                Log.e(TAG, "datiPersonali: dopo del datasnapshot");
                     inputNome.setText(userTmp.getNome());
 
                     inputCognome.setText(userTmp.getCognome());
@@ -181,6 +204,9 @@ if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
                         inputFemmina.setChecked(true);
 
                     inputSport.setChecked(userTmp.isSport());
+
+                    btnExit.setEnabled(true);
+
 }
             }
 
@@ -308,4 +334,5 @@ if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
     public Fragment getFragment() {
         return this;
     }
+
 }

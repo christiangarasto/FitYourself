@@ -26,26 +26,16 @@ public class MenuActivity extends AppCompatActivity
 
     NavigationView navigationView = null;
     Toolbar toolbar = null;
-    DatiPersonaliFragment datiPersonaliFragment;
     GenericFragment fragment;
-    boolean primaVolta = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        datiPersonaliFragment = DatiPersonaliFragment.getInstance();
         //Set the fragment initially
-      /*  if(primaVolta){
-            fragment = datiPersonaliFragment;
-            primaVolta = false;
-        }
-        else {*/
-            fragment = new ConsigliAlimentariFragment();//fragmentFactory.makeConsigliAlimentari();
-        //}
+        fragment = AllenamentoFragment.getInstance();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
         fragmentTransaction.replace(R.id.fragment_container, fragment.getFragment());
         fragmentTransaction.commit();
 
@@ -60,6 +50,7 @@ public class MenuActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -98,10 +89,11 @@ public class MenuActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+
         if (id == R.id.nav_allenati) {
-            fragment = new AllenamentoFragment();
+            fragment = AllenamentoFragment.getInstance();
         } else if (id == R.id.nav_storicoAllenamenti) {
-            fragment = new StoricoAllenamentiFragment();
+            fragment = StoricoAllenamentiFragment.getInstance();
         } else if (id == R.id.nav_consigliAlimentari) {
             fragment = new ConsigliAlimentariFragment();
         } else if (id == R.id.nav_datipersonali) {
@@ -119,4 +111,5 @@ public class MenuActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

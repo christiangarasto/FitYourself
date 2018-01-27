@@ -1,6 +1,7 @@
 package ingsw.unical.it.fityourself.MenuActivities.Fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -53,7 +55,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
 
     public static NotificheFragment getInstance(){
         if(notificheFragment == null){
-            return new NotificheFragment();
+            notificheFragment = new NotificheFragment();
         }
 
         return notificheFragment;
@@ -86,6 +88,9 @@ public class NotificheFragment extends Fragment implements GenericFragment{
         });
 
         inputMisura.setEnabled(false);
+        inputIntermedio.setEnabled(false);
+        inputFinale.setEnabled(false);
+        inputAnomalie.setEnabled(false);
 
         btnSalva = (Button) rootView.findViewById(R.id.SalvaNotifiche);
         btnTorna = (Button) rootView.findViewById(R.id.Torna);
@@ -93,7 +98,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
-        // get reference to 'users' node
+        // get reference to 'Notifiche' node
         mFirebaseDatabase = mFirebaseInstance.getReference("Notifiche");
 
         btnSalva.setOnClickListener(new OnClickListener() {
@@ -110,6 +115,12 @@ public class NotificheFragment extends Fragment implements GenericFragment{
                     inputIntermedio.setClickable(true);
                     inputFinale.setClickable(true);
                     inputAnomalie.setClickable(true);
+
+                    inputMisura.setEnabled(true);
+                    inputMisura.setClickable(true);
+                    inputIntermedio.setEnabled(true);
+                    inputFinale.setEnabled(true);
+                    inputAnomalie.setEnabled(true);
                 }
                 else{
                     abilita = false;
@@ -122,6 +133,12 @@ public class NotificheFragment extends Fragment implements GenericFragment{
 
                     unita = "NON SELEZIONATO";
                     valoreIntermedio = 0;
+
+                    inputMisura.setEnabled(false);
+                    inputMisura.setClickable(false);
+                    inputIntermedio.setEnabled(false);
+                    inputFinale.setEnabled(false);
+                    inputAnomalie.setEnabled(false);
                 }
 
                 if(inputIntermedio.isChecked()){
@@ -161,7 +178,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
         btnEsci.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                GenericFragment gf = new ConsigliAlimentariFragment();
+                GenericFragment gf = AllenamentoFragment.getInstance();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, gf.getFragment());
                 ft.commit();
@@ -182,14 +199,28 @@ public class NotificheFragment extends Fragment implements GenericFragment{
 
 
         if(inputAbilita.isChecked()){
+
+            inputMisura.setEnabled(true);
+            inputMisura.setClickable(true);
+            inputIntermedio.setEnabled(true);
+            inputFinale.setEnabled(true);
+            inputAnomalie.setEnabled(true);
+
             inputIntermedio.setClickable(true);
             inputFinale.setClickable(true);
             inputAnomalie.setClickable(true);
         }
         else{
             inputIntermedio.setClickable(false);
+            inputMisura.setClickable(false);
             inputFinale.setClickable(false);
             inputAnomalie.setClickable(false);
+
+            inputMisura.setEnabled(false);
+            inputMisura.setClickable(false);
+            inputIntermedio.setEnabled(false);
+            inputFinale.setEnabled(false);
+            inputAnomalie.setEnabled(false);
         }
 
 
@@ -197,10 +228,17 @@ public class NotificheFragment extends Fragment implements GenericFragment{
             @Override
             public void onClick(View view) {
                 if(inputAbilita.isChecked()){
+
+                    inputMisura.setEnabled(true);
+                    inputMisura.setClickable(true);
+                    inputIntermedio.setEnabled(true);
+                    inputFinale.setEnabled(true);
+                    inputAnomalie.setEnabled(true);
+
                     inputIntermedio.setClickable(true);
                     inputFinale.setClickable(true);
                     inputAnomalie.setClickable(true);
-
+                    inputMisura.setClickable(true);
                 }
                 else
                 {
@@ -211,6 +249,18 @@ public class NotificheFragment extends Fragment implements GenericFragment{
                     inputIntermedio.setChecked(false);
                     inputFinale.setChecked(false);
                     inputAnomalie.setChecked(false);
+
+                    inputMisura.setClickable(false);
+                    inputMisura.setSelection(0);
+
+                    inputMisura.setEnabled(false);
+                    inputMisura.setClickable(false);
+                    inputIntermedio.setEnabled(false);
+                    inputFinale.setEnabled(false);
+                    inputAnomalie.setEnabled(false);
+
+                    checkIntermedio.setText("");
+                    checkIntermedio.setEnabled(false);
                 }
             }
         });
@@ -229,6 +279,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
 
                     inputMisura.setEnabled(false);
                     inputMisura.setClickable(false);
+                    inputMisura.setSelection(0);
                 }
             }
         });
@@ -236,24 +287,24 @@ public class NotificheFragment extends Fragment implements GenericFragment{
       mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
           @Override
           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+
               if (dataSnapshot.getValue() != null){
                   Notify not = dataSnapshot.getValue(Notify.class);
-
-
 
               if (not != null && dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())) {
 
                   inputAbilita.setChecked(not.isAbilita());
 
-                  if (not.isAbilita()) {
-                      inputIntermedio.setClickable(true);
-                      inputFinale.setClickable(true);
-                      inputAnomalie.setClickable(true);
-                  } else {
-                      inputIntermedio.setClickable(false);
-                      inputFinale.setClickable(false);
-                      inputAnomalie.setClickable(false);
-                  }
+                  inputMisura.setEnabled(not.isAbilita());
+                  inputMisura.setClickable(not.isAbilita());
+                  inputIntermedio.setEnabled(not.isAbilita());
+                  inputFinale.setEnabled(not.isAbilita());
+                  inputAnomalie.setEnabled(not.isAbilita());
+
+                      inputIntermedio.setClickable(not.isAbilita());
+                      inputFinale.setClickable(not.isAbilita());
+                      inputAnomalie.setClickable(not.isAbilita());
 
                   inputIntermedio.setChecked(not.isIntermedio());
                   inputFinale.setChecked(not.isFinale());
@@ -313,7 +364,6 @@ public class NotificheFragment extends Fragment implements GenericFragment{
         if (TextUtils.isEmpty(notifyUser)) {
             notifyUser = FirebaseAuth.getInstance().getUid();
 
-            Log.e("user:::", notifyUser);
         }
 
         Notify notify = new Notify(abilita, intermedio, finale, anomalie, unitaDiMisura, valoreIntermedio);
@@ -356,8 +406,6 @@ public class NotificheFragment extends Fragment implements GenericFragment{
                     Log.e(TAG, "User data is null!");
                     return;
                 }
-
-
                 Log.e(TAG, "User data is changed!");
             }
 
