@@ -101,8 +101,6 @@ public class NotificheFragment extends Fragment implements GenericFragment{
         // get reference to 'Notifiche' node
         mFirebaseDatabase = mFirebaseInstance.getReference("Notifiche");
 
-
-
         btnSalva.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -289,10 +287,10 @@ public class NotificheFragment extends Fragment implements GenericFragment{
       mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
           @Override
           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+
               if (dataSnapshot.getValue() != null){
                   Notify not = dataSnapshot.getValue(Notify.class);
-
-
 
               if (not != null && dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())) {
 
@@ -408,8 +406,6 @@ public class NotificheFragment extends Fragment implements GenericFragment{
                     Log.e(TAG, "User data is null!");
                     return;
                 }
-
-
                 Log.e(TAG, "User data is changed!");
             }
 
