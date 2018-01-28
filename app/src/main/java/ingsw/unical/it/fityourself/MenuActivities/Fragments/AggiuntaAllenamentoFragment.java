@@ -265,7 +265,16 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
         // User data change listener
         mFirebaseDatabase.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {}
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Allenamento allenamento = dataSnapshot.getValue(Allenamento.class);
+                        if(allenamento == null)
+                        {
+                            Log.e(TAG, "Allenamento data is null!");
+                            return;
+                        }
+                Log.e(TAG, "Allenamento data is changed!");
+
+            }
 
             @Override
             public void onCancelled(DatabaseError error) {
