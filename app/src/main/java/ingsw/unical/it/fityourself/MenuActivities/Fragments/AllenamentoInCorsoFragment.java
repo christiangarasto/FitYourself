@@ -126,6 +126,8 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
                         succBtn.setEnabled(true);
                         nomeEsercizio.setText("Allenamento");
                         durata.setText("Terminato!");
+                        durata.setTextColor(Color.GREEN);
+                        nomeEsercizio.setTextColor(Color.GREEN);
                         serie.clear();
 
                         serie.add(EserciziFragment.getDaEffettuare().getNomeAllenamento() + "\n" + EserciziFragment.getDaEffettuare().getEsercizi());
@@ -153,8 +155,7 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
                 }
                 else
                 {
-                    //IMPLEMENTARE LISTENER PER IL SALVATAGGIO
-
+                    //IMPLEMENTARE IL SALVATAGGIO
                 }
 
                 precBtn.setEnabled(true);
