@@ -35,7 +35,7 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
     private static int posizione;
     private int numeroDurata;
     private String nomeDurata;
-    private ArrayList<String> serie;
+    private static ArrayList<String> serie;
     private ArrayAdapter <String> adapter;
 
 
@@ -92,52 +92,58 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
         if(posizione == 0)
             precBtn.setEnabled(false);///oppure esci
 
+        succBtn.setEnabled(false);
+
         succBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    posizione++;
 
-                    Log.e("DEBUG:::::::: ", "posizione: " + Integer.toString(posizione));
+                if(!succBtn.getText().equals("salva")){
+                        posizione++;
 
-                if(posizione < EserciziFragment.getDaEffettuare().getEsercizi().size())
-                {
-                    nomeEsercizio.setText(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getNomeEsercizio());
-                    durata.setText(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata());
-                }
-
-                if(posizione == EserciziFragment.getDaEffettuare().getEsercizi().size())
-                {
-                    succBtn.setText("salva");
-                    nomeEsercizio.setText("Allenamento");
-                    durata.setText("Terminato!");
-                    serie.clear();
-
-                    // visualizzare gli allenamenti effettuati
-                }
-                else {
-
-                    String nome1 = getNomeDurata();
-                    if (nome1.equals("serie")) {
-                        serie.clear();
-                        if (getNumeroDurata() > 0) {
-                            for (int durata = 0; durata < getNumeroDurata(); durata++) {
-                                int d = durata + 1;
-                                serie.add("SERIE N°: " + d);
-                            }
-                        }
-                    } else {
-                        serie.clear();
-                        int d = getNumeroDurata();
-                        serie.add(d + " " + nome1);
+                    if(posizione < EserciziFragment.getDaEffettuare().getEsercizi().size())
+                    {
+                        nomeEsercizio.setText(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getNomeEsercizio());
+                        durata.setText(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata());
                     }
-                    adapter.notifyDataSetChanged();
+
+                    if(posizione >= EserciziFragment.getDaEffettuare().getEsercizi().size())
+                    {
+                        succBtn.setText("salva");
+                        succBtn.setEnabled(true);
+                        nomeEsercizio.setText("Allenamento");
+                        durata.setText("Terminato!");
+                        serie.clear();
+
+                        // visualizzare gli allenamenti effettuati
+                    }
+                    else {
+
+                        String nome1 = getNomeDurata();
+                        if (nome1.equals("serie")) {
+                            serie.clear();
+                            if (getNumeroDurata() > 0) {
+                                for (int durata = 0; durata < getNumeroDurata(); durata++) {
+                                    int d = durata + 1;
+                                    serie.add("SERIE N°: " + d);
+                                }
+                            }
+                        } else {
+                            serie.clear();
+                            int d = getNumeroDurata();
+                            serie.add(d + " " + nome1);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
                 }
-                if(succBtn.getText().equals("salva"))
+                else
                 {
                     //IMPLEMENTARE LISTENER PER IL SALVATAGGIO
                 }
 
                 precBtn.setEnabled(true);
+                if(!succBtn.getText().equals("salva"))
+                    succBtn.setEnabled(false);
             }
         });
 
@@ -178,11 +184,14 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               /* String st = (String) listView.getItemAtPosition(position);
-                TextView tv = (TextView) listView.getItemAtPosition(position);
-                tv.setText(st);
-                tv.setTextColor(Color.GREEN);*/
 
+                serie.remove(position);
+                if(!serie.isEmpty())
+                    succBtn.setEnabled(false);
+                else
+                    succBtn.setEnabled(true);
+
+                adapter.notifyDataSetChanged();
             }
         });
 
