@@ -3,9 +3,12 @@ package ingsw.unical.it.fityourself.MenuActivities.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -36,6 +39,7 @@ public class EserciziFragment extends Fragment implements GenericFragment{
     private static EserciziFragment eserciziFragment = null;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
+    private static Allenamento daEffettuare;
 
     private EserciziFragment() {
         allenamentiSalvati = new LinkedList<Allenamento>();
@@ -61,8 +65,30 @@ public class EserciziFragment extends Fragment implements GenericFragment{
         rootView = inflater.inflate(R.layout.fragment_esercizi, container, false);
 
         lw_allenamentiSalvati = (ListView) rootView.findViewById(R.id.lw_eserciziSalvatiDaScegliere);
+        btnEffettuaAllenamento = (Button) rootView.findViewById(R.id.btnEffettuaAllenamento);
+        btnAnnullaScelta = (Button) rootView.findViewById(R.id.btnAnnullaScelta);
 
         aggiungiAllenamentiSalvati();
+        btnEffettuaAllenamento.setEnabled(false);
+
+        lw_allenamentiSalvati.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               daEffettuare = (Allenamento) allenamentiSalvati.get(position);
+               btnEffettuaAllenamento.setEnabled(true);
+                Log.e("DEBUG:::::::::::::   ", daEffettuare.toString());
+            }
+        });
+
+        btnEffettuaAllenamento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GenericFragment dati = AllenamentoInCorsoFragment.getInstance();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, dati.getFragment());
+                fragmentTransaction.commit();
+            }
+        });
 
         return rootView;
     }
@@ -100,6 +126,10 @@ public class EserciziFragment extends Fragment implements GenericFragment{
 
             }
         });
+    }
+
+    public static Allenamento getDaEffettuare() {
+        return daEffettuare;
     }
 
     @Override

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="82dp"
         android:text="NOME"
         android:textAlignment="center"
         android:textSize="50sp" />
@@ -24,36 +24,54 @@
         android:layout_marginTop="22dp"
         android:text="DURATA"
         android:textAlignment="center"
-        android:textSize="36sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/prec"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="77dp"
-        android:layout_marginStart="76dp"
-        android:text="prec" />
-
-    <Button
-        android:id="@+id/succ"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/prec"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="73dp"
-        android:text="succ" />
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/durata"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
         android:footerDividersEnabled="true"
-        android:headerDividersEnabled="true" />
+        android:headerDividersEnabled="true"
+        android:textAlignment="center" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/list"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/prec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="18dp"
+                android:text="prec" />
+
+            <Button
+                android:id="@+id/succ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/prec"
+                android:layout_alignBottom="@+id/prec"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="47dp"
+                android:text="succ" />
+
+        </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

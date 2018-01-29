@@ -1,5 +1,7 @@
 package ingsw.unical.it.fityourself.MenuActivities.Fragments;
 
+import android.content.ClipData;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,9 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import ingsw.unical.it.fityourself.Model.Esercizio;
 import ingsw.unical.it.fityourself.R;
@@ -26,10 +32,16 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
     private Button succBtn, precBtn;
     private ListView listView;
     private TextView nomeEsercizio, durata;
+    private static int posizione;
+    private int numeroDurata;
+    private String nomeDurata;
+    private ArrayList<String> serie;
+    private ArrayAdapter <String> adapter;
 
 
     private AllenamentoInCorsoFragment(){
-
+        this.posizione = 0;
+        this.serie = new ArrayList();
     }
 
     public static AllenamentoInCorsoFragment getInstance(){
@@ -51,10 +63,154 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
         listView = (ListView) rootView.findViewById(R.id.list);
         nomeEsercizio = (TextView) rootView.findViewById(R.id.nome);
         durata = (TextView) rootView.findViewById(R.id.durata);
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, serie);
+        listView.setAdapter(adapter);
 
+        String nome = getNomeDurata();
+
+        if(nome.equals("serie")) {
+            serie.clear();
+            if (getNumeroDurata() > 0) {
+                for (int durata = 0; durata < getNumeroDurata(); durata++) {
+                    int d = durata + 1;
+                    serie.add("SERIE N°: " + d);
+                }
+            }
+        }
+        else
+        {
+            serie.clear();
+            int d = getNumeroDurata();
+            serie.add(d + " " + nome);
+        }
+
+        adapter.notifyDataSetChanged();
+
+        nomeEsercizio.setText(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getNomeEsercizio());
+        durata.setText(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata());
+
+        if(posizione == 0)
+            precBtn.setEnabled(false);///oppure esci
+
+        succBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    posizione++;
+
+                    Log.e("DEBUG:::::::: ", "posizione: " + Integer.toString(posizione));
+
+                if(posizione < EserciziFragment.getDaEffettuare().getEsercizi().size())
+                {
+                    nomeEsercizio.setText(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getNomeEsercizio());
+                    durata.setText(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata());
+                }
+
+                if(posizione == EserciziFragment.getDaEffettuare().getEsercizi().size())
+                {
+                    succBtn.setText("salva");
+                    nomeEsercizio.setText("Allenamento");
+                    durata.setText("Terminato!");
+                    serie.clear();
+
+                    // visualizzare gli allenamenti effettuati
+                }
+                else {
+
+                    String nome1 = getNomeDurata();
+                    if (nome1.equals("serie")) {
+                        serie.clear();
+                        if (getNumeroDurata() > 0) {
+                            for (int durata = 0; durata < getNumeroDurata(); durata++) {
+                                int d = durata + 1;
+                                serie.add("SERIE N°: " + d);
+                            }
+                        }
+                    } else {
+                        serie.clear();
+                        int d = getNumeroDurata();
+                        serie.add(d + " " + nome1);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                if(succBtn.getText().equals("salva"))
+                {
+                    //IMPLEMENTARE LISTENER PER IL SALVATAGGIO
+                }
+
+                precBtn.setEnabled(true);
+            }
+        });
+
+        precBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(posizione == 1)
+                    precBtn.setEnabled(false); //OPPURE IL TESTO CAMBIA A ESCI E SI FA IL LISTENER PER FARLO TORNARE ALLA LISTA
+
+                if(posizione >= 0)
+                {
+                    posizione--;
+                    nomeEsercizio.setText(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getNomeEsercizio());
+                    durata.setText(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata());
+                    succBtn.setText("succ");
+                }
+                String nome2 = getNomeDurata();
+                if(getNomeDurata().equals("serie")) {
+                    serie.clear();
+                    if (getNumeroDurata() > 0) {
+                        for (int durata = 0; durata < getNumeroDurata(); durata++) {
+                            int d = durata + 1;
+                            serie.add("SERIE N°: " + d);
+                        }
+                    }
+                }
+                else
+                {
+                    serie.clear();
+                    int d = getNumeroDurata();
+                    serie.add(d + " " + nome2);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               /* String st = (String) listView.getItemAtPosition(position);
+                TextView tv = (TextView) listView.getItemAtPosition(position);
+                tv.setText(st);
+                tv.setTextColor(Color.GREEN);*/
+
+            }
+        });
 
 
         return rootView;
+    }
+
+    public int getNumeroDurata() {
+
+        String tmp = "";
+
+        tmp += Character.toString(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata().charAt(0));
+        if(!Character.toString(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata().charAt(1)).equals(" "))
+            tmp += Character.toString(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata().charAt(1));
+
+        numeroDurata = Integer.parseInt(tmp);
+
+        return numeroDurata;
+    }
+
+    public String getNomeDurata() {
+
+        if(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata().charAt(2) == 's' || EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata().charAt(3) == 's' || EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata().charAt(4) == 's')
+            nomeDurata = "serie";
+        else if(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata().charAt(2) == 'm' || EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata().charAt(3) == 'm' || EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata().charAt(4) == 'm')
+            nomeDurata = "minuti";
+
+        return nomeDurata;
     }
 
     @Override
