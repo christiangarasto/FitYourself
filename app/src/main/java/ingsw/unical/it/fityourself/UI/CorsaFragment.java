@@ -106,10 +106,10 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* GenericFragment dati = MappaFragment.getInstance();
+                GenericFragment dati = MappaFragment.getInstance();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, dati.getFragment());
-                fragmentTransaction.commit();*/
+                fragmentTransaction.commit();
             }
         });
 
