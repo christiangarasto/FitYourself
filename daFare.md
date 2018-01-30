@@ -10,13 +10,13 @@ DA FARE:
   
   se si accede dalla pagina login deve accedere direttamente alla sezione "allenati" A-------->FATTO
   
-  popolare database INSIEME
+  popolare database (non più di 3 utenti) INSIEME
   
-  sessione di esercizi singoli da fare (TUTTO) INSIEME
+  sessione di esercizi singoli da fare (TUTTO) ---------------------------->FATTO (manca salvataggio)
   
   storico C
   
-  fragment per visualizzare progressi raggiunti A
+  fragment per visualizzare progressi raggiunti A--------------------------------------------->FATTO
   
   salvataggio allenamento INSIEME
   
