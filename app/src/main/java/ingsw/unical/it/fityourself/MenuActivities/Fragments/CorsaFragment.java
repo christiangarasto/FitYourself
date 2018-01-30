@@ -40,6 +40,8 @@ import ingsw.unical.it.fityourself.R;
  */
 public class CorsaFragment extends Fragment implements GenericFragment,SensorEventListener{
 
+    private Button map;
+
     View rootView;
 
     int nPassi = 0;
@@ -108,6 +110,18 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
         getActivity().setTitle("Effettua corsa");
 
         rootView = inflater.inflate(R.layout.fragment_corsa, container, false);
+
+        map = (Button) rootView.findViewById(R.id.map);
+
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               /* GenericFragment dati = MappaFragment.getInstance();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, dati.getFragment());
+                fragmentTransaction.commit();*/
+            }
+        });
 
        tempo = (Chronometer) rootView.findViewById(R.id.tempo);
             tempo.setFormat("Tempo trascorso: %s");

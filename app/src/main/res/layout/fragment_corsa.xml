@@ -47,9 +47,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="63dp"
+        android:layout_marginBottom="33dp"
+        android:layout_marginStart="7dp"
+        android:layout_toEndOf="@+id/tempo"
         android:text="Avvia"
         android:visibility="visible" />
 
@@ -60,7 +60,7 @@
         android:layout_alignBaseline="@+id/pausariprendibtn"
         android:layout_alignBottom="@+id/pausariprendibtn"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="14dp"
         android:text="Termina corsa"
         android:visibility="visible" />
 
@@ -165,5 +165,14 @@
         android:layout_alignBottom="@+id/calorietw"
         android:layout_alignStart="@+id/distanzapercorsa"
         android:text="TextView" />
+
+    <Button
+        android:id="@+id/map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/terminacorsabtn"
+        android:layout_alignBottom="@+id/terminacorsabtn"
+        android:layout_toEndOf="@+id/calorietw"
+        android:text="map" />
 
 </RelativeLayout>
