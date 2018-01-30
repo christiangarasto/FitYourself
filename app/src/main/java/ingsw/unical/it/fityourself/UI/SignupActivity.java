@@ -1,4 +1,4 @@
-package ingsw.unical.it.fityourself.AccountActivity;
+package ingsw.unical.it.fityourself.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-import ingsw.unical.it.fityourself.MenuActivity;
 import ingsw.unical.it.fityourself.R;
 
 public class SignupActivity extends AppCompatActivity {

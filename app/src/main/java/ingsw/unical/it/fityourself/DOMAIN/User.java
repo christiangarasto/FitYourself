@@ -1,8 +1,4 @@
-package ingsw.unical.it.fityourself.Model;
-
-/**
- * Created by valentina on 03/01/2018.
- */
+package ingsw.unical.it.fityourself.DOMAIN;
 
 public class User {
 

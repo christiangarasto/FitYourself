@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.valentina.fityourself.AccountActivity.SignupActivity">
+    tools:context=".UI.SignupActivity">
 
 
     <LinearLayout
@@ -32,7 +32,7 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/black" />
 
 
 
@@ -47,7 +47,7 @@
             android:imeOptions="actionUnspecified"
             android:inputType="textPassword"
             android:maxLines="1"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/black" />
 
 
         <Button

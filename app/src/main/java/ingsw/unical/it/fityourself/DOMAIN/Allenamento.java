@@ -1,23 +1,34 @@
-package ingsw.unical.it.fityourself.Model;
+package ingsw.unical.it.fityourself.DOMAIN;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
-
-/**
- * Created by chris on 11/01/2018.
- */
 
 public class Allenamento {
 
-    private String nomeAllenamento;
     private LinkedList<Esercizio> esercizi;
 
+    private String nomeAllenamento;
+    private Date data;
+    private String durata;
+    private boolean completato;
+    private LinkedList<Obiettivo> obiettivi;
 
-    public Allenamento(){}
+
+    public Allenamento(){
+    }
 
     public Allenamento(String nomeAllenamento, LinkedList<Esercizio> esercizi){
         this.nomeAllenamento = nomeAllenamento;
         this.esercizi = esercizi;
+    }
+
+    public void setObiettivi(LinkedList<Obiettivo> obiettivi) {
+        this.obiettivi = obiettivi;
+    }
+
+    public LinkedList<Obiettivo> getObiettivi() {
+        return obiettivi;
     }
 
     public String getNomeAllenamento() {
@@ -26,6 +37,30 @@ public class Allenamento {
 
     public void setNomeAllenamento(String nomeAllenamento) {
         this.nomeAllenamento = nomeAllenamento;
+    }
+
+    public String getDurata() {
+        return durata;
+    }
+
+    public void setDurata(String durata) {
+        this.durata = durata;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+    public boolean isCompletato() {
+        return completato;
+    }
+
+    public void setCompletato(boolean completato) {
+        this.completato = completato;
     }
 
     public LinkedList<Esercizio> getEsercizi() {

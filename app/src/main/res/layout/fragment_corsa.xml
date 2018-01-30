@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuActivities.Fragments.CorsaFragment">
+    tools:context=".UI.CorsaFragment">
 
 
     <TextView
@@ -10,9 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/distanzatw"
-        android:layout_alignStart="@+id/terminacorsabtn"
-        android:layout_marginBottom="6dp"
-        android:layout_marginStart="48dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="46dp"
+        android:layout_toStartOf="@+id/numeropassi"
         android:text="Numero Passi: "
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="visible"
@@ -47,9 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="33dp"
-        android:layout_marginStart="7dp"
-        android:layout_toEndOf="@+id/tempo"
+        android:layout_alignStart="@+id/textView5"
+        android:layout_marginBottom="27dp"
         android:text="Avvia"
         android:visibility="visible" />
 
@@ -59,20 +58,23 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/pausariprendibtn"
         android:layout_alignBottom="@+id/pausariprendibtn"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="14dp"
+        android:layout_alignStart="@+id/tempo"
+        android:layout_marginStart="35dp"
         android:text="Termina corsa"
         android:visibility="visible" />
 
     <Chronometer
         android:id="@+id/tempo"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/terminacorsabtn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="58dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="84dp"
         android:format="Tempo trascorso: 00:00"
         android:text="Tempo trascorso: 00:00"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:visibility="visible"
         tools:text="Tempo trascorso: 00" />
 
@@ -80,9 +82,10 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/obiettivopassi"
-        android:layout_alignBottom="@+id/obiettivopassi"
-        android:layout_alignStart="@+id/pausariprendibtn"
+        android:layout_below="@+id/tempo"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="145dp"
+        android:layout_toEndOf="@+id/obiettivopassi"
         android:text="Obiettivo passi"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         tools:text="Obiettivo passi" />
@@ -91,9 +94,9 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView4"
-        android:layout_below="@+id/obiettivopassi"
-        android:layout_marginTop="8dp"
+        android:layout_alignBaseline="@+id/obiettivocalorie"
+        android:layout_alignBottom="@+id/obiettivocalorie"
+        android:layout_alignStart="@+id/textView6"
         android:text="Obiettivo calorie"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         tools:text="Obiettivo calorie" />
@@ -104,7 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/obiettivodistanza"
         android:layout_alignBottom="@+id/obiettivodistanza"
-        android:layout_alignStart="@+id/textView5"
+        android:layout_alignStart="@+id/textView4"
         android:text="Obiettivo distanza"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         tools:text="Obiettivo distanza" />
@@ -113,10 +116,9 @@
         android:id="@+id/obiettivopassi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/obiettivocalorie"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="13dp"
-        android:layout_toStartOf="@+id/textView4"
+        android:layout_alignBaseline="@+id/textView4"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_alignStart="@+id/terminacorsabtn"
         android:ems="10"
         android:inputType="number" />
 
@@ -124,8 +126,8 @@
         android:id="@+id/obiettivocalorie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/obiettivopassi"
-        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/obiettivodistanza"
+        android:layout_below="@+id/obiettivodistanza"
         android:ems="10"
         android:inputType="number" />
 
@@ -133,9 +135,8 @@
         android:id="@+id/obiettivodistanza"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/obiettivocalorie"
-        android:layout_below="@+id/obiettivocalorie"
-        android:layout_marginTop="17dp"
+        android:layout_alignStart="@+id/obiettivopassi"
+        android:layout_below="@+id/obiettivopassi"
         android:ems="10"
         android:inputType="number" />
 
@@ -168,11 +169,11 @@
 
     <Button
         android:id="@+id/map"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/terminacorsabtn"
-        android:layout_alignBottom="@+id/terminacorsabtn"
-        android:layout_toEndOf="@+id/calorietw"
+        android:layout_above="@+id/pausariprendibtn"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="44dp"
         android:text="map" />
 
 </RelativeLayout>

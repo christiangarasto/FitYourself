@@ -1,7 +1,6 @@
-package ingsw.unical.it.fityourself.MenuActivities.Fragments;
+package ingsw.unical.it.fityourself.UI;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -26,8 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import ingsw.unical.it.fityourself.Model.Notifiche;
-import ingsw.unical.it.fityourself.Model.Notify;
+import ingsw.unical.it.fityourself.DOMAIN.Notify;
 import ingsw.unical.it.fityourself.R;
 
 import static android.content.ContentValues.TAG;

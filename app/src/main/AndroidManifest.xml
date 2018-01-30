@@ -20,15 +20,14 @@
 
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBNduKnbhZvI3sDSmAxyplrrbRVYD9okr8"/>
 
-        <activity android:name=".AccountActivity.LoginActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".AccountActivity.SignupActivity" />
-        <activity android:name=".AccountActivity.ResetPasswordActivity" />
+        <activity android:name=".UI.LoginActivity" />
+        <activity android:name=".UI.SignupActivity" />
+        <activity android:name=".UI.ResetPasswordActivity" />
         <activity
-            android:name=".MenuActivity"
+            android:name=".UI.MenuActivity"
             android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".UI.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

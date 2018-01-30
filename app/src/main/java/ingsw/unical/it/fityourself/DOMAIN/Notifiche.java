@@ -1,10 +1,6 @@
-package ingsw.unical.it.fityourself.Model;
+package ingsw.unical.it.fityourself.DOMAIN;
 
 import android.util.Log;
-
-/**
- * Created by andry on 18/01/18.
- */
 
 public class Notifiche {
 

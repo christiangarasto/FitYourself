@@ -1,4 +1,4 @@
-package ingsw.unical.it.fityourself.MenuActivities.Fragments;
+package ingsw.unical.it.fityourself.UI;
 
 
 import android.os.Bundle;
@@ -21,15 +21,23 @@ public class StoricoAllenamentiFragment extends Fragment implements GenericFragm
 
     View rootView;
 
+    private static StoricoAllenamentiFragment storico = null;
 
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     String userId;
 
-    public StoricoAllenamentiFragment() {
+    private StoricoAllenamentiFragment() {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference("Allenamenti");
         userId = FirebaseAuth.getInstance().getUid();
+    }
+
+    public static StoricoAllenamentiFragment getInstance(){
+        if(storico == null){
+            storico = new StoricoAllenamentiFragment();
+        }
+        return storico;
     }
     //calendarioAllenamenti
 

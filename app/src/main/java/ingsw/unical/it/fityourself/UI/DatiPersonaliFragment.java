@@ -1,10 +1,9 @@
-package ingsw.unical.it.fityourself.MenuActivities.Fragments;
+package ingsw.unical.it.fityourself.UI;
 
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,11 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import ingsw.unical.it.fityourself.MenuActivity;
-import ingsw.unical.it.fityourself.Model.User;
+import ingsw.unical.it.fityourself.DOMAIN.User;
 import ingsw.unical.it.fityourself.R;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.

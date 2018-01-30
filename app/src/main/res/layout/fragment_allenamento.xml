@@ -2,18 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuActivities.Fragments.AllenamentoFragment">
+    tools:context=".UI.AllenamentoFragment">
 
     <Button
         android:id="@+id/corsa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="138dp"
+        android:layout_alignStart="@+id/esercizi"
+        android:layout_marginBottom="233dp"
         android:background="@color/colorPrimary"
         android:padding="8dp"
-        android:text="Effettua corsa"
+        android:text="  Effettua corsa  "
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:textColor="#fff"
         android:textSize="28sp" />
 
@@ -22,11 +23,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/corsa"
-        android:layout_alignStart="@+id/corsa"
-        android:layout_marginBottom="21dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="63dp"
         android:background="@color/colorPrimary"
         android:padding="8dp"
         android:text="Effettua esercizi"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:textColor="#fff"
         android:textSize="28sp" />
 
@@ -35,11 +38,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/esercizi"
-        android:layout_alignStart="@+id/corsa"
-        android:layout_marginBottom="28dp"
+        android:layout_alignStart="@+id/esercizi"
+        android:layout_marginBottom="8dp"
         android:background="@color/colorPrimary"
         android:padding="8dp"
-        android:text="Gestisci esercizi"
+        android:text=" Gestisci esercizi "
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:textColor="#fff"
         android:textSize="28sp" />
 

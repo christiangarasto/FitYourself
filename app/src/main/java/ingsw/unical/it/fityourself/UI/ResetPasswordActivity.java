@@ -1,4 +1,4 @@
-package ingsw.unical.it.fityourself.AccountActivity;
+package ingsw.unical.it.fityourself.UI;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

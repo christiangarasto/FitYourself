@@ -1,10 +1,7 @@
-package ingsw.unical.it.fityourself.MenuActivities.Fragments;
+package ingsw.unical.it.fityourself.UI;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -12,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,83 +19,81 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
-import ingsw.unical.it.fityourself.Model.Allenamento;
-import ingsw.unical.it.fityourself.Model.Esercizio;
+import ingsw.unical.it.fityourself.DOMAIN.Allenamento;
 import ingsw.unical.it.fityourself.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GestisciEserciziFragment extends Fragment implements GenericFragment{
-
+public class EserciziFragment extends Fragment implements GenericFragment{
     View rootView;
 
     LinkedList<Allenamento> allenamentiSalvati;
     ListView lw_allenamentiSalvati;
     String userId;
 
-
+    private Button btnEffettuaAllenamento;
+    private Button btnAnnullaScelta;
+    private static EserciziFragment eserciziFragment = null;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
-    private static GestisciEserciziFragment gestisciEserciziFragment = null;
+    private static Allenamento daEffettuare;
 
-    private GestisciEserciziFragment() {
+    private EserciziFragment() {
         allenamentiSalvati = new LinkedList<Allenamento>();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference("Allenamenti");
         userId = FirebaseAuth.getInstance().getUid();
     }
 
-    public static GestisciEserciziFragment getInstance(){
-        if(gestisciEserciziFragment == null)
-            gestisciEserciziFragment = new GestisciEserciziFragment();
+    public static EserciziFragment getInstance(){
+        if(eserciziFragment == null)
+            eserciziFragment = new EserciziFragment();
 
-        return gestisciEserciziFragment;
+        return eserciziFragment;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getActivity().setTitle("Gestisci Esercizi");
 
-        rootView = inflater.inflate(R.layout.fragment_gestisci_esercizi, container, false);
+        getActivity().setTitle("Effettua esercizi");
 
-        FloatingActionButton aggiungiAllenamento = (FloatingActionButton) rootView.findViewById(R.id.nuovoEsercizio);
-            aggiungiAllenamento.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    GenericFragment aggiuntaAllenamento = AggiuntaAllenamentoFragment.getInstance();
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        rootView = inflater.inflate(R.layout.fragment_esercizi, container, false);
 
-                    fragmentTransaction.replace(R.id.fragment_container, aggiuntaAllenamento.getFragment());
-                    fragmentTransaction.commit();
-                }
-            });
+        lw_allenamentiSalvati = (ListView) rootView.findViewById(R.id.lw_eserciziSalvatiDaScegliere);
+        btnEffettuaAllenamento = (Button) rootView.findViewById(R.id.btnEffettuaAllenamento);
+        btnAnnullaScelta = (Button) rootView.findViewById(R.id.btnAnnullaScelta);
 
-        lw_allenamentiSalvati = (ListView) rootView.findViewById(R.id.lw_allenamentiSalvati);
+        aggiungiAllenamentiSalvati();
+        btnEffettuaAllenamento.setEnabled(false);
+
         lw_allenamentiSalvati.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-
-                Allenamento a = allenamentiSalvati.get(position);
-                mFirebaseDatabase.child(userId).child(a.getNomeAllenamento()).removeValue();
-                mFirebaseDatabase.child(userId).child("esercizi").removeValue();
-                Toast.makeText(getContext(), "Allenamento eliminato.", Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               daEffettuare = (Allenamento) allenamentiSalvati.get(position);
+               btnEffettuaAllenamento.setEnabled(true);
+                Log.e("DEBUG:::::::::::::   ", daEffettuare.toString());
             }
         });
-        aggiungiAllenamentiSalvati();
+
+        btnEffettuaAllenamento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GenericFragment dati = AllenamentoInCorsoFragment.getInstance();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, dati.getFragment());
+                fragmentTransaction.commit();
+            }
+        });
 
         return rootView;
     }
 
     private void aggiungiAllenamentiSalvati() {
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Allenamenti").child(userId);
 
         ref.addValueEventListener(new ValueEventListener() {
@@ -131,6 +126,10 @@ public class GestisciEserciziFragment extends Fragment implements GenericFragmen
 
             }
         });
+    }
+
+    public static Allenamento getDaEffettuare() {
+        return daEffettuare;
     }
 
     @Override

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuActivities.Fragments.RisultatiCorsaFragment">
+    tools:context=".UI.RisultatiCorsaFragment">
 
     <Button
         android:id="@+id/salva"
@@ -35,7 +35,7 @@
         android:gravity="center_vertical"
         android:text="Passi:"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/distanza"
@@ -47,7 +47,7 @@
         android:gravity="center_vertical"
         android:text="Distanza:"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/calorie"
@@ -59,7 +59,7 @@
         android:gravity="center_vertical"
         android:text="Calorie:"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <CheckedTextView
         android:id="@+id/passiEffettuati"
@@ -95,22 +95,15 @@
         android:gravity="center_vertical"
         android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/terminato"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/calorie"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="94dp"
-        android:text="CONGRATULAZIONI!! ALLENAMENTO TERMINATO!!"
-        android:textStyle="bold"/>
-
     <Chronometer
         android:id="@+id/tempo"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/terminato"
-        android:layout_marginBottom="34dp"
-        android:layout_toEndOf="@+id/calorie" />
+        android:layout_above="@+id/passiEffettuati"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="31dp"
+        android:format="Durata allenamento: 00:00"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
 </RelativeLayout>

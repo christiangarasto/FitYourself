@@ -1,7 +1,6 @@
-package ingsw.unical.it.fityourself.MenuActivities.Fragments;
+package ingsw.unical.it.fityourself.UI;
 
 
-import android.app.LauncherActivity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -14,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,14 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
-import ingsw.unical.it.fityourself.Model.Allenamento;
-import ingsw.unical.it.fityourself.Model.Esercizio;
+import ingsw.unical.it.fityourself.DOMAIN.Allenamento;
+import ingsw.unical.it.fityourself.DOMAIN.Esercizio;
 import ingsw.unical.it.fityourself.R;
 
 import static android.content.ContentValues.TAG;

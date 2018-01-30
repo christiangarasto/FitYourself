@@ -1,4 +1,4 @@
-package ingsw.unical.it.fityourself.MenuActivities.Fragments;
+package ingsw.unical.it.fityourself.UI;
 
 
 import android.content.Context;
@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
-import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,10 +28,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
-
-import ingsw.unical.it.fityourself.Model.Notify;
-import ingsw.unical.it.fityourself.Model.User;
+import ingsw.unical.it.fityourself.DOMAIN.Notify;
+import ingsw.unical.it.fityourself.DOMAIN.User;
 import ingsw.unical.it.fityourself.R;
 
 /**
@@ -52,7 +49,7 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
     boolean primavolta = true;
         long _tempo = 0;
 
-    private static Chronometer tempoTotale;
+    private static long tempoTotale;
 
     Chronometer tempo;
     TextView passiTW;
@@ -83,23 +80,16 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
     int secondiSenzaPassi = 0;
     boolean hocamminato = false;
 
-    private static CorsaFragment corsaFragment = null;
-
     private static TextView passiEffettuati, obiettivoP, distanzaPercorsa, obiettivoD, calorieBruciate, obiettivoC;
 
-    private CorsaFragment() {
+    private static boolean cronometroAvviatoAlmenoUnaVolta;
+
+    public CorsaFragment() {
+        cronometroAvviatoAlmenoUnaVolta = false;
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabaseDati = mFirebaseInstance.getReference("Dati Personali");
         mFirebaseDatabaseNotifiche = mFirebaseInstance.getReference("Notifiche");
         userId = FirebaseAuth.getInstance().getUid();
-    }
-
-    public static CorsaFragment getInstance(){
-        if(corsaFragment == null)
-            corsaFragment = new CorsaFragment();
-
-        return corsaFragment;
-
     }
 
 
@@ -141,6 +131,21 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
                 @Override
                 public void onClick(View view) {
 
+                    if (!pausa) {
+                        tempo.stop();
+                        _tempo = SystemClock.elapsedRealtime();
+                    }
+
+                    long intervallo = 0;
+                    if (SystemClock.elapsedRealtime() > _tempo) {
+                        intervallo = SystemClock.elapsedRealtime() - _tempo;
+                    } else {
+                        intervallo = _tempo - SystemClock.elapsedRealtime();
+                    }
+
+                    tempoTotale = tempo.getBase() + intervallo;
+
+
                     passiEffettuati = valorePassi;
                     distanzaPercorsa = valoreDistanza;
                     calorieBruciate = valoreCalorie;
@@ -149,10 +154,7 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
                     obiettivoD = obiettivoDistanza;
                     obiettivoC = obiettivoCalorie;
 
-                    tempoTotale = tempo;
-
-                    Toast.makeText(getContext(), "Allenamento completato con successo!", Toast.LENGTH_SHORT).show();
-                    GenericFragment dati = RisultatiCorsaFragment.getInstance();
+                    GenericFragment dati = new RisultatiCorsaFragment();
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.fragment_container, dati.getFragment());
                     fragmentTransaction.commit();
@@ -163,6 +165,8 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
         final Button pausariprendi = (Button) rootView.findViewById(R.id.pausariprendibtn);
             pausariprendi.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
+
+                    cronometroAvviatoAlmenoUnaVolta = true;
 
                     if(pausa){
                         pausariprendi.setText("Pausa");
@@ -197,9 +201,6 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
         tempo.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
-
-
-
                 if(secondiSenzaPassi == 11){
                     Toast.makeText(getContext(), "Attenzione! Il tuo allenamento è stato messo in pausa a causa di inattività.", Toast.LENGTH_LONG).show();
                     Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
@@ -457,7 +458,7 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
 
     }
 
-    public static Chronometer getTempo() {
+    public static long getTempo() {
         return tempoTotale;
     }
 
@@ -484,4 +485,6 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
     public static TextView getObiettivoC() {
         return obiettivoC;
     }
+
+    public static boolean isCronometroAvviatoAlmenoUnaVolta(){ return cronometroAvviatoAlmenoUnaVolta;}
 }

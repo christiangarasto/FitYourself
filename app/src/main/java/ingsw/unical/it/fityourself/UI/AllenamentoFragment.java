@@ -1,11 +1,10 @@
-package ingsw.unical.it.fityourself.MenuActivities.Fragments;
+package ingsw.unical.it.fityourself.UI;
 
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +18,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import ingsw.unical.it.fityourself.Model.Esercizio;
-import ingsw.unical.it.fityourself.Model.User;
+import ingsw.unical.it.fityourself.DOMAIN.User;
 import ingsw.unical.it.fityourself.R;
 
 /**
@@ -86,7 +83,7 @@ public class AllenamentoFragment extends Fragment implements GenericFragment{
                     fragmentTransaction.commit();
                 }
                 else {
-                    GenericFragment corsa = CorsaFragment.getInstance();
+                    GenericFragment corsa = new CorsaFragment();
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
                     fragmentTransaction.replace(R.id.fragment_container, corsa.getFragment());

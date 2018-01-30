@@ -1,9 +1,4 @@
-package ingsw.unical.it.fityourself.Model;
-
-/**
- * Created by chris on 11/01/2018.
- */
-
+package ingsw.unical.it.fityourself.DOMAIN;
 
 public class Esercizio {
 

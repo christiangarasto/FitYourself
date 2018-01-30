@@ -1,4 +1,4 @@
-package ingsw.unical.it.fityourself.MenuActivities.Fragments;
+package ingsw.unical.it.fityourself.UI;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;

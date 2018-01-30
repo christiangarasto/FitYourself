@@ -1,4 +1,4 @@
-package ingsw.unical.it.fityourself;
+package ingsw.unical.it.fityourself.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,12 +14,7 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import ingsw.unical.it.fityourself.AccountActivity.LoginActivity;
-import ingsw.unical.it.fityourself.MenuActivities.Fragments.AllenamentoFragment;
-import ingsw.unical.it.fityourself.MenuActivities.Fragments.ConsigliAlimentariFragment;
-import ingsw.unical.it.fityourself.MenuActivities.Fragments.DatiPersonaliFragment;
-import ingsw.unical.it.fityourself.MenuActivities.Fragments.GenericFragment;
-import ingsw.unical.it.fityourself.MenuActivities.Fragments.StoricoAllenamentiFragment;
+import ingsw.unical.it.fityourself.R;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,11 +28,6 @@ public class MenuActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        //Set the fragment initially
-        fragment = AllenamentoFragment.getInstance();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment.getFragment());
-        fragmentTransaction.commit();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -50,6 +40,12 @@ public class MenuActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Set the fragment initially
+        fragment = AllenamentoFragment.getInstance();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment.getFragment());
+        fragmentTransaction.commit();
 
     }
 
@@ -101,6 +97,7 @@ public class MenuActivity extends AppCompatActivity
         } else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(MenuActivity.this, LoginActivity.class));
+            finish();
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
