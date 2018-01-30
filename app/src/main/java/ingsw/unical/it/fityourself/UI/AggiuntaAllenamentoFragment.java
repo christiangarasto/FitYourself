@@ -183,10 +183,17 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
 
                             createAllenamento(nomeAllenamento, esercizi);
 
-                            GenericFragment gestisci = GestisciEserciziFragment.getInstance();
-                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                            transaction.replace(R.id.fragment_container, gestisci.getFragment());
-                            transaction.commit();
+                            if(MenuActivity.isDaGestione()) {
+                                GenericFragment gestisci = GestisciEserciziFragment.getInstance();
+                                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                                transaction.replace(R.id.fragment_container, gestisci.getFragment());
+                                transaction.commit();
+                            }else{
+                                GenericFragment effettua = EserciziFragment.getInstance();
+                                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                                transaction.replace(R.id.fragment_container, effettua.getFragment());
+                                transaction.commit();
+                            }
                         }else{
                             Toast.makeText(getContext(), "Aggiungere almeno un esercizio all'allenamento!", Toast.LENGTH_LONG).show();
                         }
@@ -197,16 +204,22 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
             });
 
         Button btnAnnulla = (Button) rootView.findViewById(R.id.btnAnnulla);
-            btnAnnulla.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        btnAnnulla.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(MenuActivity.isDaGestione()) {
                     GenericFragment gestisci = GestisciEserciziFragment.getInstance();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_container, gestisci.getFragment());
                     transaction.commit();
+                }else{
+                    GenericFragment effettua = EserciziFragment.getInstance();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, effettua.getFragment());
+                    transaction.commit();
                 }
-            });
-
+            }
+        });
 
         return rootView;
     }

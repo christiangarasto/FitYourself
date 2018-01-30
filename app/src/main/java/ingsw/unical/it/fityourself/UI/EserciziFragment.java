@@ -36,6 +36,7 @@ public class EserciziFragment extends Fragment implements GenericFragment{
 
     private Button btnEffettuaAllenamento;
     private Button btnAnnullaScelta;
+    private Button btnNuovoAllenamento;
     private static EserciziFragment eserciziFragment = null;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
@@ -67,6 +68,27 @@ public class EserciziFragment extends Fragment implements GenericFragment{
         lw_allenamentiSalvati = (ListView) rootView.findViewById(R.id.lw_eserciziSalvatiDaScegliere);
         btnEffettuaAllenamento = (Button) rootView.findViewById(R.id.btnEffettuaAllenamento);
         btnAnnullaScelta = (Button) rootView.findViewById(R.id.btnAnnullaScelta);
+        btnNuovoAllenamento = (Button) rootView.findViewById(R.id.gestioneAllenamenti);
+
+        btnNuovoAllenamento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GenericFragment fr = AggiuntaAllenamentoFragment.getInstance();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fr.getFragment());
+                fragmentTransaction.commit();
+            }
+        });
+
+        btnAnnullaScelta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GenericFragment f = AllenamentoFragment.getInstance();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, f.getFragment());
+                transaction.commit();
+            }
+        });
 
         aggiungiAllenamentiSalvati();
         btnEffettuaAllenamento.setEnabled(false);
@@ -74,6 +96,7 @@ public class EserciziFragment extends Fragment implements GenericFragment{
         lw_allenamentiSalvati.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                daEffettuare = (Allenamento) allenamentiSalvati.get(position);
                btnEffettuaAllenamento.setEnabled(true);
                 Log.e("DEBUG:::::::::::::   ", daEffettuare.toString());

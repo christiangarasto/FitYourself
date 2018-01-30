@@ -6,13 +6,12 @@ import java.util.LinkedList;
 
 public class Allenamento {
 
-    private LinkedList<Esercizio> esercizi;
-
     private String nomeAllenamento;
     private Date data;
     private String durata;
     private boolean completato;
     private LinkedList<Obiettivo> obiettivi;
+    private LinkedList<Esercizio> esercizi;
 
 
     public Allenamento(){
@@ -90,5 +89,9 @@ public class Allenamento {
 
 
         return allenamento;
+    }
+
+    public void setLinkedEsercizi(LinkedList<Esercizio> esercizi) {
+        this.esercizi = esercizi;
     }
 }

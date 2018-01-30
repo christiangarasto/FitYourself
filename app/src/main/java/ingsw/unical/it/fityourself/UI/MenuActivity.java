@@ -23,6 +23,16 @@ public class MenuActivity extends AppCompatActivity
     Toolbar toolbar = null;
     GenericFragment fragment;
 
+    private static boolean daGestione = true;
+
+    public static boolean isDaGestione() {
+        return daGestione;
+    }
+
+    public static void setDaGestione(boolean daGestione) {
+        MenuActivity.daGestione = daGestione;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

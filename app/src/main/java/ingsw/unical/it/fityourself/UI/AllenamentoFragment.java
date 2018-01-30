@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -97,6 +98,8 @@ public class AllenamentoFragment extends Fragment implements GenericFragment{
             @Override
             public void onClick(View view) {
 
+                MenuActivity.setDaGestione(false);
+
                 if (!isDatiInseriti()) {
                     Toast.makeText(getContext(), "Attenzione! devi inserire i dati personali!", Toast.LENGTH_SHORT).show();
                     GenericFragment dati = DatiPersonaliFragment.getInstance();
@@ -117,6 +120,8 @@ public class AllenamentoFragment extends Fragment implements GenericFragment{
         gestioneEsercizi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                MenuActivity.setDaGestione(true);
 
                 if (!isDatiInseriti()) {
                     Toast.makeText(getContext(), "Attenzione! devi inserire i dati personali!", Toast.LENGTH_SHORT).show();

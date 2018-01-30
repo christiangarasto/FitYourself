@@ -16,8 +16,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.LinkedList;
+
+import ingsw.unical.it.fityourself.DOMAIN.Allenamento;
+import ingsw.unical.it.fityourself.DOMAIN.Esercizio;
 import ingsw.unical.it.fityourself.R;
 
 /**
@@ -39,9 +47,17 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
     private static boolean [] effettuato;
 
 
+    private static FirebaseDatabase mFirebaseInstance;
+    private static DatabaseReference mFirebaseDatabase;
+    private String uid;
+
     private AllenamentoInCorsoFragment(){
         this.posizione = 0;
         this.serie = new ArrayList();
+
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference("Allenamenti Effettuati");
+        uid = FirebaseAuth.getInstance().getUid();
 
     }
 
@@ -100,9 +116,6 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
         succBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Log.e(Integer.toString(posizione)+ "---> ",Boolean.toString(effettuato[posizione]));
-
                 if(posizione < EserciziFragment.getDaEffettuare().getEsercizi().size() && effettuato[posizione])
                     succBtn.setEnabled(true);
 
@@ -119,7 +132,6 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
                     if(posizione >= EserciziFragment.getDaEffettuare().getEsercizi().size())
                     {
                         succBtn.setText("salva");
-                        precBtn.setEnabled(false);
                         succBtn.setEnabled(true);
                         nomeEsercizio.setText("Allenamento");
                         durata.setText("Terminato!");
@@ -127,7 +139,13 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
                         nomeEsercizio.setTextColor(Color.GREEN);
                         serie.clear();
 
-                        serie.add(EserciziFragment.getDaEffettuare().getNomeAllenamento() + "\n" + EserciziFragment.getDaEffettuare().getEsercizi());
+                        String alle = "Nome: " + EserciziFragment.getDaEffettuare().getNomeAllenamento() + "\n";
+
+                            for(Esercizio e : EserciziFragment.getDaEffettuare().getEsercizi()){
+                                alle += "- " + e.toString() + "\n";
+                            }
+
+                        serie.add(alle);
                         adapter.notifyDataSetChanged();
                         // visualizzare gli allenamenti effettuati
                     }
@@ -152,15 +170,31 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
                 }
                 else
                 {
-                    //IMPLEMENTARE IL SALVATAGGIO
+                    Allenamento allenamento = new Allenamento();
+                    allenamento.setCompletato(true);
+                    allenamento.setData(Calendar.getInstance().getTime());
+                    allenamento.setLinkedEsercizi(EserciziFragment.getDaEffettuare().getEsercizi());
+                    allenamento.setNomeAllenamento(EserciziFragment.getDaEffettuare().getNomeAllenamento());
+
+                    mFirebaseDatabase.child(uid).child(allenamento.getData().toString()).setValue(allenamento);
+
+                    Toast.makeText(getContext(), "Allenamento salvato correttamente!", Toast.LENGTH_SHORT).show();
+                    GenericFragment a = AllenamentoFragment.getInstance();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, a.getFragment());
+                    fragmentTransaction.commit();
+
                 }
 
                 precBtn.setEnabled(true);
 
                 if(!succBtn.getText().equals("salva"))
                     succBtn.setEnabled(false);
-                if(posizione < EserciziFragment.getDaEffettuare().getEsercizi().size() && effettuato[posizione])
+                if(posizione < EserciziFragment.getDaEffettuare().getEsercizi().size() && effettuato[posizione]) {
                     succBtn.setEnabled(true);
+                    nomeEsercizio.setText(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getNomeEsercizio());
+                    durata.setText(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata());
+                }
             }
         });
 
@@ -186,6 +220,13 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
                         durata.setText(EserciziFragment.getDaEffettuare().getEsercizi().get(posizione).getDurata());
                         succBtn.setText("succ");
                     }
+
+                    if(effettuato[posizione]){
+                        serie.clear();
+                        serie.add("ESERCIZIO COMPLETATO");
+                        succBtn.setEnabled(true);
+                    }
+
                     adapter.notifyDataSetChanged();
                 }
             }
