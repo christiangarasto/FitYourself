@@ -17,7 +17,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.sql.Array;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 
@@ -183,7 +185,7 @@ public class RisultatiCorsaFragment extends Fragment implements GenericFragment{
                         distanzaPercorsa = new Obiettivo("Distanza: " + distanza.getText(), false);
                     }
 
-                    LinkedList<Obiettivo> obiettivi = new LinkedList<Obiettivo>();
+                    ArrayList<Obiettivo> obiettivi = new ArrayList<Obiettivo>();
                         if(passi != null)
                             obiettivi.add(passi);
 

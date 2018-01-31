@@ -1,5 +1,7 @@
 package ingsw.unical.it.fityourself.DOMAIN;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -22,8 +24,12 @@ public class Allenamento {
         this.esercizi = esercizi;
     }
 
-    public void setObiettivi(LinkedList<Obiettivo> obiettivi) {
-        this.obiettivi = obiettivi;
+    public void setObiettivi(ArrayList<Obiettivo> obiettivi) {
+        LinkedList<Obiettivo> ob = new LinkedList<Obiettivo>();
+        for(int i = 0; i < obiettivi.size(); i++){
+            ob.add(obiettivi.get(i));
+        }
+        this.obiettivi = ob;
     }
 
     public LinkedList<Obiettivo> getObiettivi() {
@@ -69,8 +75,8 @@ public class Allenamento {
     public void setEsercizi(ArrayList<Esercizio> esercizi) {
         LinkedList<Esercizio> eserciziLL = new LinkedList<Esercizio>();
 
-        for(Esercizio e : esercizi){
-            eserciziLL.add(e);
+        for(int i = 0; i < esercizi.size(); i++){
+            eserciziLL.add(esercizi.get(i));
         }
 
         this.esercizi = eserciziLL;
@@ -80,13 +86,14 @@ public class Allenamento {
     public String toString() {
         String allenamento;
 
-                allenamento = "Nome allenamento: " + nomeAllenamento + ".\nEsercizi:";
+        allenamento = "Nome allenamento: " + nomeAllenamento + ".\nEsercizi:";
 
-                for(Esercizio e : esercizi){
-                    allenamento += "\n- ";
-                    allenamento += (e.toString() + ".");
-                }
-
+        if (esercizi != null) {
+            for (int i = 0; i < esercizi.size(); i++){
+                allenamento += "\n- ";
+                allenamento += (esercizi.get(i).toString() + ".");
+            }
+        }
 
         return allenamento;
     }

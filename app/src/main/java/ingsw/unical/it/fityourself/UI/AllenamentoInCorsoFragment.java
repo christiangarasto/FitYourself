@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -176,7 +177,8 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
                     allenamento.setLinkedEsercizi(EserciziFragment.getDaEffettuare().getEsercizi());
                     allenamento.setNomeAllenamento(EserciziFragment.getDaEffettuare().getNomeAllenamento());
 
-                    mFirebaseDatabase.child(uid).child(allenamento.getData().toString()).setValue(allenamento);
+              !!!      GenericTypeIndicator<Allenamento> g = new GenericTypeIndicator<Allenamento>();
+                    mFirebaseDatabase.child(uid).child(allenamento.getData().toString()).setValue(g);
 
                     Toast.makeText(getContext(), "Allenamento salvato correttamente!", Toast.LENGTH_SHORT).show();
                     GenericFragment a = AllenamentoFragment.getInstance();
