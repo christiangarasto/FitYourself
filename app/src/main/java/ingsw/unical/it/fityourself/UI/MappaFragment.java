@@ -67,7 +67,7 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
         indietro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GenericFragment dati = MappaFragment.getInstance();
+                GenericFragment dati = AllenamentoFragment.getInstance();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, dati.getFragment());
                 fragmentTransaction.commit();
@@ -89,7 +89,6 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
         if(ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
 
                 ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            Log.e("non ho fatto un cazzo ", "ma proprio un cazzo");
         }
             else{
             Location location = lm.getLastKnownLocation(lm.NETWORK_PROVIDER);

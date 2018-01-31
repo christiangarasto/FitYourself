@@ -6,9 +6,9 @@
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="wrap_content"
-        android:layout_height="500dp"
+        android:layout_height="900dp"
         android:layout_weight="1"
-        android:layout_marginTop="70dp"/>
+        android:layout_marginTop="100dp"/>
 
     <Button
         android:id="@+id/indietro"
@@ -16,8 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="520dp"
-        android:text="Button" />
-
+        android:layout_marginTop="57dp"
+        android:text="indietro" />
 
 </RelativeLayout>
