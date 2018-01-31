@@ -58,6 +58,8 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
     private String userId;// = FirebaseAuth.getInstance().getUid();
     private static DatiPersonaliFragment datiPersonali = null;
 
+    private static boolean datiSalvati = false;
+
     private DatiPersonaliFragment() {
         // Required empty public constructor
     }
@@ -125,7 +127,6 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
                     sport = true;
                 else
                     sport = false;
-
                 // Check for already existed userId
                 if (TextUtils.isEmpty(userId)) {
                     createUser(name, cognome, peso, altezza, eta, sesso, sport);
@@ -134,6 +135,16 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
                 }
 
                 btnExit.setEnabled(true);
+
+               setDatiSalvati(true);
+
+               if(isDatiSalvati()){
+                   GenericFragment allenamento = AllenamentoFragment.getInstance();
+                   FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                   fragmentTransaction.replace(R.id.fragment_container, allenamento.getFragment());
+                   fragmentTransaction.commit();
+               }
+
             }
 
 
@@ -203,7 +214,8 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
                     btnExit.setEnabled(true);
 
-}
+                    setDatiSalvati(true);
+            }
             }
 
             @Override
@@ -238,15 +250,12 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         // TODO
         // In real apps this userId should be fetched
         // by implementing firebase auth
-
         if (TextUtils.isEmpty(userId)) {
             userId = FirebaseAuth.getInstance().getUid();
         }
 
         User user = new User(name, cognome, peso, altezza, eta, sesso, sport);
-
         mFirebaseDatabase.child(userId).setValue(user);
-
         addUserChangeListener();
     }
 
@@ -259,15 +268,12 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User userTmp = dataSnapshot.getValue(User.class);
-
                 // Check for null
                 if (userTmp == null) {
                     Log.e(TAG, "User data is null!");
                     return;
                 }
-
                 Log.e(TAG, "User data is changed!" + userTmp.getNome() + "\n" + userTmp.getCognome() + userTmp.getPeso() + "\n"+ userTmp.getAltezza() + "\n"+ userTmp.getEta() + "\n"+ userTmp.getSesso() + "\n"+ userTmp.isSport() + "\n");
-
             }
 
             @Override
@@ -324,6 +330,14 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
                     sesso = "Femmina";
                 break;
         }
+    }
+
+    public static boolean isDatiSalvati() {
+        return datiSalvati;
+    }
+
+    public static void setDatiSalvati(boolean datiSalvati) {
+        DatiPersonaliFragment.datiSalvati = datiSalvati;
     }
 
     @Override

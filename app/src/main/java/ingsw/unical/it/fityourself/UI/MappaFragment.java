@@ -39,7 +39,6 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
     GoogleMap gMap;
     static MappaFragment mappaFragment = null;
 
-    private static Location location;
     private static LocationManager lm;
     private static double longitude;
     private static double latitude;
@@ -94,11 +93,12 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
         }
             else{
             Location location = lm.getLastKnownLocation(lm.NETWORK_PROVIDER);
-            Log.e("sono nell'else e ", "non ho fatto un cazzo");
                 if(location != null){
                      latitude = location.getLatitude();
                      longitude = location.getLongitude();
-                        Toast.makeText(getContext(), " Latitude : "+latitude, Toast.LENGTH_SHORT).show(); }
+                        Toast.makeText(getContext(), " Latitude : "+ latitude, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), " Longitude : "+ longitude, Toast.LENGTH_SHORT).show();
+                }
                     else {
                         Toast.makeText(getContext(), " latitude not found ", Toast.LENGTH_SHORT).show();
                 }
@@ -123,29 +123,13 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-      /*  lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, android.REQUEST_LOCATIION);
-        }
-        location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);*/
-
-       // latitude = location.getLatitude();
-        //longitude = location.getLongitude();
-
-        LatLng sydney = new LatLng(latitude, longitude);
-        googleMap.addMarker(new MarkerOptions().position(sydney)
-                .title("Marker in Sydney"));
+        LatLng posAttuale = new LatLng(latitude, longitude);
+        googleMap.addMarker(new MarkerOptions().position(posAttuale)
+                .title("SEI QUI"));
         googleMap.animateCamera(CameraUpdateFactory.zoomBy(20f));
         googleMap.setMinZoomPreference(15f);
-        googleMap.setMaxZoomPreference(20f);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+       // googleMap.setMaxZoomPreference(20f);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(posAttuale));
 
     }
 

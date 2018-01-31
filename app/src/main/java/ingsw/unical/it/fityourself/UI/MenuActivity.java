@@ -52,7 +52,8 @@ public class MenuActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Set the fragment initially
-        fragment = AllenamentoFragment.getInstance();
+        //fragment = AllenamentoFragment.getInstance();
+        fragment = new ProgressBar();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment.getFragment());
         fragmentTransaction.commit();
