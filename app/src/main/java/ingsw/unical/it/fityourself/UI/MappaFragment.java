@@ -3,6 +3,7 @@ package ingsw.unical.it.fityourself.UI;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,7 +33,7 @@ import ingsw.unical.it.fityourself.R;
  * Created by valentina on 29/01/2018.
  */
 
-public class MappaFragment extends Fragment implements GenericFragment, OnMapReadyCallback {
+public class MappaFragment extends Fragment implements GenericFragment, OnMapReadyCallback, LocationListener {
 
     MapView map;
     View rootView;
@@ -43,6 +44,8 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
     private static double longitude;
     private static double latitude;
 
+    private static GoogleMap googleMap;
+    private MarkerOptions pos;
 
     Button indietro;
 
@@ -87,16 +90,28 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
     }
     public void getLocation(){
         if(ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-
                 ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
             else{
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0.1f, (LocationListener) this);
+
             Location location = lm.getLastKnownLocation(lm.NETWORK_PROVIDER);
                 if(location != null){
                      latitude = location.getLatitude();
                      longitude = location.getLongitude();
-                        Toast.makeText(getContext(), " Latitude : "+ latitude, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getContext(), " Longitude : "+ longitude, Toast.LENGTH_SHORT).show();
+                    LatLng posAttuale = new LatLng(latitude, longitude);
+
+                    pos = new MarkerOptions().position(posAttuale)
+                            .title("SEI QUI");
+
+                    if(googleMap != null) {
+                        pos.position(posAttuale);
+                        //googleMap.clear();
+                        googleMap.addMarker(pos);
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(posAttuale));
+            //            Toast.makeText(getContext(), " Latitude : " + latitude, Toast.LENGTH_SHORT).show();
+          //              Toast.makeText(getContext(), " Longitude : " + longitude, Toast.LENGTH_SHORT).show();
+                    }
                 }
                     else {
                         Toast.makeText(getContext(), " latitude not found ", Toast.LENGTH_SHORT).show();
@@ -122,13 +137,17 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        //Toast.makeText(getContext(), "OnMapReady", Toast.LENGTH_LONG).show();
+
         LatLng posAttuale = new LatLng(latitude, longitude);
-        googleMap.addMarker(new MarkerOptions().position(posAttuale)
-                .title("SEI QUI"));
-        googleMap.animateCamera(CameraUpdateFactory.zoomBy(20f));
-        googleMap.setMinZoomPreference(15f);
+        pos = new MarkerOptions().position(posAttuale)
+                .title("SEI QUI READY");
+        this.googleMap = googleMap;
+        this.googleMap.addMarker(pos);
+        this.googleMap.animateCamera(CameraUpdateFactory.zoomBy(20f));
+        this.googleMap.setMinZoomPreference(15f);
        // googleMap.setMaxZoomPreference(20f);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(posAttuale));
+        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(posAttuale));
 
     }
 
@@ -155,5 +174,26 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
     public void onLowMemory() {
         super.onLowMemory();
         map.onLowMemory();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Toast.makeText(getContext(), "Loc changed", Toast.LENGTH_SHORT).show();
+        getLocation();
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
     }
 }
