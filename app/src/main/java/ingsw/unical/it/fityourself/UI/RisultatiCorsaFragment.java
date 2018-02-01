@@ -73,7 +73,7 @@ public class RisultatiCorsaFragment extends Fragment implements GenericFragment{
         distanza.setText(CorsaFragment.getDistanzaPercorsa().getText().toString());
         nCalorieBruciate.setText(CorsaFragment.getCalorieBruciate().getText().toString());
 
-        int passi = Integer.parseInt(nPassi.getText().toString());
+        final int passi = Integer.parseInt(nPassi.getText().toString());
         final int obPassi, obDist, obKcal;
 
         if(!CorsaFragment.getObiettivoP().getText().toString().equals(""))
@@ -154,10 +154,18 @@ public class RisultatiCorsaFragment extends Fragment implements GenericFragment{
             public void onClick(View view) {
 
                 Allenamento corsa = new Allenamento();
-
+/*
                 if(nCalorieBruciate.getCurrentTextColor() == Color.GREEN ||
                    nPassi.getCurrentTextColor() == Color.GREEN ||
-                   distanza.getCurrentTextColor() == Color.GREEN ){
+                   distanza.getCurrentTextColor() == Color.GREEN )
+                 */
+                Double caloB = Double.parseDouble(CorsaFragment.getCalorieBruciate().getText().toString());
+                int distP = Integer.parseInt(CorsaFragment.getDistanzaPercorsa().getText().toString());
+                int passiE = Integer.parseInt(CorsaFragment.getPassiEffettuati().getText().toString());
+
+                if(caloB == 0 && distP == 0 && passiE == 0 || CorsaFragment.getTempo() == 0){
+                        Toast.makeText(getContext(), "L'allenamento non verrà memorizzato perchè non completato!", Toast.LENGTH_LONG).show();
+                }else{
                     corsa.setCompletato(true);
                     corsa.setNomeAllenamento("Sessione di corsa");
                     corsa.setData(Calendar.getInstance().getTime());
@@ -185,18 +193,12 @@ public class RisultatiCorsaFragment extends Fragment implements GenericFragment{
                         distanzaPercorsa = new Obiettivo("Distanza: " + distanza.getText(), false);
                     }
 
-                    ArrayList<Obiettivo> obiettivi = new ArrayList<Obiettivo>();
-                        if(passi != null)
-                            obiettivi.add(passi);
-
-                        if(calorie != null)
-                            obiettivi.add(calorie);
-
-                        if(distanzaPercorsa != null)
-                            obiettivi.add(distanzaPercorsa);
-
-                    if(obiettivi.size() > 0)
-                        corsa.setObiettivi(obiettivi);
+                            corsa.setObiettivoPassi(passi);
+                                corsa.setPassiEffettuati(nPassi.getText().toString());
+                            corsa.setObiettivoCalorie(calorie);
+                                corsa.setCalorieBruciate(nCalorieBruciate.getText().toString());
+                            corsa.setObiettivoDistanza(distanzaPercorsa);
+                                corsa.setDistanzaPercorsa(distanza.getText().toString());
 
                     mFirebaseDatabase.child(uid).child(corsa.getData().toString()).setValue(corsa);
 
@@ -207,8 +209,6 @@ public class RisultatiCorsaFragment extends Fragment implements GenericFragment{
                     fragmentTransaction.replace(R.id.fragment_container, f.getFragment());
                     fragmentTransaction.commit();
 
-                }else{
-                    Toast.makeText(getContext(), "L'allenamento non verrà memorizzato perchè non completato!", Toast.LENGTH_LONG).show();
                 }
 
 

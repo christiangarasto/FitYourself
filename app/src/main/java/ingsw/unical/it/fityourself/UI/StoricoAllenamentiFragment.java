@@ -63,6 +63,7 @@ public class StoricoAllenamentiFragment extends Fragment implements GenericFragm
     LinkedList<Allenamento> allenamentiGiorno;
 
     CalendarView cal;
+    static String nomeAllenamentoDaCercare;
 
     private StoricoAllenamentiFragment() {
         mFirebaseInstance = FirebaseDatabase.getInstance();
@@ -97,8 +98,6 @@ public class StoricoAllenamentiFragment extends Fragment implements GenericFragm
                 mese = i1; //mese numerico meno 1
                 giorno = i2;
 
-                //Toast.makeText(getContext(), i + ":" +i1 + ":" + i2, Toast.LENGTH_LONG).show();
-
                 allenamentiGiorno.clear();
 
                 mFirebaseDatabase.child(userId);
@@ -120,37 +119,26 @@ public class StoricoAllenamentiFragment extends Fragment implements GenericFragm
                                                 a.setNomeAllenamento(itemSnapshot.child("nomeAllenamento").getValue().toString());
 
                                             Object durata = itemSnapshot.child("durata").getValue();
+                                            Object passiEffettuati = itemSnapshot.child("passiEffettuati").getValue();
+                                            Object distanzaPercorsa = itemSnapshot.child("distanzaPercorsa").getValue();
+                                            Object calorieBruciate = itemSnapshot.child("calorieBruciate").getValue();
+                                            Obiettivo oP = itemSnapshot.child("obiettivoPassi").getValue(Obiettivo.class);
+                                            Obiettivo oD = itemSnapshot.child("obiettivoDistanza").getValue(Obiettivo.class);
+                                            Obiettivo oC = itemSnapshot.child("obiettivoCalorie").getValue(Obiettivo.class);
 
                                             if(durata != null) {
-                                                //Log.e("TROVO allenamento:", durata.toString());
-                                                ArrayList<Obiettivo> ob = (ArrayList<Obiettivo>)itemSnapshot.child("obiettivi").getValue();
-                                                Log.e("Ob::", ob.toString());
-                                                a.setObiettivi(ob);
                                                 a.setDurata(durata.toString());
 
-                                            }else{
-                                                //Log.e("TROVO allenamento:", "Durata non esistente per questo allenamento");
+                                                a.setPassiEffettuati(passiEffettuati.toString());
+                                                a.setDistanzaPercorsa(distanzaPercorsa.toString());
+                                                a.setCalorieBruciate(calorieBruciate.toString());
 
-                                                    LinkedList<HashMap<String, String>> array = new LinkedList<HashMap<String, String>>();
-                                                    HashMap<String, String> hashe = new HashMap<>();
-                                                        hashe.put("nomeAllenamento", "Allenamento prova 1");
-                                                        hashe.put("durata", "100 serie da 1000 ripetizioni");
-                                                    array.add(hashe);
-
-                                                    HashMap<String, String> hashe1 = new HashMap<>();
-                                                        hashe1.put("nomeAllenamento", "Allenamento prova 2");
-                                                        hashe1.put("durata", "100 serie da 1500 ripetizioni");
-                                                    array.add(hashe1);
-
-                                                    Log.e("Stampa hm[string]:", array.toString());
-
-                                                ArrayList<Esercizio> es = (ArrayList<Esercizio>)itemSnapshot.child("esercizi").getValue();
-                                                Log.e("Es::", es.toString());
-                                                a.setEsercizi(es);
+                                                a.setObiettivoPassi(oP);
+                                                a.setObiettivoDistanza(oD);
+                                                a.setObiettivoCalorie(oC);
                                             }
 
                                             allenamentiGiorno.add(a);
-                                            Log.e("Aggiungo allenamento::", a.toString());
                                         }
 
                                             ArrayList<String> all = new ArrayList<String>();
@@ -159,20 +147,30 @@ public class StoricoAllenamentiFragment extends Fragment implements GenericFragm
                                                 all.add("Nessun allenamento per questa data.");
                                             }else {
                                                 for (Allenamento a : allenamentiGiorno) {
-
-                                                    LinkedList<Esercizio> eserci = a.getEsercizi();
-                                                    LinkedList<Obiettivo> obietti = a.getObiettivi();
-
-                                                    String alle = a.getNomeAllenamento() + "\n";
+                                                    String alle = a.getNomeAllenamento();
 
                                                     if(a.getDurata() != null){
-                                                        alle += "Corsa\n";
-                                                    }else{
-                                                            Log.e("Esercizi::: ", eserci.toString());
-                                                        for(int i = 0; i < eserci.size(); i++) {
-                                                            Esercizio e = null;
-                                                            e.setDurata(a.getEsercizi().get(i).getDurata());
+                                                        alle += " - Durata: " + a.getDurata() + "\n";
+                                                        alle += "- Distanza percorsa: " + a.getDistanzaPercorsa() + " m\n";
+                                                        alle += "- Passi effettuati: " + a.getPassiEffettuati() + "\n";
+                                                        alle += "- Calorie bruciate: " + a.getCalorieBruciate() + "\n";
+                                                        alle += "\n";
+
+                                                        boolean almenoUnObiettivo = false;
+
+                                                        if(a.getObiettivoCalorie() != null){
+                                                            almenoUnObiettivo = true;
+                                                            alle += "- Obiettivo " + a.getObiettivoCalorie().toString();
                                                         }
+                                                        if(a.getObiettivoDistanza() != null){
+                                                            almenoUnObiettivo = true;
+                                                            alle += "- Obiettivo " + a.getObiettivoDistanza().toString();
+                                                        }
+                                                        if(a.getObiettivoPassi() != null){
+                                                            almenoUnObiettivo = true;
+                                                            alle += "- Obiettivo " + a.getObiettivoPassi().toString();
+                                                        }
+
                                                     }
 
                                                     all.add(alle);

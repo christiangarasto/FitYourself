@@ -27,4 +27,14 @@ public class Obiettivo {
     public void setValore(boolean valore) {
         this.valore = valore;
     }
+
+    public String toString(){
+        String ob = tipo + " ( ";
+            if(valore)
+                ob += "Raggiunto )\n";
+            else
+                ob += "Non raggiunto )\n";
+
+        return ob;
+    }
 }

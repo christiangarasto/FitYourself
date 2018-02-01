@@ -29,10 +29,6 @@ import ingsw.unical.it.fityourself.DOMAIN.Allenamento;
 import ingsw.unical.it.fityourself.DOMAIN.Esercizio;
 import ingsw.unical.it.fityourself.R;
 
-/**
- * Created by valentina on 28/01/2018.
- */
-
 public class AllenamentoInCorsoFragment extends Fragment implements GenericFragment{
 
     private View rootView;
@@ -177,8 +173,7 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
                     allenamento.setLinkedEsercizi(EserciziFragment.getDaEffettuare().getEsercizi());
                     allenamento.setNomeAllenamento(EserciziFragment.getDaEffettuare().getNomeAllenamento());
 
-              /*!!!!!*/      GenericTypeIndicator<Allenamento> g = new GenericTypeIndicator<Allenamento>();
-                    mFirebaseDatabase.child(uid).child(allenamento.getData().toString()).setValue(g); //allenamento
+                    mFirebaseDatabase.child(uid).child(allenamento.getData().toString()).setValue(allenamento);
 
                     Toast.makeText(getContext(), "Allenamento salvato correttamente!", Toast.LENGTH_SHORT).show();
                     GenericFragment a = AllenamentoFragment.getInstance();

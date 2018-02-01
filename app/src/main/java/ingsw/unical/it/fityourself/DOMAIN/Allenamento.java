@@ -12,8 +12,15 @@ public class Allenamento {
     private Date data;
     private String durata;
     private boolean completato;
-    private LinkedList<Obiettivo> obiettivi;
     private LinkedList<Esercizio> esercizi;
+
+    private String passiEffettuati;
+    private String distanzaPercorsa;
+    private String calorieBruciate;
+
+    private Obiettivo obiettivoPassi;
+    private Obiettivo obiettivoDistanza;
+    private Obiettivo obiettivoCalorie;
 
 
     public Allenamento(){
@@ -24,16 +31,52 @@ public class Allenamento {
         this.esercizi = esercizi;
     }
 
-    public void setObiettivi(ArrayList<Obiettivo> obiettivi) {
-        LinkedList<Obiettivo> ob = new LinkedList<Obiettivo>();
-        for(int i = 0; i < obiettivi.size(); i++){
-            ob.add(obiettivi.get(i));
-        }
-        this.obiettivi = ob;
+    public void setObiettivoCalorie(Obiettivo obiettivoCalorie) {
+        this.obiettivoCalorie = obiettivoCalorie;
     }
 
-    public LinkedList<Obiettivo> getObiettivi() {
-        return obiettivi;
+    public Obiettivo getObiettivoCalorie() {
+        return obiettivoCalorie;
+    }
+
+    public void setObiettivoDistanza(Obiettivo obiettivoDistanza) {
+        this.obiettivoDistanza = obiettivoDistanza;
+    }
+
+    public Obiettivo getObiettivoDistanza() {
+        return obiettivoDistanza;
+    }
+
+    public void setObiettivoPassi(Obiettivo obiettivoPassi) {
+        this.obiettivoPassi = obiettivoPassi;
+    }
+
+    public Obiettivo getObiettivoPassi() {
+        return obiettivoPassi;
+    }
+
+    public void setPassiEffettuati(String passiEffettuati) {
+        this.passiEffettuati = passiEffettuati;
+    }
+
+    public String getPassiEffettuati() {
+        return passiEffettuati;
+    }
+
+    public String getCalorieBruciate() {
+        return calorieBruciate;
+    }
+
+    public void setCalorieBruciate(String calorieBruciate) {
+        this.calorieBruciate = calorieBruciate;
+    }
+
+    public String getDistanzaPercorsa() {
+        return distanzaPercorsa;
+    }
+
+    public void setDistanzaPercorsa(String distanzaPercorsa) {
+        this.distanzaPercorsa = distanzaPercorsa;
     }
 
     public String getNomeAllenamento() {
@@ -86,15 +129,32 @@ public class Allenamento {
     public String toString() {
         String allenamento;
 
-        allenamento = "Nome allenamento: " + nomeAllenamento + ".\nEsercizi:";
+        allenamento = "Nome allenamento: " + nomeAllenamento + ".\n";
 
         if (esercizi != null) {
+            allenamento += "Esercizi: ";
             for (int i = 0; i < esercizi.size(); i++){
                 allenamento += "\n- ";
                 allenamento += (esercizi.get(i).toString() + ".");
             }
         }
+        /*
+        else if(obiettivi != null){
 
+            allenamento += "Durata: " + durata + "\n";
+
+            if(obiettivi.size() > 0) {
+                allenamento += "Obiettivi:";
+                for (int i = 0; i < obiettivi.size(); i++) {
+                    allenamento += "\n- " + obiettivi.get(i).toString() + ": ";
+                        if(obiettivi.get(i).isValore())
+                            allenamento += "Raggiunto.\n";
+                        else
+                            allenamento += "Non raggiunto.\n";
+                }
+            }
+        }
+        */
         return allenamento;
     }
 
