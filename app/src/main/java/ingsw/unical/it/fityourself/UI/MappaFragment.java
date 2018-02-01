@@ -3,6 +3,7 @@ package ingsw.unical.it.fityourself.UI;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,10 +28,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import ingsw.unical.it.fityourself.Manifest;
 import ingsw.unical.it.fityourself.R;
-
-/**
- * Created by valentina on 29/01/2018.
- */
 
 public class MappaFragment extends Fragment implements GenericFragment, OnMapReadyCallback {
 
@@ -67,9 +64,9 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
         indietro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GenericFragment dati = AllenamentoFragment.getInstance();
+                //GenericFragment dati = new CorsaFragment();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, dati.getFragment());
+                fragmentTransaction.remove(MappaFragment.getInstance());
                 fragmentTransaction.commit();
             }
         });
@@ -80,6 +77,11 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
         map.getMapAsync(this);
 
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1 * 1000, 1, (LocationListener) this);
+        }
         getLocation();
 
 
@@ -89,6 +91,7 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
         if(ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
 
                 ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3 * 1000, 1, (LocationListener) this);
         }
             else{
             Location location = lm.getLastKnownLocation(lm.NETWORK_PROVIDER);
@@ -127,7 +130,6 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
                 .title("SEI QUI"));
         googleMap.animateCamera(CameraUpdateFactory.zoomBy(20f));
         googleMap.setMinZoomPreference(15f);
-       // googleMap.setMaxZoomPreference(20f);
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(posAttuale));
 
     }
@@ -155,5 +157,21 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
     public void onLowMemory() {
         super.onLowMemory();
         map.onLowMemory();
+    }
+
+    public static double getLongitude() {
+        return longitude;
+    }
+
+    public static void setLongitude(double longitude) {
+        MappaFragment.longitude = longitude;
+    }
+
+    public static double getLatitude() {
+        return latitude;
+    }
+
+    public static void setLatitude(double latitude) {
+        MappaFragment.latitude = latitude;
     }
 }

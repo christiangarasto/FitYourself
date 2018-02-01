@@ -177,7 +177,7 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
                     allenamento.setLinkedEsercizi(EserciziFragment.getDaEffettuare().getEsercizi());
                     allenamento.setNomeAllenamento(EserciziFragment.getDaEffettuare().getNomeAllenamento());
 
-              !!!      GenericTypeIndicator<Allenamento> g = new GenericTypeIndicator<Allenamento>();
+                    GenericTypeIndicator<Allenamento> g = new GenericTypeIndicator<Allenamento>();
                     mFirebaseDatabase.child(uid).child(allenamento.getData().toString()).setValue(g);
 
                     Toast.makeText(getContext(), "Allenamento salvato correttamente!", Toast.LENGTH_SHORT).show();
