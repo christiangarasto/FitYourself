@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -108,7 +109,8 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
             public void onClick(View v) {
                 GenericFragment dati = MappaFragment.getInstance();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, dati.getFragment());
+                fragmentTransaction.add(R.id.fragment_container,dati.getFragment());
+                //fragmentTransaction.replace(R.id.fragment_container, dati.getFragment());
                 fragmentTransaction.commit();
             }
         });
@@ -487,4 +489,5 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
     }
 
     public static boolean isCronometroAvviatoAlmenoUnaVolta(){ return cronometroAvviatoAlmenoUnaVolta;}
+
 }

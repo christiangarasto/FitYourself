@@ -26,9 +26,6 @@ import com.google.firebase.database.ValueEventListener;
 import ingsw.unical.it.fityourself.DOMAIN.User;
 import ingsw.unical.it.fityourself.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
     private static final String TAG = DatiPersonaliFragment.class.getSimpleName();
