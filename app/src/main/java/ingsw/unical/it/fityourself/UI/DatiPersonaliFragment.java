@@ -135,12 +135,14 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
                setDatiSalvati(true);
 
+               /*
                if(isDatiSalvati()){
                    GenericFragment allenamento = AllenamentoFragment.getInstance();
                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                    fragmentTransaction.replace(R.id.fragment_container, allenamento.getFragment());
                    fragmentTransaction.commit();
                }
+               */
 
             }
 
@@ -188,31 +190,31 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
                     User userTmp = dataSnapshot.getValue(User.class);
 
-            if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
+                if(dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())){
 
-                    inputNome.setText(userTmp.getNome());
+                        inputNome.setText(userTmp.getNome());
 
-                    inputCognome.setText(userTmp.getCognome());
+                        inputCognome.setText(userTmp.getCognome());
 
-                    String peso = Double.toString(userTmp.getPeso());
-                    String altezza = Double.toString(userTmp.getAltezza());
-                    String eta = Integer.toString(userTmp.getEta());
+                        String peso = Double.toString(userTmp.getPeso());
+                        String altezza = Double.toString(userTmp.getAltezza());
+                        String eta = Integer.toString(userTmp.getEta());
 
-                    inputPeso.setText(peso);
-                    inputAltezza.setText(altezza);
-                    inputEta.setText(eta);
+                        inputPeso.setText(peso);
+                        inputAltezza.setText(altezza);
+                        inputEta.setText(eta);
 
-                    if (userTmp.getSesso().equals("Maschio"))
-                        inputMaschio.setChecked(true);
-                    else
-                        inputFemmina.setChecked(true);
+                        if (userTmp.getSesso().equals("Maschio"))
+                            inputMaschio.setChecked(true);
+                        else
+                            inputFemmina.setChecked(true);
 
-                    inputSport.setChecked(userTmp.isSport());
+                        inputSport.setChecked(userTmp.isSport());
 
-                    btnExit.setEnabled(true);
+                        btnExit.setEnabled(true);
 
-                    setDatiSalvati(true);
-            }
+                        setDatiSalvati(false);
+                }
             }
 
             @Override
@@ -240,13 +242,8 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         return rootView;
     }
 
-    /**
-     * Creating new user node under 'users'
-     */
     private void createUser(String name, String cognome,double peso,double altezza,int eta, String sesso, boolean sport) {
-        // TODO
-        // In real apps this userId should be fetched
-        // by implementing firebase auth
+
         if (TextUtils.isEmpty(userId)) {
             userId = FirebaseAuth.getInstance().getUid();
         }
@@ -256,16 +253,12 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
         addUserChangeListener();
     }
 
-    /**
-     * User data change listener
-     */
     private void addUserChangeListener() {
         // User data change listener
         mFirebaseDatabase.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User userTmp = dataSnapshot.getValue(User.class);
-                // Check for null
                 if (userTmp == null) {
                     Log.e(TAG, "User data is null!");
                     return;
@@ -275,15 +268,12 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Failed to read value
                 Log.e(TAG, "Failed to read user", error.toException());
             }
         });
     }
 
     private void updateUser(String nome, String cognome,double peso,double altezza,int eta, String sesso, boolean sport) {
-        // updating the user via child nodes
-
         Log.e(TAG,"update datiPersonali");
            if (!TextUtils.isEmpty(nome))
                mFirebaseDatabase.child(userId).child("nome").setValue(nome);

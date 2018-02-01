@@ -67,9 +67,10 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
         indietro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GenericFragment dati = AllenamentoFragment.getInstance();
+                //GenericFragment dati = AllenamentoFragment.getInstance();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, dati.getFragment());
+                //fragmentTransaction.replace(R.id.fragment_container, dati.getFragment());
+                fragmentTransaction.remove(mappaFragment.getFragment());
                 fragmentTransaction.commit();
             }
         });

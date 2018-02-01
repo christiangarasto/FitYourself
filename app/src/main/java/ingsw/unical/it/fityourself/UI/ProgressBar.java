@@ -72,21 +72,18 @@ public class ProgressBar extends Fragment implements GenericFragment {
                                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                                 fragmentTransaction.replace(R.id.fragment_container, allenamento.getFragment());
                                 fragmentTransaction.commit();
+                                return;
                             }
                         }
                     }
                 }
+                if(!DatiPersonaliFragment.isDatiSalvati()) {
+                        GenericFragment datiPersonali = DatiPersonaliFragment.getInstance();
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_container, datiPersonali.getFragment());
+                        fragmentTransaction.commit();
+                }
 
-                for(DataSnapshot d : dataSnapshot.getChildren()){
-                    occorrenze[0]++;
-                }
-                if(occorrenze[0] == dataSnapshot.getChildrenCount())
-                {
-                    GenericFragment datiPersonali = DatiPersonaliFragment.getInstance();
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, datiPersonali.getFragment());
-                    fragmentTransaction.commit();
-                }
 
             }
 
