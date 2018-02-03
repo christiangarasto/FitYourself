@@ -2,6 +2,7 @@ package ingsw.unical.it.fityourself.UI;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -23,7 +24,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import ingsw.unical.it.fityourself.Manifest;
@@ -44,6 +49,8 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
     private MarkerOptions pos;
 
     Button indietro;
+
+    private boolean primaVolta = true;
 
     private MappaFragment() {
 
@@ -78,37 +85,47 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
         map.getMapAsync(this);
 
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        getLocation();
+       getLocation();
 
 
         return rootView;
     }
     public void getLocation(){
+
         if(ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
-        else{
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0.1f, (LocationListener) this);
+        }else {
+            if(primaVolta && googleMap != null){
+                googleMap.setMyLocationEnabled(true);
+                primaVolta = false;
+            }
 
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0.1f, (LocationListener) this);
             Location location = lm.getLastKnownLocation(lm.NETWORK_PROVIDER);
-            if(location != null){
+            LatLng posAttuale;
+            if (location != null) {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
-                LatLng posAttuale = new LatLng(latitude, longitude);
+                posAttuale = new LatLng(latitude, longitude);
 
                 pos = new MarkerOptions().position(posAttuale)
                         .title("SEI QUI");
 
-                if(googleMap != null) {
+                if (googleMap != null) {
                     pos.position(posAttuale);
                     //googleMap.clear();
-                    googleMap.addMarker(pos);
+                    googleMap.setMyLocationEnabled(true);
+                    //googleMap.addMarker(pos);
+
+                    latitude = googleMap.getMyLocation().getLatitude();
+                    longitude = googleMap.getMyLocation().getLongitude();
+                    posAttuale = new LatLng(latitude, longitude);
+
                     googleMap.moveCamera(CameraUpdateFactory.newLatLng(posAttuale));
                     //            Toast.makeText(getContext(), " Latitude : " + latitude, Toast.LENGTH_SHORT).show();
                     //              Toast.makeText(getContext(), " Longitude : " + longitude, Toast.LENGTH_SHORT).show();
                 }
-            }
-            else {
+            } else {
                 Toast.makeText(getContext(), " latitude not found ", Toast.LENGTH_SHORT).show();
             }
         }
@@ -141,7 +158,6 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
         this.googleMap.addMarker(pos);
         this.googleMap.animateCamera(CameraUpdateFactory.zoomBy(20f));
         this.googleMap.setMinZoomPreference(15f);
-        // googleMap.setMaxZoomPreference(20f);
         this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(posAttuale));
 
     }
@@ -173,13 +189,13 @@ public class MappaFragment extends Fragment implements GenericFragment, OnMapRea
 
     @Override
     public void onLocationChanged(Location location) {
-        Toast.makeText(getContext(), "Loc changed", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getContext(), "Loc changed", Toast.LENGTH_SHORT).show();
         getLocation();
+
     }
 
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
-
     }
 
     @Override
