@@ -127,14 +127,13 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
                 // Check for already existed userId
                 if (TextUtils.isEmpty(userId)) {
                     createUser(name, cognome, peso, altezza, eta, sesso, sport);
-                    setDatiSalvati(true);
-                    btnExit.setEnabled(true);
+
                 } else {
                     updateUser(name, cognome, peso, altezza, eta, sesso, sport);
-                    setDatiSalvati(true);
-                    btnExit.setEnabled(true);
                 }
 
+                btnExit.setEnabled(true);
+                setDatiSalvati(true);
                /*
                if(isDatiSalvati()){
                    GenericFragment allenamento = AllenamentoFragment.getInstance();
