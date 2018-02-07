@@ -50,7 +50,6 @@ public class ProgressBar extends Fragment implements GenericFragment {
         mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                Toast.makeText(getContext(), "dataS::" + dataSnapshot.getValue().toString(), Toast.LENGTH_SHORT).show();
 
                 if (dataSnapshot.getValue() != null) {
                     User userTmp = dataSnapshot.getValue(User.class);
@@ -78,10 +77,10 @@ public class ProgressBar extends Fragment implements GenericFragment {
                     }
                 }
                 if(!DatiPersonaliFragment.isDatiSalvati()) {
-                        GenericFragment datiPersonali = DatiPersonaliFragment.getInstance();
-                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.fragment_container, datiPersonali.getFragment());
-                        fragmentTransaction.commit();
+                    GenericFragment datiPersonali = DatiPersonaliFragment.getInstance();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, datiPersonali.getFragment());
+                    fragmentTransaction.commit();
                 }
 
 
@@ -124,5 +123,3 @@ public class ProgressBar extends Fragment implements GenericFragment {
         return this;
     }
 }
-
-
