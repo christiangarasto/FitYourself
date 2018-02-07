@@ -44,7 +44,7 @@ public class ConsigliAlimentariFragment extends Fragment implements GenericFragm
         specificTips = new LinkedList<TextView>();
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
-        mFirebaseDatabase = mFirebaseInstance.getReference("Allenamenti");
+        mFirebaseDatabase = mFirebaseInstance.getReference("Allenamenti Effettuati");
         userId = FirebaseAuth.getInstance().getUid();
     }
 
@@ -207,12 +207,12 @@ public class ConsigliAlimentariFragment extends Fragment implements GenericFragm
         mFirebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.hasChild("name")) {
-                    addTips(false);
-                    Toast.makeText(getContext(), "ConsigliAlimentari::UserDidTraining", Toast.LENGTH_SHORT).show();
-                }else{
+                if (snapshot.hasChild(userId)) {
                     addTips(true);
-                    Toast.makeText(getContext(), "ConsigliAlimentari::UserDidn'tTraining", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "ConsigliAlimentari::UserDidTraining", Toast.LENGTH_SHORT).show();
+                }else{
+                    addTips(false);
+                    //Toast.makeText(getContext(), "ConsigliAlimentari::UserDidn'tTraining", Toast.LENGTH_SHORT).show();
                 }
             }
 

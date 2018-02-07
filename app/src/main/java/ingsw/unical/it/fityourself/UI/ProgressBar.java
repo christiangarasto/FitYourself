@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -29,7 +30,8 @@ public class ProgressBar extends Fragment implements GenericFragment {
     private static DatabaseReference mFirebaseDatabase;
 
     public ProgressBar(){
-
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference("Dati Personali");
     }
 
     @Nullable
@@ -37,8 +39,6 @@ public class ProgressBar extends Fragment implements GenericFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_progress_bar, container, false);
-        mFirebaseInstance = FirebaseDatabase.getInstance();
-        mFirebaseDatabase = mFirebaseInstance.getReference("Dati Personali");
 
         controllaDatiPersonali();
 
@@ -46,11 +46,11 @@ public class ProgressBar extends Fragment implements GenericFragment {
     }
 
     public void controllaDatiPersonali() {
-        final long[] occorrenze = {0};
 
         mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                Toast.makeText(getContext(), "dataS::" + dataSnapshot.getValue().toString(), Toast.LENGTH_SHORT).show();
 
                 if (dataSnapshot.getValue() != null) {
                     User userTmp = dataSnapshot.getValue(User.class);

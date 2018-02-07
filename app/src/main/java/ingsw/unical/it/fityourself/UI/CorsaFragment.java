@@ -341,6 +341,8 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
         }else{
             Toast.makeText(getContext(), "Sensore di movimento non rilevato!\nI passi e la distanza percorsa non verranno aggiornati.", Toast.LENGTH_LONG).show();
+            Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(2000);
         }
     }
 
@@ -363,15 +365,15 @@ public class CorsaFragment extends Fragment implements GenericFragment,SensorEve
             hocamminato = true;
 
             int passi = Integer.parseInt(valorePassi.getText().toString());
-            Log.e("DEBUG::: PASSI ", Integer.toString(passi));
+            //Log.e("DEBUG::: PASSI ", Integer.toString(passi));
 
             Double quartoAltezza = altezza/4;
-            Log.e("DEBUG::: ALTEZZA ", Double.toString(quartoAltezza));
+            //Log.e("DEBUG::: ALTEZZA ", Double.toString(quartoAltezza));
 
             Double distanza = passi * quartoAltezza;
 
             int d = distanza.intValue();
-            Log.e("DEBUG::: DISTANZA ", Double.toString(distanza));
+            //Log.e("DEBUG::: DISTANZA ", Double.toString(distanza));
 
             valoreDistanza.setText(Integer.toString(d));
 

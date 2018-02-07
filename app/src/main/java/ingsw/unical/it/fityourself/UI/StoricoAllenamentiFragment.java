@@ -105,80 +105,81 @@ public class StoricoAllenamentiFragment extends Fragment implements GenericFragm
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                             if(dataSnapshot.getValue() != null) {
+
                                 boolean almenoUno = false;
                                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
-                                    Date d = itemSnapshot.child("data").getValue(Date.class);
+                                        Date d = itemSnapshot.child("data").getValue(Date.class);
 
-                                        //Log.e("STAMPA DATA::", d.getDate() + "-" + d.getMonth() + "-" + d.getYear());
-                                        if(     d.getDate() == giorno &&
-                                                d.getMonth() == mese &&
-                                                d.getYear() + 1900 == anno){
-                                            almenoUno = true;
+                                    //Log.e("STAMPA DATA::", d.getDate() + "-" + d.getMonth() + "-" + d.getYear());
+                                    if (d.getDate() == giorno &&
+                                            d.getMonth() == mese &&
+                                            d.getYear() + 1900 == anno) {
+                                        almenoUno = true;
 
-                                            Allenamento a = new Allenamento();
-                                                a.setNomeAllenamento(itemSnapshot.child("nomeAllenamento").getValue().toString());
+                                        Allenamento a = new Allenamento();
+                                        a.setNomeAllenamento(itemSnapshot.child("nomeAllenamento").getValue().toString());
 
-                                            Object durata = itemSnapshot.child("durata").getValue();
-                                            Object passiEffettuati = itemSnapshot.child("passiEffettuati").getValue();
-                                            Object distanzaPercorsa = itemSnapshot.child("distanzaPercorsa").getValue();
-                                            Object calorieBruciate = itemSnapshot.child("calorieBruciate").getValue();
-                                            Obiettivo oP = itemSnapshot.child("obiettivoPassi").getValue(Obiettivo.class);
-                                            Obiettivo oD = itemSnapshot.child("obiettivoDistanza").getValue(Obiettivo.class);
-                                            Obiettivo oC = itemSnapshot.child("obiettivoCalorie").getValue(Obiettivo.class);
+                                        Object durata = itemSnapshot.child("durata").getValue();
+                                        Object passiEffettuati = itemSnapshot.child("passiEffettuati").getValue();
+                                        Object distanzaPercorsa = itemSnapshot.child("distanzaPercorsa").getValue();
+                                        Object calorieBruciate = itemSnapshot.child("calorieBruciate").getValue();
+                                        Obiettivo oP = itemSnapshot.child("obiettivoPassi").getValue(Obiettivo.class);
+                                        Obiettivo oD = itemSnapshot.child("obiettivoDistanza").getValue(Obiettivo.class);
+                                        Obiettivo oC = itemSnapshot.child("obiettivoCalorie").getValue(Obiettivo.class);
 
-                                            if(durata != null) {
-                                                a.setDurata(durata.toString());
+                                        if (durata != null) {
+                                            a.setDurata(durata.toString());
 
-                                                a.setPassiEffettuati(passiEffettuati.toString());
-                                                a.setDistanzaPercorsa(distanzaPercorsa.toString());
-                                                a.setCalorieBruciate(calorieBruciate.toString());
+                                            a.setPassiEffettuati(passiEffettuati.toString());
+                                            a.setDistanzaPercorsa(distanzaPercorsa.toString());
+                                            a.setCalorieBruciate(calorieBruciate.toString());
 
-                                                a.setObiettivoPassi(oP);
-                                                a.setObiettivoDistanza(oD);
-                                                a.setObiettivoCalorie(oC);
-                                            }
-
-                                            allenamentiGiorno.add(a);
+                                            a.setObiettivoPassi(oP);
+                                            a.setObiettivoDistanza(oD);
+                                            a.setObiettivoCalorie(oC);
                                         }
 
-                                            ArrayList<String> all = new ArrayList<String>();
+                                        allenamentiGiorno.add(a);
+                                    }
 
-                                            if(!almenoUno){
-                                                all.add("Nessun allenamento per questa data.");
-                                            }else {
-                                                for (Allenamento a : allenamentiGiorno) {
-                                                    String alle = a.getNomeAllenamento();
+                                    ArrayList<String> all = new ArrayList<String>();
 
-                                                    if(a.getDurata() != null){
-                                                        alle += " - Durata: " + a.getDurata() + "\n";
-                                                        alle += "- Distanza percorsa: " + a.getDistanzaPercorsa() + " m\n";
-                                                        alle += "- Passi effettuati: " + a.getPassiEffettuati() + "\n";
-                                                        alle += "- Calorie bruciate: " + a.getCalorieBruciate() + "\n";
-                                                        alle += "\n";
+                                    if (!almenoUno) {
+                                        all.add("Nessun allenamento per questa data.");
+                                    } else {
+                                        for (Allenamento a : allenamentiGiorno) {
+                                            String alle = a.getNomeAllenamento();
 
-                                                        boolean almenoUnObiettivo = false;
+                                            if (a.getDurata() != null) {
+                                                alle += " - Durata: " + a.getDurata() + "\n";
+                                                alle += "- Distanza percorsa: " + a.getDistanzaPercorsa() + " m\n";
+                                                alle += "- Passi effettuati: " + a.getPassiEffettuati() + "\n";
+                                                alle += "- Calorie bruciate: " + a.getCalorieBruciate() + "\n";
+                                                alle += "\n";
 
-                                                        if(a.getObiettivoCalorie() != null){
-                                                            almenoUnObiettivo = true;
-                                                            alle += "- Obiettivo " + a.getObiettivoCalorie().toString();
-                                                        }
-                                                        if(a.getObiettivoDistanza() != null){
-                                                            almenoUnObiettivo = true;
-                                                            alle += "- Obiettivo " + a.getObiettivoDistanza().toString();
-                                                        }
-                                                        if(a.getObiettivoPassi() != null){
-                                                            almenoUnObiettivo = true;
-                                                            alle += "- Obiettivo " + a.getObiettivoPassi().toString();
-                                                        }
+                                                boolean almenoUnObiettivo = false;
 
-                                                    }
-
-                                                    all.add(alle);
-
+                                                if (a.getObiettivoCalorie() != null) {
+                                                    almenoUnObiettivo = true;
+                                                    alle += "- Obiettivo " + a.getObiettivoCalorie().toString();
                                                 }
+                                                if (a.getObiettivoDistanza() != null) {
+                                                    almenoUnObiettivo = true;
+                                                    alle += "- Obiettivo " + a.getObiettivoDistanza().toString();
+                                                }
+                                                if (a.getObiettivoPassi() != null) {
+                                                    almenoUnObiettivo = true;
+                                                    alle += "- Obiettivo " + a.getObiettivoPassi().toString();
+                                                }
+
                                             }
-                                            final StableArrayAdapter sad = new StableArrayAdapter(getContext(), android.R.layout.simple_list_item_1, all);
-                                            allenamentiPerGiorno.setAdapter(sad);
+
+                                            all.add(alle);
+
+                                        }
+                                    }
+                                    final StableArrayAdapter sad = new StableArrayAdapter(getContext(), android.R.layout.simple_list_item_1, all);
+                                    allenamentiPerGiorno.setAdapter(sad);
 
                                 }
                             }
