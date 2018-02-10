@@ -276,4 +276,8 @@ public class AllenamentoInCorsoFragment extends Fragment implements GenericFragm
     public Fragment getFragment() {
         return this;
     }
+
+    public void setInstance() {
+        allenamentoFragment = null;
+    }
 }

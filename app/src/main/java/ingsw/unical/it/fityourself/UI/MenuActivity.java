@@ -106,6 +106,14 @@ public class MenuActivity extends AppCompatActivity
         } else if (id == R.id.nav_datipersonali) {
             fragment = DatiPersonaliFragment.getInstance();
         } else if (id == R.id.nav_logout) {
+            DatiPersonaliFragment.getInstance().setInstance();
+            AllenamentoFragment.getInstance().setInstance();
+            EserciziFragment.getInstance().setInstance();
+            AggiuntaAllenamentoFragment.getInstance().setInstance();
+            AllenamentoInCorsoFragment.getInstance().setInstance();
+            GestisciEserciziFragment.getInstance().setInstance();
+            NotificheFragment.getInstance().setInstance();
+            StoricoAllenamentiFragment.getInstance().setInstance();
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(MenuActivity.this, LoginActivity.class));
             finish();

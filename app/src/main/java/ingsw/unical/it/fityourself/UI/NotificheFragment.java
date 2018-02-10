@@ -281,7 +281,7 @@ public class NotificheFragment extends Fragment implements GenericFragment{
             }
         });
 
-      mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
+     /* mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
           @Override
           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -350,7 +350,62 @@ public class NotificheFragment extends Fragment implements GenericFragment{
           public void onCancelled(DatabaseError databaseError) {
 
           }
-      });
+      });*/
+
+     mFirebaseDatabase.child(FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+         @Override
+         public void onDataChange(DataSnapshot dataSnapshot) {
+
+             if (dataSnapshot.getValue() != null){
+                 Notify not = dataSnapshot.getValue(Notify.class);
+
+                 if (not != null && dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())) {
+
+                     inputAbilita.setChecked(not.isAbilita());
+
+                     inputMisura.setEnabled(not.isAbilita());
+                     inputMisura.setClickable(not.isAbilita());
+                     inputIntermedio.setEnabled(not.isAbilita());
+                     inputFinale.setEnabled(not.isAbilita());
+                     inputAnomalie.setEnabled(not.isAbilita());
+
+                     inputIntermedio.setClickable(not.isAbilita());
+                     inputFinale.setClickable(not.isAbilita());
+                     inputAnomalie.setClickable(not.isAbilita());
+
+                     inputIntermedio.setChecked(not.isIntermedio());
+                     inputFinale.setChecked(not.isFinale());
+                     inputAnomalie.setChecked(not.isAnomalie());
+
+                     if (not.isIntermedio()) {
+                         checkIntermedio.setEnabled(true);
+                         inputMisura.setEnabled(true);
+                         inputMisura.setClickable(true);
+
+                         String check = Integer.toString(not.getValoreIntermedio());
+                         checkIntermedio.setText(check);
+
+                         int position = 0;
+
+                         if (not.getUnitaDiMisura().equals("Distanza"))
+                             position = 1;
+                         else if (not.getUnitaDiMisura().equals("Passi"))
+                             position = 2;
+
+                         else if (not.getUnitaDiMisura().equals("Calorie"))
+                             position = 3;
+
+                         inputMisura.setSelection(position);
+                     }
+                 }
+             }
+         }
+
+         @Override
+         public void onCancelled(DatabaseError databaseError) {
+
+         }
+     });
 
         return rootView;
     }
@@ -416,5 +471,9 @@ public class NotificheFragment extends Fragment implements GenericFragment{
     @Override
     public Fragment getFragment() {
         return this;
+    }
+
+    public void setInstance() {
+        notificheFragment = null;
     }
 }

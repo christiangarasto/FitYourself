@@ -295,4 +295,8 @@ public class AggiuntaAllenamentoFragment extends Fragment implements GenericFrag
     public Fragment getFragment() {
         return this;
     }
+
+    public void setInstance() {
+        aggiuntaAllenamento = null;
+    }
 }

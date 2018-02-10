@@ -203,4 +203,8 @@ public class AllenamentoFragment extends Fragment implements GenericFragment{
             }
         });
     }
+
+    public void setInstance() {
+        allenamentoFragment = null;
+    }
 }

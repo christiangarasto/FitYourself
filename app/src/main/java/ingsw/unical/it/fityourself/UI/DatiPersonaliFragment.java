@@ -183,7 +183,46 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
             }
         });
 
-        mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
+        mFirebaseDatabase.child(FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() != null) {
+                    User userTmp = dataSnapshot.getValue(User.class);
+
+                    if (dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())) {
+
+                        inputNome.setText(userTmp.getNome());
+
+                        inputCognome.setText(userTmp.getCognome());
+
+                        String peso = Double.toString(userTmp.getPeso());
+                        String altezza = Double.toString(userTmp.getAltezza());
+                        String eta = Integer.toString(userTmp.getEta());
+
+                        inputPeso.setText(peso);
+                        inputAltezza.setText(altezza);
+                        inputEta.setText(eta);
+
+                        if (userTmp.getSesso().equals("Maschio"))
+                            inputMaschio.setChecked(true);
+                        else
+                            inputFemmina.setChecked(true);
+
+                        inputSport.setChecked(userTmp.isSport());
+
+                        btnExit.setEnabled(true);
+
+                        setDatiSalvati(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        /*mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -235,7 +274,7 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
         // Inflate the layout for this fragment
         return rootView;
@@ -324,6 +363,10 @@ public class DatiPersonaliFragment extends Fragment implements GenericFragment{
 
     public static void setDatiSalvati(boolean datiSalvati) {
         DatiPersonaliFragment.datiSalvati = datiSalvati;
+    }
+
+    public void setInstance(){
+        datiPersonali = null;
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import ingsw.unical.it.fityourself.DOMAIN.User;
 import ingsw.unical.it.fityourself.R;
@@ -47,7 +48,7 @@ public class ProgressBar extends Fragment implements GenericFragment {
 
     public void controllaDatiPersonali() {
 
-        mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
+        /*mFirebaseDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -104,6 +105,50 @@ public class ProgressBar extends Fragment implements GenericFragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+
+            }
+        });*/
+
+        mFirebaseDatabase.child(FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.getValue() != null) {
+                    User userTmp = dataSnapshot.getValue(User.class);
+
+                    if (dataSnapshot.getKey().equals(FirebaseAuth.getInstance().getUid())) {
+
+                        if (!userTmp.getNome().equals("") &&
+                                !userTmp.getCognome().equals("") &&
+                                userTmp.getPeso() != 0 &&
+                                userTmp.getAltezza() != 0 &&
+                                userTmp.getEta() != 0 &&
+                                !userTmp.getSesso().equals("")) {
+                            setInseriti(true);
+                        }
+
+                        if (inseriti) {
+                            if(!DatiPersonaliFragment.isDatiSalvati()) {
+                                GenericFragment allenamento = AllenamentoFragment.getInstance();
+                                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                                fragmentTransaction.replace(R.id.fragment_container, allenamento.getFragment());
+                                fragmentTransaction.commit();
+                                return;
+                            }
+                        }
+                    }
+                }
+                if(!DatiPersonaliFragment.isDatiSalvati()) {
+                    GenericFragment datiPersonali = DatiPersonaliFragment.getInstance();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, datiPersonali.getFragment());
+                    fragmentTransaction.commit();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });

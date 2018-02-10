@@ -215,4 +215,8 @@ public class StoricoAllenamentiFragment extends Fragment implements GenericFragm
     public Fragment getFragment() {
         return this;
     }
+
+    public void setInstance() {
+        storico = null;
+    }
 }

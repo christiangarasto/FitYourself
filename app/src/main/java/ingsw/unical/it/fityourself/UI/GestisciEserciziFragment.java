@@ -131,4 +131,8 @@ public class GestisciEserciziFragment extends Fragment implements GenericFragmen
     public Fragment getFragment() {
         return this;
     }
+
+    public void setInstance() {
+        gestisciEserciziFragment = null;
+    }
 }

@@ -159,4 +159,8 @@ public class EserciziFragment extends Fragment implements GenericFragment{
     public Fragment getFragment() {
         return this;
     }
+
+    public void setInstance() {
+        eserciziFragment = null;
+    }
 }
